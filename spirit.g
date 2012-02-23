@@ -19,7 +19,7 @@ methoddeclaration
 	: 	type identifier '(' ( type identifier (',' type identifier)*)? ')' '{' (vardeclaration)* (statement)* 'return' expression ';' '}';
 
 type 
-	: 	'int' | 'char' | 'float' | 'boolean' | identifier;
+	: 	'int' | 'char' | 'float' | 'boolean' | identifier | arrayidentifier;
 
 statement
 	:	 '{' (statement)* '}' | conditional | loop | print | assignation ;
@@ -34,32 +34,46 @@ print
 	: 	'print' '(' expression ')' ';';
 	
 assignation 
-	:	identifier  '=' expression ';';
+	:	(arrayidentifier | identifier)  '=' expression ';';
 	
 
 expression 
-	: 	(STRING | FLOAT | INTEGER | 'true' | 'false'
-		| identifier | 'this' | 'new' identifier '(' ')'| 'new' identifier '[' expression ']'  | '!' expression 
-		| '(' expression ')' ) (expressionalpha)?;
+	: 	exp (COMPARITIONOPERATORS exp)?;
+	
+exp
+	: 	term (ADDITIONSUBSTRACTIONOPERATORS term)?;
+	
+term
+	: 	factor (ADDITIONSUBSTRACTIONOPERATORS factor)?;
+	
+factor
+	: 	'(' expression ')'| (ADDITIONSUBSTRACTIONOPERATORS)? varcte;
 
-expressionalpha 
-	:	 (BINARYOPERATOR expression | '.' identifier '(' ( expression ( ',' expression )* )? ')'  ) (expressionalpha)?;
+varcte 
+	: 	(STRING | FLOAT | INTEGER| arrayidentifier | 'true' | 'false'
+		| identifier | 'this' | 'new' identifier '(' ')'| 'new' arrayidentifier | '!' expression ) (invocation)?;
+
+invocation
+	:	 '.' identifier '(' ( expression ( ',' expression )* )? ')'  (invocation)?;
 		
 identifier 
-	:	IDENTIFIER | ARRAYIDENTIFIER ;
+	:	IDENTIFIER ;
+	
+arrayidentifier
+	:	( STRING | FLOAT | INTEGER | IDENTIFIER) '['(expression)?']';
 	
 /* Tokens */
-MULTIPLICATIONDIVISION
+MULTIPLICATIONDIVISIONOPERATORS
 	:  	 '*' | '/' ;
 
-ADDITIONSUBSTRACTION
+ADDITIONSUBSTRACTIONOPERATORS
 	:  	 '+' | '-' ;
 	
-BINARYOPERATOR
+BINARYOPERATORS
 	:  	'&&' | '||' ;
 	
-COMPARITIONOPERATIONS
-	:	'<' | '>' | '<=' | '>=';
+COMPARITIONOPERATORS
+	:	'<' | '>' | '<=' | '>=' | '!=';
 	
 IDENTIFIER  
 	:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
