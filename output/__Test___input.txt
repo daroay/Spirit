@@ -1,0 +1,14 @@
+
+
+class Manuel{
+
+  static void main(){
+	int david;
+	david = 45;
+    while(david < 200){
+      david = david + 1;
+    }
+    print(david.habla(1,2,carlos));
+  }
+
+}

@@ -1,12 +1,12 @@
 grammar spirit;
 													
-//options { language = Ruby; }
+options { backtrack = true;   }
 
 goal	
 	:	mainclass ( classdeclaration )*;
 
 mainclass 
-	:	'class' identifier '{' 'static' 'void' 'main' '(' ')' '{' statement '}' '}';
+	:	'class' identifier '{' 'static' 'void' 'main' '(' ')'  statement '}';
 	
 
 classdeclaration 
@@ -22,7 +22,7 @@ type
 	: 	'int' | 'char' | 'float' | 'boolean' | identifier | arrayidentifier;
 
 statement
-	:	 '{' (statement)* '}' | conditional | loop | print | assignation ;
+	:	 '{' (statement)* '}' | assignation | vardeclaration | conditional | loop | print ;
 	
 conditional 
 	:	 'if' '(' expression ')' statement ('elsif' '(' expression ')' statement )* ('else' statement )?;
@@ -34,9 +34,8 @@ print
 	: 	'print' '(' expression ')' ';';
 	
 assignation 
-	:	(arrayidentifier | identifier)  '=' expression ';';
+	:	(identifier | arrayidentifier ) '=' expression ';';
 	
-
 expression 
 	: 	exp (COMPARITIONOPERATORS exp)?;
 	
@@ -57,10 +56,10 @@ invocation
 	:	 '.' identifier '(' ( expression ( ',' expression )* )? ')'  (invocation)?;
 		
 identifier 
-	:	IDENTIFIER ;
+	:	IDENTIFIER;
 	
 arrayidentifier
-	:	( STRING | FLOAT | INTEGER | IDENTIFIER) '['(expression)?']';
+	:	( STRING | FLOAT | INTEGER | IDENTIFIER)'['(expression)?']';
 	
 /* Tokens */
 MULTIPLICATIONDIVISIONOPERATORS
