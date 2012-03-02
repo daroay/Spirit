@@ -1,14 +1,12 @@
 grammar spirit;
-													
-options { backtrack = true;   }
+														
 
 goal	
-	:	mainclass ( classdeclaration )*;
+	:	( classdeclaration )* mainclass;
 
 mainclass 
-	:	'class' identifier '{' 'static' 'void' 'main' '(' ')'  statement '}';
+	:	'class' identifier '{' 'static' 'void' 'main' '(' ')' '{' statement '}' '}';
 	
-
 classdeclaration 
 	: 	'class' identifier '{' (vardeclaration)* (methoddeclaration)* '}';
 
@@ -16,16 +14,19 @@ vardeclaration
 	:	type identifier ';' ;
 	
 methoddeclaration 
-	: 	type identifier '(' ( type identifier (',' type identifier)*)? ')' '{' (vardeclaration)* (statement)* 'return' expression ';' '}';
+	: 	'method' type identifier '(' ( type identifier (',' type identifier)*)? ')' '{' (statement)  'return' expression ';' '}';
 
 type 
 	: 	'int' | 'char' | 'float' | 'boolean' | identifier | arrayidentifier;
 
 statement
-	:	 '{' (statement)* '}' | assignation | vardeclaration | conditional | loop | print ;
+	:	(vardeclaration | assignation  | conditional | loop | print) statementalpha ;
+	
+statementalpha
+	:	(vardeclaration | assignation  | conditional | loop | print) statementalpha | /*Empty*/;
 	
 conditional 
-	:	 'if' '(' expression ')' statement ('elsif' '(' expression ')' statement )* ('else' statement )?;
+	:	 'if' '(' expression ')' '{' statement '}' ('elsif' '(' expression ')' '{' statement '}' )* ('else' '{' statement '}' )?;
 	
 loop 
 	: 	'while' '(' expression ')' statement ;
