@@ -1,42 +1,66 @@
-grammar spirit;
-														
+grammar spirit;														
 
 goal	
-	:	( classdeclaration )* mainclass;
+	:	classdeclaration* mainclass;
 
 mainclass 
-	:	'class' identifier '{' 'static' 'void' 'main' '(' ')' '{' statement '}' '}';
+	:	'class' 'Main' '{' vardeclaration* methoddeclaration* methodmain '}';
+	
+methodmain
+	:	'void' 'main' '(' ')' '{' vardeclaration* statement* '}';
 	
 classdeclaration 
-	: 	'class' identifier '{' (vardeclaration)* (methoddeclaration)* '}';
+	: 	'class' IDENTIFIER '{' vardeclaration* methoddeclaration* '}';
 
 vardeclaration
-	:	type identifier ';' ;
+	:	type IDENTIFIER ';' ;
 	
 methoddeclaration 
-	: 	'method' type identifier '(' ( type identifier (',' type identifier)*)? ')' '{' (statement)  'return' expression ';' '}';
+	: 	'method' (primitivetype | classtype | 'void') IDENTIFIER '(' parameters? ')' '{' vardeclaration* statement* '}';
+	
+parameters
+	:	type IDENTIFIER (',' type IDENTIFIER)*;
+
+primitivetype
+	:	'int' | 'char' | 'float' | 'boolean';
+	
+arraytype
+	:	primitivetype '[' INTEGER ']';
+	
+classtype
+	:	IDENTIFIER;
 
 type 
-	: 	'int' | 'char' | 'float' | 'boolean' | identifier | arrayidentifier;
+	: 	primitivetype | arraytype | classtype;
 
 statement
-	:	(vardeclaration | assignation  | conditional | loop | print) statementalpha ;
+	:	assignment  | conditional | invocation ';' | loop | print | returnstmt | ';';
 	
-statementalpha
-	:	(vardeclaration | assignation  | conditional | loop | print) statementalpha | /*Empty*/;
+assignment 
+	:	lhsassignment '=' rhsassignment ';';
+	
+lhsassignment
+	: 	arrayaccess
+		| IDENTIFIER '.' IDENTIFIER	//objeto.atributo
+		| 'this' '.' IDENTIFIER		//this.atributo
+		| IDENTIFIER
+		;
+		
+rhsassignment
+	:	(expression | 'new' IDENTIFIER '(' ')');
+	
+returnstmt
+	:	'return' expression? ';';
 	
 conditional 
-	:	 'if' '(' expression ')' '{' statement '}' ('elsif' '(' expression ')' '{' statement '}' )* ('else' '{' statement '}' )?;
+	:	 'if' '(' expression ')' '{' statement* '}' ('elsif' '(' expression ')' '{' statement* '}' )* ('else' '{' statement* '}' )?;
 	
 loop 
-	: 	'while' '(' expression ')' statement ;
+	: 	'while' '(' expression ')' '{' statement* '}';
 	
 print 
 	: 	'print' '(' expression ')' ';';
-	
-assignation 
-	:	(identifier | arrayidentifier ) '=' expression ';';
-	
+
 expression 
 	: 	exp (COMPARITIONOPERATORS exp)?;
 	
@@ -44,23 +68,32 @@ exp
 	: 	term (ADDITIONSUBSTRACTIONOPERATORS term)?;
 	
 term
-	: 	factor (ADDITIONSUBSTRACTIONOPERATORS factor)?;
+	: 	factor (MULTIPLICATIONDIVISIONOPERATORS factor)?;
 	
 factor
-	: 	'(' expression ')'| (ADDITIONSUBSTRACTIONOPERATORS)? varcte;
+	:
+		IDENTIFIER '.' IDENTIFIER	//objeto.atributo
+		| 'this' '.' IDENTIFIER		//this.atributo
+		| IDENTIFIER
+		| INTEGER
+		| FLOAT
+		| CHAR
+		| read
+		| invocation
+		| arrayaccess			//arr[5]
+		| '(' expression ')'
+	;
 
-varcte 
-	: 	(STRING | FLOAT | INTEGER| arrayidentifier | 'true' | 'false'
-		| identifier | 'this' | 'new' identifier '(' ')'| 'new' arrayidentifier | '!' expression ) (invocation)?;
+arrayaccess
+	:	IDENTIFIER '[' expression ']';
+	
+read	:	('readint' | 'readdouble' | 'readchar') '(' ')';
 
 invocation
-	:	 '.' identifier '(' ( expression ( ',' expression )* )? ')'  (invocation)?;
-		
-identifier 
-	:	IDENTIFIER;
+	:	 (IDENTIFIER | 'this') '.' IDENTIFIER '(' arguments? ')';
 	
-arrayidentifier
-	:	( STRING | FLOAT | INTEGER | IDENTIFIER)'['(expression)?']';
+arguments
+	:	expression (',' expression)*;
 	
 /* Tokens */
 MULTIPLICATIONDIVISIONOPERATORS
@@ -73,7 +106,7 @@ BINARYOPERATORS
 	:  	'&&' | '||' ;
 	
 COMPARITIONOPERATORS
-	:	'<' | '>' | '<=' | '>=' | '!=';
+	:	'==' | '<' | '>' | '<=' | '>=' | '!=';
 	
 IDENTIFIER  
 	:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
@@ -83,6 +116,9 @@ ARRAYIDENTIFIER
 
 INTEGER 
 	:	'0'..'9'+;
+	
+CHAR:  '\'' ( ESC_SEQ | ~('\''|'\\') ) '\''
+    ;
 
 FLOAT
     :   ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
