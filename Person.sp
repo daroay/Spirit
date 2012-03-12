@@ -3,10 +3,10 @@ class Person extends Animal{
   float age;
   int ssn;
 
-  method void Person(float age, int ssn) {
+  method void Person(float age, int ssn){
     this.age = age;
-    this.ssn = ssn
-  } 
+    this.ssn = ssn;
+  }
 
   method void setAge(float a) {
     this.age = a;
@@ -21,8 +21,8 @@ class Main {
     int i;
     p = new Person();
     i = 0;
-    while(i < 50+1+435+7*5+6*3) {
-      arreglo [i] = i
+    while(i < 50 + 20 + 1) {
+      arreglo [i] = i;
     }
     n.setAge(12);
     n.ssn = 20;
