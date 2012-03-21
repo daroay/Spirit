@@ -5,7 +5,7 @@
 # Generated using ANTLR version: 3.2.1-SNAPSHOT Jul 31, 2010 19:34:52
 # Ruby runtime library version: 1.8.11
 # Input grammar file: Spirit.g
-# Generated at: 2012-03-11 23:30:40
+# Generated at: 2012-03-12 00:02:08
 # 
 
 # ~~~> start load path setup
@@ -218,26 +218,25 @@ module Spirit
             when type_a == 'float' && type_b == 'float'
               return 'float'
             else
-              raise "Wrong combination of types #{type_a} and #{type_b}"
-              return nil
+              raise "Cant apply #{operator} to #{type_a} and #{type_b}"
             end
           when operator == '/'
             if((type_a == 'int' || type_a == 'float') && (type_b == 'int' || type_b == 'float'))
               return 'float'
             else
-              raise "Wrong combination of types #{type_a} and #{type_b}"
+              raise "Cant apply #{operator} to #{type_a} and #{type_b}"
             end
           when operator == 'mod'
             if(type_a == 'int' && type_b == 'int')
               return 'int'
             else
-              raise "Wrong combination of types #{type_a} and #{type_b}"
+              raise "Cant apply #{operator} to #{type_a} and #{type_b}"
             end
           when operator == '&&' || operator == '||'
             if(type_a == 'boolean' && type_b == 'boolean')
               return 'boolean'
             else
-              raise "Wrong combination of types #{type_a} and #{type_b}"
+              raise "Cant apply #{operator} to #{type_a} and #{type_b}"
             end
           when (operator == '==' ||  operator == '!=')
             return 'boolean'
@@ -245,7 +244,7 @@ module Spirit
             if((type_a == 'int' || type_a == 'float') && (type_b == 'int' || type_b == 'float'))
               return 'boolean'
             else
-              raise "Wrong combination of types #{type_a} and #{type_b}"
+              raise "Cant apply #{operator} to #{type_a} and #{type_b}"
             end
           end
         end
@@ -288,15 +287,15 @@ module Spirit
     # parser rule goal
     # 
     # (in Spirit.g)
-    # 160:1: goal : ( classdeclaration )* mainclass ;
+    # 159:1: goal : ( classdeclaration )* mainclass ;
     # 
     def goal
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 1 )
 
       begin
-        # at line 161:5: ( classdeclaration )* mainclass
-        # at line 161:5: ( classdeclaration )*
+        # at line 160:5: ( classdeclaration )* mainclass
+        # at line 160:5: ( classdeclaration )*
         while true # decision 1
           alt_1 = 2
           look_1_0 = @input.peek( 1 )
@@ -312,7 +311,7 @@ module Spirit
           end
           case alt_1
           when 1
-            # at line 161:5: classdeclaration
+            # at line 160:5: classdeclaration
             @state.following.push( TOKENS_FOLLOWING_classdeclaration_IN_goal_56 )
             classdeclaration
             @state.following.pop
@@ -348,24 +347,24 @@ module Spirit
     # parser rule mainclass
     # 
     # (in Spirit.g)
-    # 167:1: mainclass : 'class' 'Main' '{' ( vardeclaration )* ( methoddeclaration )* methodmain '}' ;
+    # 166:1: mainclass : 'class' 'Main' '{' ( vardeclaration )* ( methoddeclaration )* methodmain '}' ;
     # 
     def mainclass
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 2 )
 
       begin
-        # at line 168:4: 'class' 'Main' '{' ( vardeclaration )* ( methoddeclaration )* methodmain '}'
+        # at line 167:4: 'class' 'Main' '{' ( vardeclaration )* ( methoddeclaration )* methodmain '}'
         match( T__19, TOKENS_FOLLOWING_T__19_IN_mainclass_83 )
-        match( T__20, TOKENS_FOLLOWING_T__20_IN_mainclass_85 )
+        match( T__20, TOKENS_FOLLOWING_T__20_IN_mainclass_89 )
         # --> action
 
         	    @classes['Main'] = ClassSymbol.new('Main')
         	    @current_class = @classes['Main']
         	  
         # <-- action
-        match( T__21, TOKENS_FOLLOWING_T__21_IN_mainclass_97 )
-        # at line 173:8: ( vardeclaration )*
+        match( T__21, TOKENS_FOLLOWING_T__21_IN_mainclass_101 )
+        # at line 174:4: ( vardeclaration )*
         while true # decision 2
           alt_2 = 2
           look_2_0 = @input.peek( 1 )
@@ -376,8 +375,8 @@ module Spirit
           end
           case alt_2
           when 1
-            # at line 173:8: vardeclaration
-            @state.following.push( TOKENS_FOLLOWING_vardeclaration_IN_mainclass_99 )
+            # at line 174:4: vardeclaration
+            @state.following.push( TOKENS_FOLLOWING_vardeclaration_IN_mainclass_107 )
             vardeclaration
             @state.following.pop
 
@@ -385,7 +384,7 @@ module Spirit
             break # out of loop for decision 2
           end
         end # loop for decision 2
-        # at line 173:24: ( methoddeclaration )*
+        # at line 175:4: ( methoddeclaration )*
         while true # decision 3
           alt_3 = 2
           look_3_0 = @input.peek( 1 )
@@ -408,8 +407,8 @@ module Spirit
           end
           case alt_3
           when 1
-            # at line 173:24: methoddeclaration
-            @state.following.push( TOKENS_FOLLOWING_methoddeclaration_IN_mainclass_102 )
+            # at line 175:4: methoddeclaration
+            @state.following.push( TOKENS_FOLLOWING_methoddeclaration_IN_mainclass_114 )
             methoddeclaration
             @state.following.pop
 
@@ -417,10 +416,10 @@ module Spirit
             break # out of loop for decision 3
           end
         end # loop for decision 3
-        @state.following.push( TOKENS_FOLLOWING_methodmain_IN_mainclass_105 )
+        @state.following.push( TOKENS_FOLLOWING_methodmain_IN_mainclass_121 )
         methodmain
         @state.following.pop
-        match( T__22, TOKENS_FOLLOWING_T__22_IN_mainclass_107 )
+        match( T__22, TOKENS_FOLLOWING_T__22_IN_mainclass_127 )
         # --> action
 
         	    @current_class = nil
@@ -445,27 +444,27 @@ module Spirit
     # parser rule methodmain
     # 
     # (in Spirit.g)
-    # 178:1: methodmain : 'method' 'void' 'main' '(' ')' '{' ( vardeclaration )* ( statement )* '}' ;
+    # 182:1: methodmain : 'method' 'void' 'main' '(' ')' '{' ( vardeclaration )* ( statement )* '}' ;
     # 
     def methodmain
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 3 )
 
       begin
-        # at line 179:4: 'method' 'void' 'main' '(' ')' '{' ( vardeclaration )* ( statement )* '}'
-        match( T__23, TOKENS_FOLLOWING_T__23_IN_methodmain_122 )
-        match( T__24, TOKENS_FOLLOWING_T__24_IN_methodmain_124 )
-        match( T__25, TOKENS_FOLLOWING_T__25_IN_methodmain_126 )
+        # at line 183:4: 'method' 'void' 'main' '(' ')' '{' ( vardeclaration )* ( statement )* '}'
+        match( T__23, TOKENS_FOLLOWING_T__23_IN_methodmain_142 )
+        match( T__24, TOKENS_FOLLOWING_T__24_IN_methodmain_148 )
+        match( T__25, TOKENS_FOLLOWING_T__25_IN_methodmain_154 )
         # --> action
          
         	    @current_class.instance_methods['main'] = MethodSymbol.new('main')
         	    @current_method = @current_class.instance_methods['main']
         	  
         # <-- action
-        match( T__26, TOKENS_FOLLOWING_T__26_IN_methodmain_137 )
-        match( T__27, TOKENS_FOLLOWING_T__27_IN_methodmain_139 )
-        match( T__21, TOKENS_FOLLOWING_T__21_IN_methodmain_141 )
-        # at line 184:16: ( vardeclaration )*
+        match( T__26, TOKENS_FOLLOWING_T__26_IN_methodmain_165 )
+        match( T__27, TOKENS_FOLLOWING_T__27_IN_methodmain_167 )
+        match( T__21, TOKENS_FOLLOWING_T__21_IN_methodmain_169 )
+        # at line 190:16: ( vardeclaration )*
         while true # decision 4
           alt_4 = 2
           look_4_0 = @input.peek( 1 )
@@ -483,8 +482,8 @@ module Spirit
           end
           case alt_4
           when 1
-            # at line 184:16: vardeclaration
-            @state.following.push( TOKENS_FOLLOWING_vardeclaration_IN_methodmain_143 )
+            # at line 190:16: vardeclaration
+            @state.following.push( TOKENS_FOLLOWING_vardeclaration_IN_methodmain_171 )
             vardeclaration
             @state.following.pop
 
@@ -492,7 +491,7 @@ module Spirit
             break # out of loop for decision 4
           end
         end # loop for decision 4
-        # at line 184:32: ( statement )*
+        # at line 190:32: ( statement )*
         while true # decision 5
           alt_5 = 2
           look_5_0 = @input.peek( 1 )
@@ -503,8 +502,8 @@ module Spirit
           end
           case alt_5
           when 1
-            # at line 184:32: statement
-            @state.following.push( TOKENS_FOLLOWING_statement_IN_methodmain_146 )
+            # at line 190:32: statement
+            @state.following.push( TOKENS_FOLLOWING_statement_IN_methodmain_174 )
             statement
             @state.following.pop
 
@@ -512,7 +511,7 @@ module Spirit
             break # out of loop for decision 5
           end
         end # loop for decision 5
-        match( T__22, TOKENS_FOLLOWING_T__22_IN_methodmain_149 )
+        match( T__22, TOKENS_FOLLOWING_T__22_IN_methodmain_177 )
         # --> action
 
         	    @current_method = nil
@@ -537,17 +536,17 @@ module Spirit
     # parser rule classdeclaration
     # 
     # (in Spirit.g)
-    # 189:1: classdeclaration : 'class' IDENTIFIER ( inherits )? '{' ( vardeclaration )* ( methoddeclaration )* '}' ;
+    # 195:1: classdeclaration : 'class' IDENTIFIER ( inherits )? '{' ( vardeclaration )* ( methoddeclaration )* '}' ;
     # 
     def classdeclaration
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 4 )
 
       begin
-        # at line 190:5: 'class' IDENTIFIER ( inherits )? '{' ( vardeclaration )* ( methoddeclaration )* '}'
-        match( T__19, TOKENS_FOLLOWING_T__19_IN_classdeclaration_166 )
-        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_classdeclaration_168 )
-        # at line 190:24: ( inherits )?
+        # at line 196:5: 'class' IDENTIFIER ( inherits )? '{' ( vardeclaration )* ( methoddeclaration )* '}'
+        match( T__19, TOKENS_FOLLOWING_T__19_IN_classdeclaration_194 )
+        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_classdeclaration_196 )
+        # at line 196:24: ( inherits )?
         alt_6 = 2
         look_6_0 = @input.peek( 1 )
 
@@ -556,14 +555,14 @@ module Spirit
         end
         case alt_6
         when 1
-          # at line 190:24: inherits
-          @state.following.push( TOKENS_FOLLOWING_inherits_IN_classdeclaration_170 )
+          # at line 196:24: inherits
+          @state.following.push( TOKENS_FOLLOWING_inherits_IN_classdeclaration_198 )
           inherits
           @state.following.pop
 
         end
-        match( T__21, TOKENS_FOLLOWING_T__21_IN_classdeclaration_174 )
-        # at line 190:39: ( vardeclaration )*
+        match( T__21, TOKENS_FOLLOWING_T__21_IN_classdeclaration_202 )
+        # at line 196:39: ( vardeclaration )*
         while true # decision 7
           alt_7 = 2
           look_7_0 = @input.peek( 1 )
@@ -574,8 +573,8 @@ module Spirit
           end
           case alt_7
           when 1
-            # at line 190:39: vardeclaration
-            @state.following.push( TOKENS_FOLLOWING_vardeclaration_IN_classdeclaration_176 )
+            # at line 196:39: vardeclaration
+            @state.following.push( TOKENS_FOLLOWING_vardeclaration_IN_classdeclaration_204 )
             vardeclaration
             @state.following.pop
 
@@ -583,7 +582,7 @@ module Spirit
             break # out of loop for decision 7
           end
         end # loop for decision 7
-        # at line 190:55: ( methoddeclaration )*
+        # at line 196:55: ( methoddeclaration )*
         while true # decision 8
           alt_8 = 2
           look_8_0 = @input.peek( 1 )
@@ -594,8 +593,8 @@ module Spirit
           end
           case alt_8
           when 1
-            # at line 190:55: methoddeclaration
-            @state.following.push( TOKENS_FOLLOWING_methoddeclaration_IN_classdeclaration_179 )
+            # at line 196:55: methoddeclaration
+            @state.following.push( TOKENS_FOLLOWING_methoddeclaration_IN_classdeclaration_207 )
             methoddeclaration
             @state.following.pop
 
@@ -603,7 +602,7 @@ module Spirit
             break # out of loop for decision 8
           end
         end # loop for decision 8
-        match( T__22, TOKENS_FOLLOWING_T__22_IN_classdeclaration_182 )
+        match( T__22, TOKENS_FOLLOWING_T__22_IN_classdeclaration_210 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -623,16 +622,16 @@ module Spirit
     # parser rule inherits
     # 
     # (in Spirit.g)
-    # 192:1: inherits : 'extends' IDENTIFIER ;
+    # 198:1: inherits : 'extends' IDENTIFIER ;
     # 
     def inherits
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 5 )
 
       begin
-        # at line 193:4: 'extends' IDENTIFIER
-        match( T__28, TOKENS_FOLLOWING_T__28_IN_inherits_192 )
-        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_inherits_194 )
+        # at line 199:4: 'extends' IDENTIFIER
+        match( T__28, TOKENS_FOLLOWING_T__28_IN_inherits_220 )
+        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_inherits_222 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -652,7 +651,7 @@ module Spirit
     # parser rule vardeclaration
     # 
     # (in Spirit.g)
-    # 195:1: vardeclaration : t= type IDENTIFIER ';' ;
+    # 201:1: vardeclaration : t= type IDENTIFIER ';' ;
     # 
     def vardeclaration
       # -> uncomment the next line to manually enable rule tracing
@@ -661,11 +660,11 @@ module Spirit
       t = nil
 
       begin
-        # at line 196:4: t= type IDENTIFIER ';'
-        @state.following.push( TOKENS_FOLLOWING_type_IN_vardeclaration_207 )
+        # at line 202:4: t= type IDENTIFIER ';'
+        @state.following.push( TOKENS_FOLLOWING_type_IN_vardeclaration_235 )
         t = type
         @state.following.pop
-        __IDENTIFIER1__ = match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_vardeclaration_209 )
+        __IDENTIFIER1__ = match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_vardeclaration_237 )
         # --> action
 
         	    if(not @current_method.nil?)
@@ -675,7 +674,7 @@ module Spirit
         	    end
         	  
         # <-- action
-        match( T__29, TOKENS_FOLLOWING_T__29_IN_vardeclaration_219 )
+        match( T__29, TOKENS_FOLLOWING_T__29_IN_vardeclaration_247 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -695,16 +694,17 @@ module Spirit
     # parser rule methoddeclaration
     # 
     # (in Spirit.g)
-    # 206:1: methoddeclaration : 'method' ( primitivetype | classtype | 'void' ) IDENTIFIER '(' ( parameters )? ')' '{' ( vardeclaration )* ( statement )* '}' ;
+    # 212:1: methoddeclaration : 'method' ( primitivetype | classtype | 'void' ) IDENTIFIER '(' ( parameters )? ')' '{' ( vardeclaration )* ( statement )* '}' ;
     # 
     def methoddeclaration
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 7 )
+      __IDENTIFIER2__ = nil
 
       begin
-        # at line 207:5: 'method' ( primitivetype | classtype | 'void' ) IDENTIFIER '(' ( parameters )? ')' '{' ( vardeclaration )* ( statement )* '}'
-        match( T__23, TOKENS_FOLLOWING_T__23_IN_methoddeclaration_231 )
-        # at line 207:14: ( primitivetype | classtype | 'void' )
+        # at line 213:5: 'method' ( primitivetype | classtype | 'void' ) IDENTIFIER '(' ( parameters )? ')' '{' ( vardeclaration )* ( statement )* '}'
+        match( T__23, TOKENS_FOLLOWING_T__23_IN_methoddeclaration_259 )
+        # at line 214:6: ( primitivetype | classtype | 'void' )
         alt_9 = 3
         case look_9 = @input.peek( 1 )
         when T__31, T__32, T__33, T__34 then alt_9 = 1
@@ -715,25 +715,31 @@ module Spirit
         end
         case alt_9
         when 1
-          # at line 207:15: primitivetype
-          @state.following.push( TOKENS_FOLLOWING_primitivetype_IN_methoddeclaration_234 )
+          # at line 214:7: primitivetype
+          @state.following.push( TOKENS_FOLLOWING_primitivetype_IN_methoddeclaration_268 )
           primitivetype
           @state.following.pop
 
         when 2
-          # at line 207:31: classtype
-          @state.following.push( TOKENS_FOLLOWING_classtype_IN_methoddeclaration_238 )
+          # at line 214:23: classtype
+          @state.following.push( TOKENS_FOLLOWING_classtype_IN_methoddeclaration_272 )
           classtype
           @state.following.pop
 
         when 3
-          # at line 207:43: 'void'
-          match( T__24, TOKENS_FOLLOWING_T__24_IN_methoddeclaration_242 )
+          # at line 214:35: 'void'
+          match( T__24, TOKENS_FOLLOWING_T__24_IN_methoddeclaration_276 )
 
         end
-        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_methoddeclaration_245 )
-        match( T__26, TOKENS_FOLLOWING_T__26_IN_methoddeclaration_247 )
-        # at line 207:66: ( parameters )?
+        __IDENTIFIER2__ = match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_methoddeclaration_285 )
+        # --> action
+         
+        	      @current_class.instance_methods[__IDENTIFIER2__.text] = MethodSymbol.new(__IDENTIFIER2__.text)
+        	      @current_method = @current_class.instance_methods[__IDENTIFIER2__.text]
+        	    
+        # <-- action
+        match( T__26, TOKENS_FOLLOWING_T__26_IN_methoddeclaration_299 )
+        # at line 220:10: ( parameters )?
         alt_10 = 2
         look_10_0 = @input.peek( 1 )
 
@@ -742,15 +748,15 @@ module Spirit
         end
         case alt_10
         when 1
-          # at line 207:66: parameters
-          @state.following.push( TOKENS_FOLLOWING_parameters_IN_methoddeclaration_249 )
+          # at line 220:10: parameters
+          @state.following.push( TOKENS_FOLLOWING_parameters_IN_methoddeclaration_301 )
           parameters
           @state.following.pop
 
         end
-        match( T__27, TOKENS_FOLLOWING_T__27_IN_methoddeclaration_252 )
-        match( T__21, TOKENS_FOLLOWING_T__21_IN_methoddeclaration_254 )
-        # at line 207:86: ( vardeclaration )*
+        match( T__27, TOKENS_FOLLOWING_T__27_IN_methoddeclaration_304 )
+        match( T__21, TOKENS_FOLLOWING_T__21_IN_methoddeclaration_312 )
+        # at line 221:10: ( vardeclaration )*
         while true # decision 11
           alt_11 = 2
           look_11_0 = @input.peek( 1 )
@@ -768,8 +774,8 @@ module Spirit
           end
           case alt_11
           when 1
-            # at line 207:86: vardeclaration
-            @state.following.push( TOKENS_FOLLOWING_vardeclaration_IN_methoddeclaration_256 )
+            # at line 221:10: vardeclaration
+            @state.following.push( TOKENS_FOLLOWING_vardeclaration_IN_methoddeclaration_314 )
             vardeclaration
             @state.following.pop
 
@@ -777,7 +783,7 @@ module Spirit
             break # out of loop for decision 11
           end
         end # loop for decision 11
-        # at line 207:102: ( statement )*
+        # at line 221:26: ( statement )*
         while true # decision 12
           alt_12 = 2
           look_12_0 = @input.peek( 1 )
@@ -788,8 +794,8 @@ module Spirit
           end
           case alt_12
           when 1
-            # at line 207:102: statement
-            @state.following.push( TOKENS_FOLLOWING_statement_IN_methoddeclaration_259 )
+            # at line 221:26: statement
+            @state.following.push( TOKENS_FOLLOWING_statement_IN_methoddeclaration_317 )
             statement
             @state.following.pop
 
@@ -797,7 +803,12 @@ module Spirit
             break # out of loop for decision 12
           end
         end # loop for decision 12
-        match( T__22, TOKENS_FOLLOWING_T__22_IN_methoddeclaration_262 )
+        match( T__22, TOKENS_FOLLOWING_T__22_IN_methoddeclaration_320 )
+        # --> action
+
+        	      @current_method = nil
+        	    
+        # <-- action
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -817,19 +828,19 @@ module Spirit
     # parser rule parameters
     # 
     # (in Spirit.g)
-    # 209:1: parameters : type IDENTIFIER ( ',' type IDENTIFIER )* ;
+    # 227:1: parameters : type IDENTIFIER ( ',' type IDENTIFIER )* ;
     # 
     def parameters
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 8 )
 
       begin
-        # at line 210:4: type IDENTIFIER ( ',' type IDENTIFIER )*
-        @state.following.push( TOKENS_FOLLOWING_type_IN_parameters_272 )
+        # at line 228:4: type IDENTIFIER ( ',' type IDENTIFIER )*
+        @state.following.push( TOKENS_FOLLOWING_type_IN_parameters_343 )
         type
         @state.following.pop
-        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_parameters_274 )
-        # at line 210:20: ( ',' type IDENTIFIER )*
+        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_parameters_345 )
+        # at line 228:20: ( ',' type IDENTIFIER )*
         while true # decision 13
           alt_13 = 2
           look_13_0 = @input.peek( 1 )
@@ -840,12 +851,12 @@ module Spirit
           end
           case alt_13
           when 1
-            # at line 210:21: ',' type IDENTIFIER
-            match( T__30, TOKENS_FOLLOWING_T__30_IN_parameters_277 )
-            @state.following.push( TOKENS_FOLLOWING_type_IN_parameters_279 )
+            # at line 228:21: ',' type IDENTIFIER
+            match( T__30, TOKENS_FOLLOWING_T__30_IN_parameters_348 )
+            @state.following.push( TOKENS_FOLLOWING_type_IN_parameters_350 )
             type
             @state.following.pop
-            match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_parameters_281 )
+            match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_parameters_352 )
 
           else
             break # out of loop for decision 13
@@ -870,7 +881,7 @@ module Spirit
     # parser rule primitivetype
     # 
     # (in Spirit.g)
-    # 212:1: primitivetype returns [type_a] : t= ( 'int' | 'char' | 'float' | 'boolean' ) ;
+    # 230:1: primitivetype returns [type_a] : t= ( 'int' | 'char' | 'float' | 'boolean' ) ;
     # 
     def primitivetype
       # -> uncomment the next line to manually enable rule tracing
@@ -879,7 +890,7 @@ module Spirit
       t = nil
 
       begin
-        # at line 214:2: t= ( 'int' | 'char' | 'float' | 'boolean' )
+        # at line 232:2: t= ( 'int' | 'char' | 'float' | 'boolean' )
         t = @input.look
         if @input.peek( 1 ).between?( T__31, T__34 )
           @input.consume
@@ -912,20 +923,20 @@ module Spirit
     # parser rule arraytype
     # 
     # (in Spirit.g)
-    # 216:1: arraytype : primitivetype '[' INTEGER ']' ;
+    # 234:1: arraytype : primitivetype '[' INTEGER ']' ;
     # 
     def arraytype
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 10 )
 
       begin
-        # at line 217:4: primitivetype '[' INTEGER ']'
-        @state.following.push( TOKENS_FOLLOWING_primitivetype_IN_arraytype_327 )
+        # at line 235:4: primitivetype '[' INTEGER ']'
+        @state.following.push( TOKENS_FOLLOWING_primitivetype_IN_arraytype_398 )
         primitivetype
         @state.following.pop
-        match( T__35, TOKENS_FOLLOWING_T__35_IN_arraytype_328 )
-        match( INTEGER, TOKENS_FOLLOWING_INTEGER_IN_arraytype_330 )
-        match( T__36, TOKENS_FOLLOWING_T__36_IN_arraytype_332 )
+        match( T__35, TOKENS_FOLLOWING_T__35_IN_arraytype_399 )
+        match( INTEGER, TOKENS_FOLLOWING_INTEGER_IN_arraytype_401 )
+        match( T__36, TOKENS_FOLLOWING_T__36_IN_arraytype_403 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -945,15 +956,15 @@ module Spirit
     # parser rule classtype
     # 
     # (in Spirit.g)
-    # 219:1: classtype : IDENTIFIER ;
+    # 237:1: classtype : IDENTIFIER ;
     # 
     def classtype
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 11 )
 
       begin
-        # at line 220:4: IDENTIFIER
-        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_classtype_342 )
+        # at line 238:4: IDENTIFIER
+        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_classtype_413 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -973,7 +984,7 @@ module Spirit
     # parser rule type
     # 
     # (in Spirit.g)
-    # 222:1: type returns [type_a] : (t= primitivetype | arraytype | classtype ) ;
+    # 240:1: type returns [type_a] : (t= primitivetype | arraytype | classtype ) ;
     # 
     def type
       # -> uncomment the next line to manually enable rule tracing
@@ -982,8 +993,8 @@ module Spirit
       t = nil
 
       begin
-        # at line 224:2: (t= primitivetype | arraytype | classtype )
-        # at line 224:2: (t= primitivetype | arraytype | classtype )
+        # at line 242:2: (t= primitivetype | arraytype | classtype )
+        # at line 242:2: (t= primitivetype | arraytype | classtype )
         alt_14 = 3
         look_14_0 = @input.peek( 1 )
 
@@ -1004,20 +1015,20 @@ module Spirit
         end
         case alt_14
         when 1
-          # at line 224:3: t= primitivetype
-          @state.following.push( TOKENS_FOLLOWING_primitivetype_IN_type_363 )
+          # at line 242:3: t= primitivetype
+          @state.following.push( TOKENS_FOLLOWING_primitivetype_IN_type_434 )
           t = primitivetype
           @state.following.pop
 
         when 2
-          # at line 224:23: arraytype
-          @state.following.push( TOKENS_FOLLOWING_arraytype_IN_type_367 )
+          # at line 242:23: arraytype
+          @state.following.push( TOKENS_FOLLOWING_arraytype_IN_type_438 )
           arraytype
           @state.following.pop
 
         when 3
-          # at line 224:35: classtype
-          @state.following.push( TOKENS_FOLLOWING_classtype_IN_type_371 )
+          # at line 242:35: classtype
+          @state.following.push( TOKENS_FOLLOWING_classtype_IN_type_442 )
           classtype
           @state.following.pop
 
@@ -1044,57 +1055,57 @@ module Spirit
     # parser rule statement
     # 
     # (in Spirit.g)
-    # 226:1: statement : ( assignment | conditional | invocation ';' | loop | print | returnstmt | ';' );
+    # 244:1: statement : ( assignment | conditional | invocation ';' | loop | print | returnstmt | ';' );
     # 
     def statement
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 13 )
 
       begin
-        # at line 227:2: ( assignment | conditional | invocation ';' | loop | print | returnstmt | ';' )
+        # at line 245:2: ( assignment | conditional | invocation ';' | loop | print | returnstmt | ';' )
         alt_15 = 7
         alt_15 = @dfa15.predict( @input )
         case alt_15
         when 1
-          # at line 227:4: assignment
-          @state.following.push( TOKENS_FOLLOWING_assignment_IN_statement_383 )
+          # at line 245:4: assignment
+          @state.following.push( TOKENS_FOLLOWING_assignment_IN_statement_454 )
           assignment
           @state.following.pop
 
         when 2
-          # at line 227:18: conditional
-          @state.following.push( TOKENS_FOLLOWING_conditional_IN_statement_388 )
+          # at line 245:18: conditional
+          @state.following.push( TOKENS_FOLLOWING_conditional_IN_statement_459 )
           conditional
           @state.following.pop
 
         when 3
-          # at line 227:32: invocation ';'
-          @state.following.push( TOKENS_FOLLOWING_invocation_IN_statement_392 )
+          # at line 245:32: invocation ';'
+          @state.following.push( TOKENS_FOLLOWING_invocation_IN_statement_463 )
           invocation
           @state.following.pop
-          match( T__29, TOKENS_FOLLOWING_T__29_IN_statement_394 )
+          match( T__29, TOKENS_FOLLOWING_T__29_IN_statement_465 )
 
         when 4
-          # at line 227:49: loop
-          @state.following.push( TOKENS_FOLLOWING_loop_IN_statement_398 )
+          # at line 245:49: loop
+          @state.following.push( TOKENS_FOLLOWING_loop_IN_statement_469 )
           loop
           @state.following.pop
 
         when 5
-          # at line 227:56: print
-          @state.following.push( TOKENS_FOLLOWING_print_IN_statement_402 )
+          # at line 245:56: print
+          @state.following.push( TOKENS_FOLLOWING_print_IN_statement_473 )
           print
           @state.following.pop
 
         when 6
-          # at line 227:64: returnstmt
-          @state.following.push( TOKENS_FOLLOWING_returnstmt_IN_statement_406 )
+          # at line 245:64: returnstmt
+          @state.following.push( TOKENS_FOLLOWING_returnstmt_IN_statement_477 )
           returnstmt
           @state.following.pop
 
         when 7
-          # at line 227:77: ';'
-          match( T__29, TOKENS_FOLLOWING_T__29_IN_statement_410 )
+          # at line 245:77: ';'
+          match( T__29, TOKENS_FOLLOWING_T__29_IN_statement_481 )
 
         end
       rescue ANTLR3::Error::RecognitionError => re
@@ -1115,22 +1126,22 @@ module Spirit
     # parser rule assignment
     # 
     # (in Spirit.g)
-    # 229:1: assignment : lhsassignment '=' rhsassignment ';' ;
+    # 247:1: assignment : lhsassignment '=' rhsassignment ';' ;
     # 
     def assignment
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 14 )
 
       begin
-        # at line 230:4: lhsassignment '=' rhsassignment ';'
-        @state.following.push( TOKENS_FOLLOWING_lhsassignment_IN_assignment_421 )
+        # at line 248:4: lhsassignment '=' rhsassignment ';'
+        @state.following.push( TOKENS_FOLLOWING_lhsassignment_IN_assignment_492 )
         lhsassignment
         @state.following.pop
-        match( T__37, TOKENS_FOLLOWING_T__37_IN_assignment_423 )
-        @state.following.push( TOKENS_FOLLOWING_rhsassignment_IN_assignment_425 )
+        match( T__37, TOKENS_FOLLOWING_T__37_IN_assignment_494 )
+        @state.following.push( TOKENS_FOLLOWING_rhsassignment_IN_assignment_496 )
         rhsassignment
         @state.following.pop
-        match( T__29, TOKENS_FOLLOWING_T__29_IN_assignment_427 )
+        match( T__29, TOKENS_FOLLOWING_T__29_IN_assignment_498 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -1150,15 +1161,15 @@ module Spirit
     # parser rule lhsassignment
     # 
     # (in Spirit.g)
-    # 232:1: lhsassignment : ( arrayaccess | IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER );
+    # 250:1: lhsassignment : ( arrayaccess | IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER );
     # 
     def lhsassignment
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 15 )
-      __IDENTIFIER2__ = nil
+      __IDENTIFIER3__ = nil
 
       begin
-        # at line 233:2: ( arrayaccess | IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER )
+        # at line 251:2: ( arrayaccess | IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER )
         alt_16 = 4
         look_16_0 = @input.peek( 1 )
 
@@ -1177,45 +1188,45 @@ module Spirit
         end
         case alt_16
         when 1
-          # at line 233:5: arrayaccess
-          @state.following.push( TOKENS_FOLLOWING_arrayaccess_IN_lhsassignment_438 )
+          # at line 251:5: arrayaccess
+          @state.following.push( TOKENS_FOLLOWING_arrayaccess_IN_lhsassignment_509 )
           arrayaccess
           @state.following.pop
 
         when 2
-          # at line 234:5: IDENTIFIER '.' IDENTIFIER
-          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_444 )
-          match( T__38, TOKENS_FOLLOWING_T__38_IN_lhsassignment_446 )
-          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_448 )
+          # at line 252:5: IDENTIFIER '.' IDENTIFIER
+          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_515 )
+          match( T__38, TOKENS_FOLLOWING_T__38_IN_lhsassignment_517 )
+          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_519 )
 
         when 3
-          # at line 235:5: 'this' '.' IDENTIFIER
-          match( T__39, TOKENS_FOLLOWING_T__39_IN_lhsassignment_455 )
-          match( T__38, TOKENS_FOLLOWING_T__38_IN_lhsassignment_457 )
-          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_459 )
+          # at line 253:5: 'this' '.' IDENTIFIER
+          match( T__39, TOKENS_FOLLOWING_T__39_IN_lhsassignment_526 )
+          match( T__38, TOKENS_FOLLOWING_T__38_IN_lhsassignment_528 )
+          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_530 )
 
         when 4
-          # at line 236:5: IDENTIFIER
-          __IDENTIFIER2__ = match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_467 )
+          # at line 254:5: IDENTIFIER
+          __IDENTIFIER3__ = match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_538 )
           # --> action
 
           	      # Verificar que exista en algun scope y meterlo en pila de operandos
           			  if(not @current_method.nil?)
-          			    if(not @current_method.local_variables[__IDENTIFIER2__.text].nil?)
-          			      @stack_operands.push(@current_method.local_variables[__IDENTIFIER2__.text].address)
-          			      @stack_types.push(@current_method.local_variables[__IDENTIFIER2__.text].type)
-          			    elsif( not @current_class.instance_variables[__IDENTIFIER2__.text].nil?)
-          			      @stack_operands.push(@current_class.instance_variables[__IDENTIFIER2__.text].address)
-          			      @stack_types.push(@current_class.instance_variables[__IDENTIFIER2__.text].type)
+          			    if(not @current_method.local_variables[__IDENTIFIER3__.text].nil?)
+          			      @stack_operands.push(@current_method.local_variables[__IDENTIFIER3__.text].address)
+          			      @stack_types.push(@current_method.local_variables[__IDENTIFIER3__.text].type)
+          			    elsif( not @current_class.instance_variables[__IDENTIFIER3__.text].nil?)
+          			      @stack_operands.push(@current_class.instance_variables[__IDENTIFIER3__.text].address)
+          			      @stack_types.push(@current_class.instance_variables[__IDENTIFIER3__.text].type)
           			    else
-          			      raise "Variable #{__IDENTIFIER2__.text} not declared"
+          			      raise "Variable #{__IDENTIFIER3__.text} not declared in class #{@current_class.name} or method #{@current_method.name}"
           			    end
           			  else
-          			  	if( not @current_class.instance_variables[__IDENTIFIER2__.text].nil?)
-          			  	  @stack_operands.push(@current_class.instance_variables[__IDENTIFIER2__.text].address)
-          			  	  @stack_types.push(@current_class.instance_variables[__IDENTIFIER2__.text].type)
+          			  	if( not @current_class.instance_variables[__IDENTIFIER3__.text].nil?)
+          			  	  @stack_operands.push(@current_class.instance_variables[__IDENTIFIER3__.text].address)
+          			  	  @stack_types.push(@current_class.instance_variables[__IDENTIFIER3__.text].type)
           			    else
-          			      raise "Variable #{__IDENTIFIER2__.text} not declared"
+          			      raise "Variable #{__IDENTIFIER3__.text} not declared in class #{@current_class.name}"
           			    end
           			  end
           	    
@@ -1240,14 +1251,14 @@ module Spirit
     # parser rule rhsassignment
     # 
     # (in Spirit.g)
-    # 260:1: rhsassignment : ( expression | 'new' IDENTIFIER '(' ')' );
+    # 278:1: rhsassignment : ( expression | 'new' IDENTIFIER '(' ')' );
     # 
     def rhsassignment
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 16 )
 
       begin
-        # at line 261:2: ( expression | 'new' IDENTIFIER '(' ')' )
+        # at line 279:2: ( expression | 'new' IDENTIFIER '(' ')' )
         alt_17 = 2
         look_17_0 = @input.peek( 1 )
 
@@ -1260,8 +1271,8 @@ module Spirit
         end
         case alt_17
         when 1
-          # at line 261:4: expression
-          @state.following.push( TOKENS_FOLLOWING_expression_IN_rhsassignment_489 )
+          # at line 279:4: expression
+          @state.following.push( TOKENS_FOLLOWING_expression_IN_rhsassignment_560 )
           expression
           @state.following.pop
           # --> action
@@ -1279,11 +1290,11 @@ module Spirit
           # <-- action
 
         when 2
-          # at line 273:6: 'new' IDENTIFIER '(' ')'
-          match( T__40, TOKENS_FOLLOWING_T__40_IN_rhsassignment_503 )
-          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_rhsassignment_505 )
-          match( T__26, TOKENS_FOLLOWING_T__26_IN_rhsassignment_507 )
-          match( T__27, TOKENS_FOLLOWING_T__27_IN_rhsassignment_509 )
+          # at line 291:6: 'new' IDENTIFIER '(' ')'
+          match( T__40, TOKENS_FOLLOWING_T__40_IN_rhsassignment_574 )
+          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_rhsassignment_576 )
+          match( T__26, TOKENS_FOLLOWING_T__26_IN_rhsassignment_578 )
+          match( T__27, TOKENS_FOLLOWING_T__27_IN_rhsassignment_580 )
 
         end
       rescue ANTLR3::Error::RecognitionError => re
@@ -1304,16 +1315,16 @@ module Spirit
     # parser rule returnstmt
     # 
     # (in Spirit.g)
-    # 276:1: returnstmt : 'return' ( expression )? ';' ;
+    # 294:1: returnstmt : 'return' ( expression )? ';' ;
     # 
     def returnstmt
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 17 )
 
       begin
-        # at line 277:4: 'return' ( expression )? ';'
-        match( T__41, TOKENS_FOLLOWING_T__41_IN_returnstmt_523 )
-        # at line 277:13: ( expression )?
+        # at line 295:4: 'return' ( expression )? ';'
+        match( T__41, TOKENS_FOLLOWING_T__41_IN_returnstmt_594 )
+        # at line 295:13: ( expression )?
         alt_18 = 2
         look_18_0 = @input.peek( 1 )
 
@@ -1322,13 +1333,13 @@ module Spirit
         end
         case alt_18
         when 1
-          # at line 277:13: expression
-          @state.following.push( TOKENS_FOLLOWING_expression_IN_returnstmt_525 )
+          # at line 295:13: expression
+          @state.following.push( TOKENS_FOLLOWING_expression_IN_returnstmt_596 )
           expression
           @state.following.pop
 
         end
-        match( T__29, TOKENS_FOLLOWING_T__29_IN_returnstmt_528 )
+        match( T__29, TOKENS_FOLLOWING_T__29_IN_returnstmt_599 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -1348,22 +1359,22 @@ module Spirit
     # parser rule conditional
     # 
     # (in Spirit.g)
-    # 279:1: conditional : 'if' '(' expression ')' '{' ( statement )* '}' ( 'elsif' '(' expression ')' '{' ( statement )* '}' )* ( 'else' '{' ( statement )* '}' )? ;
+    # 297:1: conditional : 'if' '(' expression ')' '{' ( statement )* '}' ( 'elsif' '(' expression ')' '{' ( statement )* '}' )* ( 'else' '{' ( statement )* '}' )? ;
     # 
     def conditional
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 18 )
 
       begin
-        # at line 280:5: 'if' '(' expression ')' '{' ( statement )* '}' ( 'elsif' '(' expression ')' '{' ( statement )* '}' )* ( 'else' '{' ( statement )* '}' )?
-        match( T__42, TOKENS_FOLLOWING_T__42_IN_conditional_540 )
-        match( T__26, TOKENS_FOLLOWING_T__26_IN_conditional_542 )
-        @state.following.push( TOKENS_FOLLOWING_expression_IN_conditional_544 )
+        # at line 298:5: 'if' '(' expression ')' '{' ( statement )* '}' ( 'elsif' '(' expression ')' '{' ( statement )* '}' )* ( 'else' '{' ( statement )* '}' )?
+        match( T__42, TOKENS_FOLLOWING_T__42_IN_conditional_611 )
+        match( T__26, TOKENS_FOLLOWING_T__26_IN_conditional_613 )
+        @state.following.push( TOKENS_FOLLOWING_expression_IN_conditional_615 )
         expression
         @state.following.pop
-        match( T__27, TOKENS_FOLLOWING_T__27_IN_conditional_546 )
-        match( T__21, TOKENS_FOLLOWING_T__21_IN_conditional_548 )
-        # at line 280:33: ( statement )*
+        match( T__27, TOKENS_FOLLOWING_T__27_IN_conditional_617 )
+        match( T__21, TOKENS_FOLLOWING_T__21_IN_conditional_619 )
+        # at line 298:33: ( statement )*
         while true # decision 19
           alt_19 = 2
           look_19_0 = @input.peek( 1 )
@@ -1374,8 +1385,8 @@ module Spirit
           end
           case alt_19
           when 1
-            # at line 280:33: statement
-            @state.following.push( TOKENS_FOLLOWING_statement_IN_conditional_550 )
+            # at line 298:33: statement
+            @state.following.push( TOKENS_FOLLOWING_statement_IN_conditional_621 )
             statement
             @state.following.pop
 
@@ -1383,8 +1394,8 @@ module Spirit
             break # out of loop for decision 19
           end
         end # loop for decision 19
-        match( T__22, TOKENS_FOLLOWING_T__22_IN_conditional_553 )
-        # at line 280:48: ( 'elsif' '(' expression ')' '{' ( statement )* '}' )*
+        match( T__22, TOKENS_FOLLOWING_T__22_IN_conditional_624 )
+        # at line 298:48: ( 'elsif' '(' expression ')' '{' ( statement )* '}' )*
         while true # decision 21
           alt_21 = 2
           look_21_0 = @input.peek( 1 )
@@ -1395,15 +1406,15 @@ module Spirit
           end
           case alt_21
           when 1
-            # at line 280:49: 'elsif' '(' expression ')' '{' ( statement )* '}'
-            match( T__43, TOKENS_FOLLOWING_T__43_IN_conditional_556 )
-            match( T__26, TOKENS_FOLLOWING_T__26_IN_conditional_558 )
-            @state.following.push( TOKENS_FOLLOWING_expression_IN_conditional_560 )
+            # at line 298:49: 'elsif' '(' expression ')' '{' ( statement )* '}'
+            match( T__43, TOKENS_FOLLOWING_T__43_IN_conditional_627 )
+            match( T__26, TOKENS_FOLLOWING_T__26_IN_conditional_629 )
+            @state.following.push( TOKENS_FOLLOWING_expression_IN_conditional_631 )
             expression
             @state.following.pop
-            match( T__27, TOKENS_FOLLOWING_T__27_IN_conditional_562 )
-            match( T__21, TOKENS_FOLLOWING_T__21_IN_conditional_564 )
-            # at line 280:80: ( statement )*
+            match( T__27, TOKENS_FOLLOWING_T__27_IN_conditional_633 )
+            match( T__21, TOKENS_FOLLOWING_T__21_IN_conditional_635 )
+            # at line 298:80: ( statement )*
             while true # decision 20
               alt_20 = 2
               look_20_0 = @input.peek( 1 )
@@ -1414,8 +1425,8 @@ module Spirit
               end
               case alt_20
               when 1
-                # at line 280:80: statement
-                @state.following.push( TOKENS_FOLLOWING_statement_IN_conditional_566 )
+                # at line 298:80: statement
+                @state.following.push( TOKENS_FOLLOWING_statement_IN_conditional_637 )
                 statement
                 @state.following.pop
 
@@ -1423,13 +1434,13 @@ module Spirit
                 break # out of loop for decision 20
               end
             end # loop for decision 20
-            match( T__22, TOKENS_FOLLOWING_T__22_IN_conditional_569 )
+            match( T__22, TOKENS_FOLLOWING_T__22_IN_conditional_640 )
 
           else
             break # out of loop for decision 21
           end
         end # loop for decision 21
-        # at line 280:98: ( 'else' '{' ( statement )* '}' )?
+        # at line 298:98: ( 'else' '{' ( statement )* '}' )?
         alt_23 = 2
         look_23_0 = @input.peek( 1 )
 
@@ -1438,10 +1449,10 @@ module Spirit
         end
         case alt_23
         when 1
-          # at line 280:99: 'else' '{' ( statement )* '}'
-          match( T__44, TOKENS_FOLLOWING_T__44_IN_conditional_575 )
-          match( T__21, TOKENS_FOLLOWING_T__21_IN_conditional_577 )
-          # at line 280:110: ( statement )*
+          # at line 298:99: 'else' '{' ( statement )* '}'
+          match( T__44, TOKENS_FOLLOWING_T__44_IN_conditional_646 )
+          match( T__21, TOKENS_FOLLOWING_T__21_IN_conditional_648 )
+          # at line 298:110: ( statement )*
           while true # decision 22
             alt_22 = 2
             look_22_0 = @input.peek( 1 )
@@ -1452,8 +1463,8 @@ module Spirit
             end
             case alt_22
             when 1
-              # at line 280:110: statement
-              @state.following.push( TOKENS_FOLLOWING_statement_IN_conditional_579 )
+              # at line 298:110: statement
+              @state.following.push( TOKENS_FOLLOWING_statement_IN_conditional_650 )
               statement
               @state.following.pop
 
@@ -1461,7 +1472,7 @@ module Spirit
               break # out of loop for decision 22
             end
           end # loop for decision 22
-          match( T__22, TOKENS_FOLLOWING_T__22_IN_conditional_582 )
+          match( T__22, TOKENS_FOLLOWING_T__22_IN_conditional_653 )
 
         end
 
@@ -1483,22 +1494,22 @@ module Spirit
     # parser rule loop
     # 
     # (in Spirit.g)
-    # 282:1: loop : 'while' '(' expression ')' '{' ( statement )* '}' ;
+    # 300:1: loop : 'while' '(' expression ')' '{' ( statement )* '}' ;
     # 
     def loop
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 19 )
 
       begin
-        # at line 283:5: 'while' '(' expression ')' '{' ( statement )* '}'
-        match( T__45, TOKENS_FOLLOWING_T__45_IN_loop_597 )
-        match( T__26, TOKENS_FOLLOWING_T__26_IN_loop_599 )
-        @state.following.push( TOKENS_FOLLOWING_expression_IN_loop_601 )
+        # at line 301:5: 'while' '(' expression ')' '{' ( statement )* '}'
+        match( T__45, TOKENS_FOLLOWING_T__45_IN_loop_668 )
+        match( T__26, TOKENS_FOLLOWING_T__26_IN_loop_670 )
+        @state.following.push( TOKENS_FOLLOWING_expression_IN_loop_672 )
         expression
         @state.following.pop
-        match( T__27, TOKENS_FOLLOWING_T__27_IN_loop_603 )
-        match( T__21, TOKENS_FOLLOWING_T__21_IN_loop_605 )
-        # at line 283:36: ( statement )*
+        match( T__27, TOKENS_FOLLOWING_T__27_IN_loop_674 )
+        match( T__21, TOKENS_FOLLOWING_T__21_IN_loop_676 )
+        # at line 301:36: ( statement )*
         while true # decision 24
           alt_24 = 2
           look_24_0 = @input.peek( 1 )
@@ -1509,8 +1520,8 @@ module Spirit
           end
           case alt_24
           when 1
-            # at line 283:36: statement
-            @state.following.push( TOKENS_FOLLOWING_statement_IN_loop_607 )
+            # at line 301:36: statement
+            @state.following.push( TOKENS_FOLLOWING_statement_IN_loop_678 )
             statement
             @state.following.pop
 
@@ -1518,7 +1529,7 @@ module Spirit
             break # out of loop for decision 24
           end
         end # loop for decision 24
-        match( T__22, TOKENS_FOLLOWING_T__22_IN_loop_610 )
+        match( T__22, TOKENS_FOLLOWING_T__22_IN_loop_681 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -1538,21 +1549,21 @@ module Spirit
     # parser rule print
     # 
     # (in Spirit.g)
-    # 285:1: print : 'print' '(' expression ')' ';' ;
+    # 303:1: print : 'print' '(' expression ')' ';' ;
     # 
     def print
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 20 )
 
       begin
-        # at line 286:5: 'print' '(' expression ')' ';'
-        match( T__46, TOKENS_FOLLOWING_T__46_IN_print_622 )
-        match( T__26, TOKENS_FOLLOWING_T__26_IN_print_624 )
-        @state.following.push( TOKENS_FOLLOWING_expression_IN_print_626 )
+        # at line 304:5: 'print' '(' expression ')' ';'
+        match( T__46, TOKENS_FOLLOWING_T__46_IN_print_693 )
+        match( T__26, TOKENS_FOLLOWING_T__26_IN_print_695 )
+        @state.following.push( TOKENS_FOLLOWING_expression_IN_print_697 )
         expression
         @state.following.pop
-        match( T__27, TOKENS_FOLLOWING_T__27_IN_print_628 )
-        match( T__29, TOKENS_FOLLOWING_T__29_IN_print_630 )
+        match( T__27, TOKENS_FOLLOWING_T__27_IN_print_699 )
+        match( T__29, TOKENS_FOLLOWING_T__29_IN_print_701 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -1572,19 +1583,19 @@ module Spirit
     # parser rule expression
     # 
     # (in Spirit.g)
-    # 288:1: expression : exp ( COMPARITIONOPERATORS exp )? ;
+    # 306:1: expression : exp ( COMPARITIONOPERATORS exp )? ;
     # 
     def expression
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 21 )
-      __COMPARITIONOPERATORS3__ = nil
+      __COMPARITIONOPERATORS4__ = nil
 
       begin
-        # at line 289:5: exp ( COMPARITIONOPERATORS exp )?
-        @state.following.push( TOKENS_FOLLOWING_exp_IN_expression_641 )
+        # at line 307:5: exp ( COMPARITIONOPERATORS exp )?
+        @state.following.push( TOKENS_FOLLOWING_exp_IN_expression_712 )
         exp
         @state.following.pop
-        # at line 289:9: ( COMPARITIONOPERATORS exp )?
+        # at line 307:9: ( COMPARITIONOPERATORS exp )?
         alt_25 = 2
         look_25_0 = @input.peek( 1 )
 
@@ -1593,18 +1604,18 @@ module Spirit
         end
         case alt_25
         when 1
-          # at line 289:10: COMPARITIONOPERATORS exp
-          __COMPARITIONOPERATORS3__ = match( COMPARITIONOPERATORS, TOKENS_FOLLOWING_COMPARITIONOPERATORS_IN_expression_644 )
+          # at line 307:10: COMPARITIONOPERATORS exp
+          __COMPARITIONOPERATORS4__ = match( COMPARITIONOPERATORS, TOKENS_FOLLOWING_COMPARITIONOPERATORS_IN_expression_715 )
           # --> action
-            #Regla 8
-          	      @stack_operators.push(__COMPARITIONOPERATORS3__.text)
+           #Regla 8
+          	      @stack_operators.push(__COMPARITIONOPERATORS4__.text)
           	    
           # <-- action
-          @state.following.push( TOKENS_FOLLOWING_exp_IN_expression_658 )
+          @state.following.push( TOKENS_FOLLOWING_exp_IN_expression_729 )
           exp
           @state.following.pop
           # --> action
-
+           #Regla 9
           		    operator = @stack_operators.pop
           		    operand_b = @stack_operands.pop
           		    operand_a = @stack_operands.pop
@@ -1637,19 +1648,19 @@ module Spirit
     # parser rule exp
     # 
     # (in Spirit.g)
-    # 307:1: exp : term ( ADDITIONSUBSTRACTIONOPERATORS term )* ;
+    # 325:1: exp : term ( ADDITIONSUBSTRACTIONOPERATORS term )* ;
     # 
     def exp
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 22 )
-      __ADDITIONSUBSTRACTIONOPERATORS4__ = nil
+      __ADDITIONSUBSTRACTIONOPERATORS5__ = nil
 
       begin
-        # at line 308:5: term ( ADDITIONSUBSTRACTIONOPERATORS term )*
-        @state.following.push( TOKENS_FOLLOWING_term_IN_exp_684 )
+        # at line 326:5: term ( ADDITIONSUBSTRACTIONOPERATORS term )*
+        @state.following.push( TOKENS_FOLLOWING_term_IN_exp_755 )
         term
         @state.following.pop
-        # at line 308:10: ( ADDITIONSUBSTRACTIONOPERATORS term )*
+        # at line 326:10: ( ADDITIONSUBSTRACTIONOPERATORS term )*
         while true # decision 26
           alt_26 = 2
           look_26_0 = @input.peek( 1 )
@@ -1660,14 +1671,14 @@ module Spirit
           end
           case alt_26
           when 1
-            # at line 308:11: ADDITIONSUBSTRACTIONOPERATORS term
-            __ADDITIONSUBSTRACTIONOPERATORS4__ = match( ADDITIONSUBSTRACTIONOPERATORS, TOKENS_FOLLOWING_ADDITIONSUBSTRACTIONOPERATORS_IN_exp_687 )
+            # at line 326:11: ADDITIONSUBSTRACTIONOPERATORS term
+            __ADDITIONSUBSTRACTIONOPERATORS5__ = match( ADDITIONSUBSTRACTIONOPERATORS, TOKENS_FOLLOWING_ADDITIONSUBSTRACTIONOPERATORS_IN_exp_758 )
             # --> action
              #Regla 2 GC
-                         @stack_operators.push(__ADDITIONSUBSTRACTIONOPERATORS4__.text)
+                         @stack_operators.push(__ADDITIONSUBSTRACTIONOPERATORS5__.text)
                        
             # <-- action
-            @state.following.push( TOKENS_FOLLOWING_term_IN_exp_714 )
+            @state.following.push( TOKENS_FOLLOWING_term_IN_exp_785 )
             term
             @state.following.pop
             # --> action
@@ -1711,19 +1722,19 @@ module Spirit
     # parser rule term
     # 
     # (in Spirit.g)
-    # 330:1: term : factor ( MULTIPLICATIONDIVISIONOPERATORS factor )* ;
+    # 348:1: term : factor ( MULTIPLICATIONDIVISIONOPERATORS factor )* ;
     # 
     def term
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 23 )
-      __MULTIPLICATIONDIVISIONOPERATORS5__ = nil
+      __MULTIPLICATIONDIVISIONOPERATORS6__ = nil
 
       begin
-        # at line 331:5: factor ( MULTIPLICATIONDIVISIONOPERATORS factor )*
-        @state.following.push( TOKENS_FOLLOWING_factor_IN_term_752 )
+        # at line 349:5: factor ( MULTIPLICATIONDIVISIONOPERATORS factor )*
+        @state.following.push( TOKENS_FOLLOWING_factor_IN_term_823 )
         factor
         @state.following.pop
-        # at line 331:12: ( MULTIPLICATIONDIVISIONOPERATORS factor )*
+        # at line 349:12: ( MULTIPLICATIONDIVISIONOPERATORS factor )*
         while true # decision 27
           alt_27 = 2
           look_27_0 = @input.peek( 1 )
@@ -1734,14 +1745,14 @@ module Spirit
           end
           case alt_27
           when 1
-            # at line 331:13: MULTIPLICATIONDIVISIONOPERATORS factor
-            __MULTIPLICATIONDIVISIONOPERATORS5__ = match( MULTIPLICATIONDIVISIONOPERATORS, TOKENS_FOLLOWING_MULTIPLICATIONDIVISIONOPERATORS_IN_term_755 )
+            # at line 349:13: MULTIPLICATIONDIVISIONOPERATORS factor
+            __MULTIPLICATIONDIVISIONOPERATORS6__ = match( MULTIPLICATIONDIVISIONOPERATORS, TOKENS_FOLLOWING_MULTIPLICATIONDIVISIONOPERATORS_IN_term_826 )
             # --> action
              #Regla 3 GC
-            		           @stack_operators.push(__MULTIPLICATIONDIVISIONOPERATORS5__.text)
+            		           @stack_operators.push(__MULTIPLICATIONDIVISIONOPERATORS6__.text)
             		         
             # <-- action
-            @state.following.push( TOKENS_FOLLOWING_factor_IN_term_782 )
+            @state.following.push( TOKENS_FOLLOWING_factor_IN_term_853 )
             factor
             @state.following.pop
             # --> action
@@ -1785,106 +1796,106 @@ module Spirit
     # parser rule factor
     # 
     # (in Spirit.g)
-    # 353:1: factor : ( IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER | INTEGER | FLOAT | CHAR | read | invocation | arrayaccess | '(' expression ')' );
+    # 371:1: factor : ( IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER | INTEGER | FLOAT | CHAR | read | invocation | arrayaccess | '(' expression ')' );
     # 
     def factor
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 24 )
-      __IDENTIFIER6__ = nil
-      __INTEGER7__ = nil
+      __IDENTIFIER7__ = nil
+      __INTEGER8__ = nil
 
       begin
-        # at line 354:2: ( IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER | INTEGER | FLOAT | CHAR | read | invocation | arrayaccess | '(' expression ')' )
+        # at line 372:2: ( IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER | INTEGER | FLOAT | CHAR | read | invocation | arrayaccess | '(' expression ')' )
         alt_28 = 10
         alt_28 = @dfa28.predict( @input )
         case alt_28
         when 1
-          # at line 355:3: IDENTIFIER '.' IDENTIFIER
-          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_factor_822 )
-          match( T__38, TOKENS_FOLLOWING_T__38_IN_factor_824 )
-          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_factor_826 )
+          # at line 373:3: IDENTIFIER '.' IDENTIFIER
+          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_factor_893 )
+          match( T__38, TOKENS_FOLLOWING_T__38_IN_factor_895 )
+          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_factor_897 )
 
         when 2
-          # at line 356:5: 'this' '.' IDENTIFIER
-          match( T__39, TOKENS_FOLLOWING_T__39_IN_factor_833 )
-          match( T__38, TOKENS_FOLLOWING_T__38_IN_factor_835 )
-          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_factor_837 )
+          # at line 374:5: 'this' '.' IDENTIFIER
+          match( T__39, TOKENS_FOLLOWING_T__39_IN_factor_904 )
+          match( T__38, TOKENS_FOLLOWING_T__38_IN_factor_906 )
+          match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_factor_908 )
 
         when 3
-          # at line 357:5: IDENTIFIER
-          __IDENTIFIER6__ = match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_factor_845 )
+          # at line 375:5: IDENTIFIER
+          __IDENTIFIER7__ = match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_factor_916 )
           # --> action
            #Regla 1 GC / Regla 1 VS
           			  # Verificar que exista en algun scope y meterlo en pila de operandos
           			  if(not @current_method.nil?)
-          			    if(not @current_method.local_variables[__IDENTIFIER6__.text].nil?)
-          			      @stack_operands.push(@current_method.local_variables[__IDENTIFIER6__.text].address)
-          			      @stack_types.push(@current_method.local_variables[__IDENTIFIER6__.text].type)
-          			    elsif( not @current_class.instance_variables[__IDENTIFIER6__.text].nil?)
-          			      @stack_operands.push(@current_class.instance_variables[__IDENTIFIER6__.text].address)
-          			      @stack_types.push(@current_class.instance_variables[__IDENTIFIER6__.text].type)
+          			    if(not @current_method.local_variables[__IDENTIFIER7__.text].nil?)
+          			      @stack_operands.push(@current_method.local_variables[__IDENTIFIER7__.text].address)
+          			      @stack_types.push(@current_method.local_variables[__IDENTIFIER7__.text].type)
+          			    elsif( not @current_class.instance_variables[__IDENTIFIER7__.text].nil?)
+          			      @stack_operands.push(@current_class.instance_variables[__IDENTIFIER7__.text].address)
+          			      @stack_types.push(@current_class.instance_variables[__IDENTIFIER7__.text].type)
           			    else
-          			      raise "Variable #{__IDENTIFIER6__.text} not declared"
+          			      raise "Variable #{__IDENTIFIER7__.text} not declared"
           			    end
           			  else
-          			  	if( not @current_class.instance_variables[__IDENTIFIER6__.text].nil?)
-          			  	  @stack_operands.push(@current_class.instance_variables[__IDENTIFIER6__.text].address)
-          			  	  @stack_types.push(@current_class.instance_variables[__IDENTIFIER6__.text].type)
+          			  	if( not @current_class.instance_variables[__IDENTIFIER7__.text].nil?)
+          			  	  @stack_operands.push(@current_class.instance_variables[__IDENTIFIER7__.text].address)
+          			  	  @stack_types.push(@current_class.instance_variables[__IDENTIFIER7__.text].type)
           			    else
-          			      raise "Variable #{__IDENTIFIER6__.text} not declared"
+          			      raise "Variable #{__IDENTIFIER7__.text} not declared"
           			    end
           			  end 
           			
           # <-- action
 
         when 4
-          # at line 379:5: INTEGER
-          __INTEGER7__ = match( INTEGER, TOKENS_FOLLOWING_INTEGER_IN_factor_856 )
+          # at line 397:5: INTEGER
+          __INTEGER8__ = match( INTEGER, TOKENS_FOLLOWING_INTEGER_IN_factor_927 )
           # --> action
            #Regla 1 GC
-          				@stack_operands.push(__INTEGER7__.text)
+          				@stack_operands.push(__INTEGER8__.text)
           				@stack_types.push('int')
           		  
           # <-- action
 
         when 5
-          # at line 384:5: FLOAT
-          match( FLOAT, TOKENS_FOLLOWING_FLOAT_IN_factor_869 )
+          # at line 402:5: FLOAT
+          match( FLOAT, TOKENS_FOLLOWING_FLOAT_IN_factor_940 )
 
         when 6
-          # at line 385:5: CHAR
-          match( CHAR, TOKENS_FOLLOWING_CHAR_IN_factor_875 )
+          # at line 403:5: CHAR
+          match( CHAR, TOKENS_FOLLOWING_CHAR_IN_factor_946 )
 
         when 7
-          # at line 386:5: read
-          @state.following.push( TOKENS_FOLLOWING_read_IN_factor_881 )
+          # at line 404:5: read
+          @state.following.push( TOKENS_FOLLOWING_read_IN_factor_952 )
           read
           @state.following.pop
 
         when 8
-          # at line 387:5: invocation
-          @state.following.push( TOKENS_FOLLOWING_invocation_IN_factor_887 )
+          # at line 405:5: invocation
+          @state.following.push( TOKENS_FOLLOWING_invocation_IN_factor_958 )
           invocation
           @state.following.pop
 
         when 9
-          # at line 388:5: arrayaccess
-          @state.following.push( TOKENS_FOLLOWING_arrayaccess_IN_factor_893 )
+          # at line 406:5: arrayaccess
+          @state.following.push( TOKENS_FOLLOWING_arrayaccess_IN_factor_964 )
           arrayaccess
           @state.following.pop
 
         when 10
-          # at line 389:5: '(' expression ')'
-          match( T__26, TOKENS_FOLLOWING_T__26_IN_factor_902 )
+          # at line 407:5: '(' expression ')'
+          match( T__26, TOKENS_FOLLOWING_T__26_IN_factor_973 )
           # --> action
            #Regla 6 GC
           		    @stack_operators.push('(')
           		  
           # <-- action
-          @state.following.push( TOKENS_FOLLOWING_expression_IN_factor_914 )
+          @state.following.push( TOKENS_FOLLOWING_expression_IN_factor_985 )
           expression
           @state.following.pop
-          match( T__27, TOKENS_FOLLOWING_T__27_IN_factor_921 )
+          match( T__27, TOKENS_FOLLOWING_T__27_IN_factor_992 )
           # --> action
            #Regla 7 GC
           		    @stack_operators.pop
@@ -1910,20 +1921,20 @@ module Spirit
     # parser rule arrayaccess
     # 
     # (in Spirit.g)
-    # 400:1: arrayaccess : IDENTIFIER '[' expression ']' ;
+    # 418:1: arrayaccess : IDENTIFIER '[' expression ']' ;
     # 
     def arrayaccess
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 25 )
 
       begin
-        # at line 401:4: IDENTIFIER '[' expression ']'
-        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_arrayaccess_938 )
-        match( T__35, TOKENS_FOLLOWING_T__35_IN_arrayaccess_939 )
-        @state.following.push( TOKENS_FOLLOWING_expression_IN_arrayaccess_941 )
+        # at line 419:4: IDENTIFIER '[' expression ']'
+        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_arrayaccess_1009 )
+        match( T__35, TOKENS_FOLLOWING_T__35_IN_arrayaccess_1010 )
+        @state.following.push( TOKENS_FOLLOWING_expression_IN_arrayaccess_1012 )
         expression
         @state.following.pop
-        match( T__36, TOKENS_FOLLOWING_T__36_IN_arrayaccess_943 )
+        match( T__36, TOKENS_FOLLOWING_T__36_IN_arrayaccess_1014 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -1943,14 +1954,14 @@ module Spirit
     # parser rule read
     # 
     # (in Spirit.g)
-    # 403:1: read : ( 'readint' | 'readdouble' | 'readchar' ) '(' ')' ;
+    # 421:1: read : ( 'readint' | 'readdouble' | 'readchar' ) '(' ')' ;
     # 
     def read
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 26 )
 
       begin
-        # at line 403:8: ( 'readint' | 'readdouble' | 'readchar' ) '(' ')'
+        # at line 421:8: ( 'readint' | 'readdouble' | 'readchar' ) '(' ')'
         if @input.peek( 1 ).between?( T__47, T__49 )
           @input.consume
           @state.error_recovery = false
@@ -1960,8 +1971,8 @@ module Spirit
         end
 
 
-        match( T__26, TOKENS_FOLLOWING_T__26_IN_read_964 )
-        match( T__27, TOKENS_FOLLOWING_T__27_IN_read_966 )
+        match( T__26, TOKENS_FOLLOWING_T__26_IN_read_1035 )
+        match( T__27, TOKENS_FOLLOWING_T__27_IN_read_1037 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -1981,14 +1992,14 @@ module Spirit
     # parser rule invocation
     # 
     # (in Spirit.g)
-    # 405:1: invocation : ( IDENTIFIER | 'this' ) '.' IDENTIFIER '(' ( arguments )? ')' ;
+    # 423:1: invocation : ( IDENTIFIER | 'this' ) '.' IDENTIFIER '(' ( arguments )? ')' ;
     # 
     def invocation
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 27 )
 
       begin
-        # at line 406:5: ( IDENTIFIER | 'this' ) '.' IDENTIFIER '(' ( arguments )? ')'
+        # at line 424:5: ( IDENTIFIER | 'this' ) '.' IDENTIFIER '(' ( arguments )? ')'
         if @input.peek(1) == IDENTIFIER || @input.peek(1) == T__39
           @input.consume
           @state.error_recovery = false
@@ -1998,10 +2009,10 @@ module Spirit
         end
 
 
-        match( T__38, TOKENS_FOLLOWING_T__38_IN_invocation_984 )
-        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_invocation_986 )
-        match( T__26, TOKENS_FOLLOWING_T__26_IN_invocation_988 )
-        # at line 406:46: ( arguments )?
+        match( T__38, TOKENS_FOLLOWING_T__38_IN_invocation_1055 )
+        match( IDENTIFIER, TOKENS_FOLLOWING_IDENTIFIER_IN_invocation_1057 )
+        match( T__26, TOKENS_FOLLOWING_T__26_IN_invocation_1059 )
+        # at line 424:46: ( arguments )?
         alt_29 = 2
         look_29_0 = @input.peek( 1 )
 
@@ -2010,13 +2021,13 @@ module Spirit
         end
         case alt_29
         when 1
-          # at line 406:46: arguments
-          @state.following.push( TOKENS_FOLLOWING_arguments_IN_invocation_990 )
+          # at line 424:46: arguments
+          @state.following.push( TOKENS_FOLLOWING_arguments_IN_invocation_1061 )
           arguments
           @state.following.pop
 
         end
-        match( T__27, TOKENS_FOLLOWING_T__27_IN_invocation_993 )
+        match( T__27, TOKENS_FOLLOWING_T__27_IN_invocation_1064 )
 
       rescue ANTLR3::Error::RecognitionError => re
         report_error(re)
@@ -2036,18 +2047,18 @@ module Spirit
     # parser rule arguments
     # 
     # (in Spirit.g)
-    # 408:1: arguments : expression ( ',' expression )* ;
+    # 426:1: arguments : expression ( ',' expression )* ;
     # 
     def arguments
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 28 )
 
       begin
-        # at line 409:4: expression ( ',' expression )*
-        @state.following.push( TOKENS_FOLLOWING_expression_IN_arguments_1003 )
+        # at line 427:4: expression ( ',' expression )*
+        @state.following.push( TOKENS_FOLLOWING_expression_IN_arguments_1074 )
         expression
         @state.following.pop
-        # at line 409:15: ( ',' expression )*
+        # at line 427:15: ( ',' expression )*
         while true # decision 30
           alt_30 = 2
           look_30_0 = @input.peek( 1 )
@@ -2058,9 +2069,9 @@ module Spirit
           end
           case alt_30
           when 1
-            # at line 409:16: ',' expression
-            match( T__30, TOKENS_FOLLOWING_T__30_IN_arguments_1006 )
-            @state.following.push( TOKENS_FOLLOWING_expression_IN_arguments_1008 )
+            # at line 427:16: ',' expression
+            match( T__30, TOKENS_FOLLOWING_T__30_IN_arguments_1077 )
+            @state.following.push( TOKENS_FOLLOWING_expression_IN_arguments_1079 )
             expression
             @state.following.pop
 
@@ -2122,7 +2133,7 @@ module Spirit
 
       def description
         <<-'__dfa_description__'.strip!
-          226:1: statement : ( assignment | conditional | invocation ';' | loop | print | returnstmt | ';' );
+          244:1: statement : ( assignment | conditional | invocation ';' | loop | print | returnstmt | ';' );
         __dfa_description__
       end
     end
@@ -2168,7 +2179,7 @@ module Spirit
 
       def description
         <<-'__dfa_description__'.strip!
-          353:1: factor : ( IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER | INTEGER | FLOAT | CHAR | read | invocation | arrayaccess | '(' expression ')' );
+          371:1: factor : ( IDENTIFIER '.' IDENTIFIER | 'this' '.' IDENTIFIER | IDENTIFIER | INTEGER | FLOAT | CHAR | read | invocation | arrayaccess | '(' expression ')' );
         __dfa_description__
       end
     end
@@ -2185,158 +2196,158 @@ module Spirit
     TOKENS_FOLLOWING_classdeclaration_IN_goal_56 = Set[ 19 ]
     TOKENS_FOLLOWING_mainclass_IN_goal_65 = Set[ 1 ]
     TOKENS_FOLLOWING_T__19_IN_mainclass_83 = Set[ 20 ]
-    TOKENS_FOLLOWING_T__20_IN_mainclass_85 = Set[ 21 ]
-    TOKENS_FOLLOWING_T__21_IN_mainclass_97 = Set[ 4, 23, 31, 32, 33, 34 ]
-    TOKENS_FOLLOWING_vardeclaration_IN_mainclass_99 = Set[ 4, 23, 31, 32, 33, 34 ]
-    TOKENS_FOLLOWING_methoddeclaration_IN_mainclass_102 = Set[ 4, 23, 31, 32, 33, 34 ]
-    TOKENS_FOLLOWING_methodmain_IN_mainclass_105 = Set[ 22 ]
-    TOKENS_FOLLOWING_T__22_IN_mainclass_107 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__23_IN_methodmain_122 = Set[ 24 ]
-    TOKENS_FOLLOWING_T__24_IN_methodmain_124 = Set[ 25 ]
-    TOKENS_FOLLOWING_T__25_IN_methodmain_126 = Set[ 26 ]
-    TOKENS_FOLLOWING_T__26_IN_methodmain_137 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_methodmain_139 = Set[ 21 ]
-    TOKENS_FOLLOWING_T__21_IN_methodmain_141 = Set[ 4, 22, 29, 31, 32, 33, 34, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_vardeclaration_IN_methodmain_143 = Set[ 4, 22, 29, 31, 32, 33, 34, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_statement_IN_methodmain_146 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_T__22_IN_methodmain_149 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__19_IN_classdeclaration_166 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_classdeclaration_168 = Set[ 21, 28 ]
-    TOKENS_FOLLOWING_inherits_IN_classdeclaration_170 = Set[ 21 ]
-    TOKENS_FOLLOWING_T__21_IN_classdeclaration_174 = Set[ 4, 22, 23, 31, 32, 33, 34 ]
-    TOKENS_FOLLOWING_vardeclaration_IN_classdeclaration_176 = Set[ 4, 22, 23, 31, 32, 33, 34 ]
-    TOKENS_FOLLOWING_methoddeclaration_IN_classdeclaration_179 = Set[ 22, 23 ]
-    TOKENS_FOLLOWING_T__22_IN_classdeclaration_182 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__28_IN_inherits_192 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_inherits_194 = Set[ 1 ]
-    TOKENS_FOLLOWING_type_IN_vardeclaration_207 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_vardeclaration_209 = Set[ 29 ]
-    TOKENS_FOLLOWING_T__29_IN_vardeclaration_219 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__23_IN_methoddeclaration_231 = Set[ 4, 24, 31, 32, 33, 34 ]
-    TOKENS_FOLLOWING_primitivetype_IN_methoddeclaration_234 = Set[ 4 ]
-    TOKENS_FOLLOWING_classtype_IN_methoddeclaration_238 = Set[ 4 ]
-    TOKENS_FOLLOWING_T__24_IN_methoddeclaration_242 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_methoddeclaration_245 = Set[ 26 ]
-    TOKENS_FOLLOWING_T__26_IN_methoddeclaration_247 = Set[ 4, 27, 31, 32, 33, 34 ]
-    TOKENS_FOLLOWING_parameters_IN_methoddeclaration_249 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_methoddeclaration_252 = Set[ 21 ]
-    TOKENS_FOLLOWING_T__21_IN_methoddeclaration_254 = Set[ 4, 22, 29, 31, 32, 33, 34, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_vardeclaration_IN_methoddeclaration_256 = Set[ 4, 22, 29, 31, 32, 33, 34, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_statement_IN_methoddeclaration_259 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_T__22_IN_methoddeclaration_262 = Set[ 1 ]
-    TOKENS_FOLLOWING_type_IN_parameters_272 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_parameters_274 = Set[ 1, 30 ]
-    TOKENS_FOLLOWING_T__30_IN_parameters_277 = Set[ 4, 31, 32, 33, 34 ]
-    TOKENS_FOLLOWING_type_IN_parameters_279 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_parameters_281 = Set[ 1, 30 ]
-    TOKENS_FOLLOWING_set_IN_primitivetype_301 = Set[ 1 ]
-    TOKENS_FOLLOWING_primitivetype_IN_arraytype_327 = Set[ 35 ]
-    TOKENS_FOLLOWING_T__35_IN_arraytype_328 = Set[ 5 ]
-    TOKENS_FOLLOWING_INTEGER_IN_arraytype_330 = Set[ 36 ]
-    TOKENS_FOLLOWING_T__36_IN_arraytype_332 = Set[ 1 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_classtype_342 = Set[ 1 ]
-    TOKENS_FOLLOWING_primitivetype_IN_type_363 = Set[ 1 ]
-    TOKENS_FOLLOWING_arraytype_IN_type_367 = Set[ 1 ]
-    TOKENS_FOLLOWING_classtype_IN_type_371 = Set[ 1 ]
-    TOKENS_FOLLOWING_assignment_IN_statement_383 = Set[ 1 ]
-    TOKENS_FOLLOWING_conditional_IN_statement_388 = Set[ 1 ]
-    TOKENS_FOLLOWING_invocation_IN_statement_392 = Set[ 29 ]
-    TOKENS_FOLLOWING_T__29_IN_statement_394 = Set[ 1 ]
-    TOKENS_FOLLOWING_loop_IN_statement_398 = Set[ 1 ]
-    TOKENS_FOLLOWING_print_IN_statement_402 = Set[ 1 ]
-    TOKENS_FOLLOWING_returnstmt_IN_statement_406 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__29_IN_statement_410 = Set[ 1 ]
-    TOKENS_FOLLOWING_lhsassignment_IN_assignment_421 = Set[ 37 ]
-    TOKENS_FOLLOWING_T__37_IN_assignment_423 = Set[ 4, 5, 9, 10, 26, 39, 40, 47, 48, 49 ]
-    TOKENS_FOLLOWING_rhsassignment_IN_assignment_425 = Set[ 29 ]
-    TOKENS_FOLLOWING_T__29_IN_assignment_427 = Set[ 1 ]
-    TOKENS_FOLLOWING_arrayaccess_IN_lhsassignment_438 = Set[ 1 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_444 = Set[ 38 ]
-    TOKENS_FOLLOWING_T__38_IN_lhsassignment_446 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_448 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__39_IN_lhsassignment_455 = Set[ 38 ]
-    TOKENS_FOLLOWING_T__38_IN_lhsassignment_457 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_459 = Set[ 1 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_467 = Set[ 1 ]
-    TOKENS_FOLLOWING_expression_IN_rhsassignment_489 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__40_IN_rhsassignment_503 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_rhsassignment_505 = Set[ 26 ]
-    TOKENS_FOLLOWING_T__26_IN_rhsassignment_507 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_rhsassignment_509 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__41_IN_returnstmt_523 = Set[ 4, 5, 9, 10, 26, 29, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_expression_IN_returnstmt_525 = Set[ 29 ]
-    TOKENS_FOLLOWING_T__29_IN_returnstmt_528 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__42_IN_conditional_540 = Set[ 26 ]
-    TOKENS_FOLLOWING_T__26_IN_conditional_542 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_expression_IN_conditional_544 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_conditional_546 = Set[ 21 ]
-    TOKENS_FOLLOWING_T__21_IN_conditional_548 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_statement_IN_conditional_550 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_T__22_IN_conditional_553 = Set[ 1, 43, 44 ]
-    TOKENS_FOLLOWING_T__43_IN_conditional_556 = Set[ 26 ]
-    TOKENS_FOLLOWING_T__26_IN_conditional_558 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_expression_IN_conditional_560 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_conditional_562 = Set[ 21 ]
-    TOKENS_FOLLOWING_T__21_IN_conditional_564 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_statement_IN_conditional_566 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_T__22_IN_conditional_569 = Set[ 1, 43, 44 ]
-    TOKENS_FOLLOWING_T__44_IN_conditional_575 = Set[ 21 ]
-    TOKENS_FOLLOWING_T__21_IN_conditional_577 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_statement_IN_conditional_579 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_T__22_IN_conditional_582 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__45_IN_loop_597 = Set[ 26 ]
-    TOKENS_FOLLOWING_T__26_IN_loop_599 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_expression_IN_loop_601 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_loop_603 = Set[ 21 ]
-    TOKENS_FOLLOWING_T__21_IN_loop_605 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_statement_IN_loop_607 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
-    TOKENS_FOLLOWING_T__22_IN_loop_610 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__46_IN_print_622 = Set[ 26 ]
-    TOKENS_FOLLOWING_T__26_IN_print_624 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_expression_IN_print_626 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_print_628 = Set[ 29 ]
-    TOKENS_FOLLOWING_T__29_IN_print_630 = Set[ 1 ]
-    TOKENS_FOLLOWING_exp_IN_expression_641 = Set[ 1, 6 ]
-    TOKENS_FOLLOWING_COMPARITIONOPERATORS_IN_expression_644 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_exp_IN_expression_658 = Set[ 1 ]
-    TOKENS_FOLLOWING_term_IN_exp_684 = Set[ 1, 7 ]
-    TOKENS_FOLLOWING_ADDITIONSUBSTRACTIONOPERATORS_IN_exp_687 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_term_IN_exp_714 = Set[ 1, 7 ]
-    TOKENS_FOLLOWING_factor_IN_term_752 = Set[ 1, 8 ]
-    TOKENS_FOLLOWING_MULTIPLICATIONDIVISIONOPERATORS_IN_term_755 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_factor_IN_term_782 = Set[ 1, 8 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_factor_822 = Set[ 38 ]
-    TOKENS_FOLLOWING_T__38_IN_factor_824 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_factor_826 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__39_IN_factor_833 = Set[ 38 ]
-    TOKENS_FOLLOWING_T__38_IN_factor_835 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_factor_837 = Set[ 1 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_factor_845 = Set[ 1 ]
-    TOKENS_FOLLOWING_INTEGER_IN_factor_856 = Set[ 1 ]
-    TOKENS_FOLLOWING_FLOAT_IN_factor_869 = Set[ 1 ]
-    TOKENS_FOLLOWING_CHAR_IN_factor_875 = Set[ 1 ]
-    TOKENS_FOLLOWING_read_IN_factor_881 = Set[ 1 ]
-    TOKENS_FOLLOWING_invocation_IN_factor_887 = Set[ 1 ]
-    TOKENS_FOLLOWING_arrayaccess_IN_factor_893 = Set[ 1 ]
-    TOKENS_FOLLOWING_T__26_IN_factor_902 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_expression_IN_factor_914 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_factor_921 = Set[ 1 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_arrayaccess_938 = Set[ 35 ]
-    TOKENS_FOLLOWING_T__35_IN_arrayaccess_939 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_expression_IN_arrayaccess_941 = Set[ 36 ]
-    TOKENS_FOLLOWING_T__36_IN_arrayaccess_943 = Set[ 1 ]
-    TOKENS_FOLLOWING_set_IN_read_952 = Set[ 26 ]
-    TOKENS_FOLLOWING_T__26_IN_read_964 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_read_966 = Set[ 1 ]
-    TOKENS_FOLLOWING_set_IN_invocation_976 = Set[ 38 ]
-    TOKENS_FOLLOWING_T__38_IN_invocation_984 = Set[ 4 ]
-    TOKENS_FOLLOWING_IDENTIFIER_IN_invocation_986 = Set[ 26 ]
-    TOKENS_FOLLOWING_T__26_IN_invocation_988 = Set[ 4, 5, 9, 10, 26, 27, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_arguments_IN_invocation_990 = Set[ 27 ]
-    TOKENS_FOLLOWING_T__27_IN_invocation_993 = Set[ 1 ]
-    TOKENS_FOLLOWING_expression_IN_arguments_1003 = Set[ 1, 30 ]
-    TOKENS_FOLLOWING_T__30_IN_arguments_1006 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
-    TOKENS_FOLLOWING_expression_IN_arguments_1008 = Set[ 1, 30 ]
+    TOKENS_FOLLOWING_T__20_IN_mainclass_89 = Set[ 21 ]
+    TOKENS_FOLLOWING_T__21_IN_mainclass_101 = Set[ 4, 23, 31, 32, 33, 34 ]
+    TOKENS_FOLLOWING_vardeclaration_IN_mainclass_107 = Set[ 4, 23, 31, 32, 33, 34 ]
+    TOKENS_FOLLOWING_methoddeclaration_IN_mainclass_114 = Set[ 4, 23, 31, 32, 33, 34 ]
+    TOKENS_FOLLOWING_methodmain_IN_mainclass_121 = Set[ 22 ]
+    TOKENS_FOLLOWING_T__22_IN_mainclass_127 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__23_IN_methodmain_142 = Set[ 24 ]
+    TOKENS_FOLLOWING_T__24_IN_methodmain_148 = Set[ 25 ]
+    TOKENS_FOLLOWING_T__25_IN_methodmain_154 = Set[ 26 ]
+    TOKENS_FOLLOWING_T__26_IN_methodmain_165 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_methodmain_167 = Set[ 21 ]
+    TOKENS_FOLLOWING_T__21_IN_methodmain_169 = Set[ 4, 22, 29, 31, 32, 33, 34, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_vardeclaration_IN_methodmain_171 = Set[ 4, 22, 29, 31, 32, 33, 34, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_statement_IN_methodmain_174 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_T__22_IN_methodmain_177 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__19_IN_classdeclaration_194 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_classdeclaration_196 = Set[ 21, 28 ]
+    TOKENS_FOLLOWING_inherits_IN_classdeclaration_198 = Set[ 21 ]
+    TOKENS_FOLLOWING_T__21_IN_classdeclaration_202 = Set[ 4, 22, 23, 31, 32, 33, 34 ]
+    TOKENS_FOLLOWING_vardeclaration_IN_classdeclaration_204 = Set[ 4, 22, 23, 31, 32, 33, 34 ]
+    TOKENS_FOLLOWING_methoddeclaration_IN_classdeclaration_207 = Set[ 22, 23 ]
+    TOKENS_FOLLOWING_T__22_IN_classdeclaration_210 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__28_IN_inherits_220 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_inherits_222 = Set[ 1 ]
+    TOKENS_FOLLOWING_type_IN_vardeclaration_235 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_vardeclaration_237 = Set[ 29 ]
+    TOKENS_FOLLOWING_T__29_IN_vardeclaration_247 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__23_IN_methoddeclaration_259 = Set[ 4, 24, 31, 32, 33, 34 ]
+    TOKENS_FOLLOWING_primitivetype_IN_methoddeclaration_268 = Set[ 4 ]
+    TOKENS_FOLLOWING_classtype_IN_methoddeclaration_272 = Set[ 4 ]
+    TOKENS_FOLLOWING_T__24_IN_methoddeclaration_276 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_methoddeclaration_285 = Set[ 26 ]
+    TOKENS_FOLLOWING_T__26_IN_methoddeclaration_299 = Set[ 4, 27, 31, 32, 33, 34 ]
+    TOKENS_FOLLOWING_parameters_IN_methoddeclaration_301 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_methoddeclaration_304 = Set[ 21 ]
+    TOKENS_FOLLOWING_T__21_IN_methoddeclaration_312 = Set[ 4, 22, 29, 31, 32, 33, 34, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_vardeclaration_IN_methoddeclaration_314 = Set[ 4, 22, 29, 31, 32, 33, 34, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_statement_IN_methoddeclaration_317 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_T__22_IN_methoddeclaration_320 = Set[ 1 ]
+    TOKENS_FOLLOWING_type_IN_parameters_343 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_parameters_345 = Set[ 1, 30 ]
+    TOKENS_FOLLOWING_T__30_IN_parameters_348 = Set[ 4, 31, 32, 33, 34 ]
+    TOKENS_FOLLOWING_type_IN_parameters_350 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_parameters_352 = Set[ 1, 30 ]
+    TOKENS_FOLLOWING_set_IN_primitivetype_372 = Set[ 1 ]
+    TOKENS_FOLLOWING_primitivetype_IN_arraytype_398 = Set[ 35 ]
+    TOKENS_FOLLOWING_T__35_IN_arraytype_399 = Set[ 5 ]
+    TOKENS_FOLLOWING_INTEGER_IN_arraytype_401 = Set[ 36 ]
+    TOKENS_FOLLOWING_T__36_IN_arraytype_403 = Set[ 1 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_classtype_413 = Set[ 1 ]
+    TOKENS_FOLLOWING_primitivetype_IN_type_434 = Set[ 1 ]
+    TOKENS_FOLLOWING_arraytype_IN_type_438 = Set[ 1 ]
+    TOKENS_FOLLOWING_classtype_IN_type_442 = Set[ 1 ]
+    TOKENS_FOLLOWING_assignment_IN_statement_454 = Set[ 1 ]
+    TOKENS_FOLLOWING_conditional_IN_statement_459 = Set[ 1 ]
+    TOKENS_FOLLOWING_invocation_IN_statement_463 = Set[ 29 ]
+    TOKENS_FOLLOWING_T__29_IN_statement_465 = Set[ 1 ]
+    TOKENS_FOLLOWING_loop_IN_statement_469 = Set[ 1 ]
+    TOKENS_FOLLOWING_print_IN_statement_473 = Set[ 1 ]
+    TOKENS_FOLLOWING_returnstmt_IN_statement_477 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__29_IN_statement_481 = Set[ 1 ]
+    TOKENS_FOLLOWING_lhsassignment_IN_assignment_492 = Set[ 37 ]
+    TOKENS_FOLLOWING_T__37_IN_assignment_494 = Set[ 4, 5, 9, 10, 26, 39, 40, 47, 48, 49 ]
+    TOKENS_FOLLOWING_rhsassignment_IN_assignment_496 = Set[ 29 ]
+    TOKENS_FOLLOWING_T__29_IN_assignment_498 = Set[ 1 ]
+    TOKENS_FOLLOWING_arrayaccess_IN_lhsassignment_509 = Set[ 1 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_515 = Set[ 38 ]
+    TOKENS_FOLLOWING_T__38_IN_lhsassignment_517 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_519 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__39_IN_lhsassignment_526 = Set[ 38 ]
+    TOKENS_FOLLOWING_T__38_IN_lhsassignment_528 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_530 = Set[ 1 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_lhsassignment_538 = Set[ 1 ]
+    TOKENS_FOLLOWING_expression_IN_rhsassignment_560 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__40_IN_rhsassignment_574 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_rhsassignment_576 = Set[ 26 ]
+    TOKENS_FOLLOWING_T__26_IN_rhsassignment_578 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_rhsassignment_580 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__41_IN_returnstmt_594 = Set[ 4, 5, 9, 10, 26, 29, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_expression_IN_returnstmt_596 = Set[ 29 ]
+    TOKENS_FOLLOWING_T__29_IN_returnstmt_599 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__42_IN_conditional_611 = Set[ 26 ]
+    TOKENS_FOLLOWING_T__26_IN_conditional_613 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_expression_IN_conditional_615 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_conditional_617 = Set[ 21 ]
+    TOKENS_FOLLOWING_T__21_IN_conditional_619 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_statement_IN_conditional_621 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_T__22_IN_conditional_624 = Set[ 1, 43, 44 ]
+    TOKENS_FOLLOWING_T__43_IN_conditional_627 = Set[ 26 ]
+    TOKENS_FOLLOWING_T__26_IN_conditional_629 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_expression_IN_conditional_631 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_conditional_633 = Set[ 21 ]
+    TOKENS_FOLLOWING_T__21_IN_conditional_635 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_statement_IN_conditional_637 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_T__22_IN_conditional_640 = Set[ 1, 43, 44 ]
+    TOKENS_FOLLOWING_T__44_IN_conditional_646 = Set[ 21 ]
+    TOKENS_FOLLOWING_T__21_IN_conditional_648 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_statement_IN_conditional_650 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_T__22_IN_conditional_653 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__45_IN_loop_668 = Set[ 26 ]
+    TOKENS_FOLLOWING_T__26_IN_loop_670 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_expression_IN_loop_672 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_loop_674 = Set[ 21 ]
+    TOKENS_FOLLOWING_T__21_IN_loop_676 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_statement_IN_loop_678 = Set[ 4, 22, 29, 39, 41, 42, 45, 46 ]
+    TOKENS_FOLLOWING_T__22_IN_loop_681 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__46_IN_print_693 = Set[ 26 ]
+    TOKENS_FOLLOWING_T__26_IN_print_695 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_expression_IN_print_697 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_print_699 = Set[ 29 ]
+    TOKENS_FOLLOWING_T__29_IN_print_701 = Set[ 1 ]
+    TOKENS_FOLLOWING_exp_IN_expression_712 = Set[ 1, 6 ]
+    TOKENS_FOLLOWING_COMPARITIONOPERATORS_IN_expression_715 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_exp_IN_expression_729 = Set[ 1 ]
+    TOKENS_FOLLOWING_term_IN_exp_755 = Set[ 1, 7 ]
+    TOKENS_FOLLOWING_ADDITIONSUBSTRACTIONOPERATORS_IN_exp_758 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_term_IN_exp_785 = Set[ 1, 7 ]
+    TOKENS_FOLLOWING_factor_IN_term_823 = Set[ 1, 8 ]
+    TOKENS_FOLLOWING_MULTIPLICATIONDIVISIONOPERATORS_IN_term_826 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_factor_IN_term_853 = Set[ 1, 8 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_factor_893 = Set[ 38 ]
+    TOKENS_FOLLOWING_T__38_IN_factor_895 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_factor_897 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__39_IN_factor_904 = Set[ 38 ]
+    TOKENS_FOLLOWING_T__38_IN_factor_906 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_factor_908 = Set[ 1 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_factor_916 = Set[ 1 ]
+    TOKENS_FOLLOWING_INTEGER_IN_factor_927 = Set[ 1 ]
+    TOKENS_FOLLOWING_FLOAT_IN_factor_940 = Set[ 1 ]
+    TOKENS_FOLLOWING_CHAR_IN_factor_946 = Set[ 1 ]
+    TOKENS_FOLLOWING_read_IN_factor_952 = Set[ 1 ]
+    TOKENS_FOLLOWING_invocation_IN_factor_958 = Set[ 1 ]
+    TOKENS_FOLLOWING_arrayaccess_IN_factor_964 = Set[ 1 ]
+    TOKENS_FOLLOWING_T__26_IN_factor_973 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_expression_IN_factor_985 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_factor_992 = Set[ 1 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_arrayaccess_1009 = Set[ 35 ]
+    TOKENS_FOLLOWING_T__35_IN_arrayaccess_1010 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_expression_IN_arrayaccess_1012 = Set[ 36 ]
+    TOKENS_FOLLOWING_T__36_IN_arrayaccess_1014 = Set[ 1 ]
+    TOKENS_FOLLOWING_set_IN_read_1023 = Set[ 26 ]
+    TOKENS_FOLLOWING_T__26_IN_read_1035 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_read_1037 = Set[ 1 ]
+    TOKENS_FOLLOWING_set_IN_invocation_1047 = Set[ 38 ]
+    TOKENS_FOLLOWING_T__38_IN_invocation_1055 = Set[ 4 ]
+    TOKENS_FOLLOWING_IDENTIFIER_IN_invocation_1057 = Set[ 26 ]
+    TOKENS_FOLLOWING_T__26_IN_invocation_1059 = Set[ 4, 5, 9, 10, 26, 27, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_arguments_IN_invocation_1061 = Set[ 27 ]
+    TOKENS_FOLLOWING_T__27_IN_invocation_1064 = Set[ 1 ]
+    TOKENS_FOLLOWING_expression_IN_arguments_1074 = Set[ 1, 30 ]
+    TOKENS_FOLLOWING_T__30_IN_arguments_1077 = Set[ 4, 5, 9, 10, 26, 39, 47, 48, 49 ]
+    TOKENS_FOLLOWING_expression_IN_arguments_1079 = Set[ 1, 30 ]
 
   end # class Parser < ANTLR3::Parser
 

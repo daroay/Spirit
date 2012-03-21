@@ -93,26 +93,25 @@ options { language = Ruby; }
       when type_a == 'float' && type_b == 'float'
         return 'float'
       else
-        raise "Wrong combination of types #{type_a} and #{type_b}"
-        return nil
+        raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       end
     when operator == '/'
       if((type_a == 'int' || type_a == 'float') && (type_b == 'int' || type_b == 'float'))
         return 'float'
       else
-        raise "Wrong combination of types #{type_a} and #{type_b}"
+        raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       end
     when operator == 'mod'
       if(type_a == 'int' && type_b == 'int')
         return 'int'
       else
-        raise "Wrong combination of types #{type_a} and #{type_b}"
+        raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       end
     when operator == '&&' || operator == '||'
       if(type_a == 'boolean' && type_b == 'boolean')
         return 'boolean'
       else
-        raise "Wrong combination of types #{type_a} and #{type_b}"
+        raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       end
     when (operator == '==' ||  operator == '!=')
       return 'boolean'
@@ -120,7 +119,7 @@ options { language = Ruby; }
       if((type_a == 'int' || type_a == 'float') && (type_b == 'int' || type_b == 'float'))
         return 'boolean'
       else
-        raise "Wrong combination of types #{type_a} and #{type_b}"
+        raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       end
     end
   end
@@ -165,18 +164,25 @@ goal
 	    };
 
 mainclass 
-	:	'class' 'Main' 
+	:	'class' 
+	  'Main' 
 	  {
 	    @classes['Main'] = ClassSymbol.new('Main')
 	    @current_class = @classes['Main']
 	  } 
-	  '{' vardeclaration* methoddeclaration* methodmain '}'
+	  '{' 
+	  vardeclaration* 
+	  methoddeclaration* 
+	  methodmain 
+	  '}'
 	  {
 	    @current_class = nil
 	  };
 	
 methodmain
-	:	'method' 'void' 'main' 
+	:	'method' 
+	  'void' 
+	  'main' 
 	  { 
 	    @current_class.instance_methods['main'] = MethodSymbol.new('main')
 	    @current_method = @current_class.instance_methods['main']
@@ -202,9 +208,22 @@ vardeclaration
 	    end
 	  }
 	  ';';
-	
+
+//Esta pendiente
 methoddeclaration 
-	: 	'method' (primitivetype | classtype | 'void') IDENTIFIER '(' parameters? ')' '{' vardeclaration* statement* '}';
+	: 	'method' 
+	    (primitivetype | classtype | 'void') 
+	    IDENTIFIER
+	    { 
+	      @current_class.instance_methods[$IDENTIFIER.text] = MethodSymbol.new($IDENTIFIER.text)
+	      @current_method = @current_class.instance_methods[$IDENTIFIER.text]
+	    }
+	    '(' parameters? ')' 
+	    '{' vardeclaration* statement* '}'
+	    {
+	      @current_method = nil
+	    }
+	    ;
 	
 parameters
 	:	type IDENTIFIER (',' type IDENTIFIER)*;
@@ -244,14 +263,14 @@ lhsassignment
 			      @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
 			      @stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
 			    else
-			      raise "Variable #{$IDENTIFIER.text} not declared"
+			      raise "Variable #{$IDENTIFIER.text} not declared in class #{@current_class.name} or method #{@current_method.name}"
 			    end
 			  else
 			  	if( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
 			  	  @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
 			  	  @stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
 			    else
-			      raise "Variable #{$IDENTIFIER.text} not declared"
+			      raise "Variable #{$IDENTIFIER.text} not declared in class #{@current_class.name}"
 			    end
 			  end
 	    }
@@ -265,7 +284,7 @@ rhsassignment
       lh = @stack_operands.pop
       lh_t = @stack_types.pop
       if(lh_t != rh_t)
-        raise "#Tried to assign #{rh_t} to #{lh_t}"
+        raise "Tried to assign #{rh_t} to #{lh_t}"
       end
       generate('=', rh, nil ,lh )
       free_avail(rh)
@@ -287,11 +306,11 @@ print
 
 expression 
 	: 	exp (COMPARITIONOPERATORS
-	    {  #Regla 8
+	    { #Regla 8
 	      @stack_operators.push($COMPARITIONOPERATORS.text)
 	    }
 	    exp
-	    {
+	    { #Regla 9
 		    operator = @stack_operators.pop
 		    operand_b = @stack_operands.pop
 		    operand_a = @stack_operands.pop
