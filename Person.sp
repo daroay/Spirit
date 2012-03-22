@@ -4,8 +4,10 @@ class Person extends Animal{
   int ssn;
 
   method void Person(float age, int ssn){
+    int j;
+    j = 0;
     this.age = age;
-    this.ssn = ssn;
+    this.ssn = j;
   }
 
   method void setAge(float a) {

@@ -10,9 +10,29 @@ options { language = Ruby; }
     end
   end
   
+  class Integer
+    def temporal?
+      if(self >= 4000 and self <= 4999) then
+        return true
+      end
+      return false
+    end
+    
+     def constant?
+      if(self >= 3000 and self <= 3999) then
+        return true
+      end
+      return false
+    end
+  end
+  
   class String
     def temporal?
-      self[0..1] == "&t"
+      return self.to_i.temporal?
+    end
+    
+    def constant?
+      return self.to_i.constant?
     end
   end
   
@@ -23,27 +43,42 @@ options { language = Ruby; }
     def initialize(n, t)
       @name = n
       @type = t
-      @address = "dir#{n}" #Cambiar esto y poner direccion
+      @address = nil
     end
     
   end
   
   #Contiene nombre, hash de variables de instancia, hash de metodos y super clase
   class ClassSymbol
-    attr_accessor :name, :instance_variables, :instance_methods, :parent_class
+    attr_accessor :name, :instance_methods, :parent_class
+    attr_reader :instance_variables
+    
+    START_ADDRESS = 2000
+    FINISH_ADDRESS = 2999
     
     def initialize(n, p = nil)
       @name = n #String
       @parent_class = p #ClassSymbol
       @instance_variables = Hash.new #VariableSymbol
       @instance_methods = Hash.new #MethodSymbol
+      @next_address = START_ADDRESS
+    end
+    
+    def set_to_instance_variables(key, vs)
+      vs.address = @next_address
+      @next_address += 1
+      @instance_variables[key] = vs
     end
     
   end
   
   #Contiene tipo de retorno, lista de variables locales, lista de variables de parametro, 
   class MethodSymbol
-    attr_accessor :name, :return_type, :local_variables, :parameter_variables, :container_class
+    attr_accessor :name, :return_type, :parameter_variables, :container_class
+    attr_reader :local_variables
+    
+    START_ADDRESS = 1000
+    FINISH_ADDRESS = 1999
     
     def initialize(n, r = nil, c = nil)
       @name = n #String
@@ -51,6 +86,13 @@ options { language = Ruby; }
       @container_class = c #ClassSymbol
       @local_variables = Hash.new #VariableSymbol
       @parameter_variables = Hash.new #VariableSymbol
+      @next_address = START_ADDRESS
+    end
+    
+    def set_to_local_variables(key, vs)
+      vs.address = @next_address
+      @next_address += 1
+      @local_variables[key] = vs
     end
     
   end
@@ -70,7 +112,42 @@ options { language = Ruby; }
   @current_method = nil
 
   #Creamos direcciones temporales
-  @avail = ["&t0", "&t1", "&t2","&t3", "&t4","&t5", "&t6","&t7", "&t8","&t9"]  
+  @avail = []
+  create_avail = Proc.new {
+    1000.times do |i|
+      @avail << "#{i + 4000}"
+    end
+  }
+  create_avail.call()
+  
+  def get_avail
+    return @avail.delete_at(0)
+  end
+  
+  def free_avail(a)
+    if(a.temporal?) then
+      @avail.insert(0,a)
+    end
+  end
+  
+  #Creamos direcciones de constantes
+  @avail_const = []
+  create_avail_const = Proc.new {
+    1000.times do |i|
+      @avail_const << "#{i + 3000}"
+    end
+  }
+  create_avail_const.call()
+  
+  def get_avail_const
+    return @avail_const.delete_at(0)
+  end
+  
+  def free_avail_const(a)
+    if(a.constant?) then
+      @avail_const.insert(0,a)
+    end
+  end
   
   @stack_operators = Stack.new
   @stack_operands = Stack.new
@@ -132,15 +209,6 @@ options { language = Ruby; }
     end
   end
   
-  def get_avail
-    return @avail.delete_at(0)
-  end
-  
-  def free_avail(a)
-    if(a.temporal?) then
-      @avail.insert(0,a)
-    end
-  end
   
   def fill(dir,value)
     @fourfold[dir][3] = value
@@ -180,7 +248,7 @@ mainclass
 	    @current_class = @classes['Main']
 	  } 
 	  '{' 
-	  vardeclaration* 
+	  vardeclaration*
 	  methoddeclaration* 
 	  methodmain 
 	  '}'
@@ -211,9 +279,9 @@ vardeclaration
 	:	t = type IDENTIFIER
 	  {
 	    if(not @current_method.nil?)
-	      @current_method.local_variables[$IDENTIFIER.text] = VariableSymbol.new($IDENTIFIER.text, $t.type_a)
+	      @current_method.set_to_local_variables($IDENTIFIER.text,VariableSymbol.new($IDENTIFIER.text, $t.type_a))
 	    else
-	      @current_class.instance_variables[$IDENTIFIER.text] = VariableSymbol.new($IDENTIFIER.text, $t.type_a)
+	      @current_class.set_to_instance_variables($IDENTIFIER.text, VariableSymbol.new($IDENTIFIER.text, $t.type_a))
 	    end
 	  }
 	  ';';
@@ -298,6 +366,7 @@ rhsassignment
       end
       generate('=', rh, nil ,lh )
       free_avail(rh)
+      free_avail_const(rh)
     }
 	  | 'new' IDENTIFIER '(' ')'
 	  ;
@@ -372,6 +441,8 @@ expression
 		    generate(operator, operand_a, operand_b, result)
 		    free_avail(operand_a)
 		    free_avail(operand_b)
+		    free_avail_const(operand_a)
+		    free_avail_const(operand_b)
 		    @stack_operands.push(result)
 		    @stack_types.push(resulting_type(@stack_types.pop, @stack_types.pop, operator))
 	    }
@@ -394,6 +465,8 @@ exp
                generate(operator, operand_a, operand_b, result)
                free_avail(operand_a)
                free_avail(operand_b)
+               free_avail_const(operand_a)
+               free_avail_const(operand_b)
                @stack_operands.push(result)
                @stack_types.push(resulting_type(@stack_types.pop, @stack_types.pop, operator))
              end
@@ -417,6 +490,8 @@ term
 		             generate(operator, operand_a, operand_b, result)
 		             free_avail(operand_a)
 		             free_avail(operand_b)
+                 free_avail_const(operand_a)
+                 free_avail_const(operand_b)
 		             @stack_operands.push(result)
 		             @stack_types.push(resulting_type(@stack_types.pop, @stack_types.pop, operator))
 		           end
@@ -451,17 +526,23 @@ factor
 			}
 		| INTEGER 
 		  { #Regla 1 GC
-				@stack_operands.push($INTEGER.text)
+		    dir_const = get_avail_const
+		    generate('ict', $INTEGER.text, nil, dir_const )
+				@stack_operands.push(dir_const)
 				@stack_types.push('int')
 		  }
 		| FLOAT
 		  { #Regla 1 GC
-				@stack_operands.push($FLOAT.text)
+		    dir_const = get_avail_const
+		    generate('fct', $FLOAT.text, nil, dir_const )
+				@stack_operands.push(dir_const)
 				@stack_types.push('float')
 		  }
 		| CHAR
 		  { #Regla 1 GC
-				@stack_operands.push($CHAR.text)
+		    dir_const = get_avail_const
+		    generate('cct', $CHAR.text, nil, dir_const )
+				@stack_operands.push(dir_const)
 				@stack_types.push('char')
 		  }
 		| read

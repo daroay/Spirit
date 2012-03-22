@@ -1,10 +1,13 @@
 class Main {
 
+  float z;
+
   method void main() {
     float b;
     boolean a;
     float c;
     boolean x;
+    z = 7.7;
     b = 0.0;
     if(b == 0.0) {
       while(a == x){
