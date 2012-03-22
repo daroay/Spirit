@@ -114,10 +114,18 @@ options { language = Ruby; }
         raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       end
     when (operator == '==' ||  operator == '!=')
-      return 'boolean'
+      if(type_a != type_b)
+        raise "Cant apply #{operator} to #{type_a} and #{type_b}"
+      else
+        return 'boolean'
+      end
     when (operator == '<' || operator == '>' || operator == '<=' || operator == '>=')
       if((type_a == 'int' || type_a == 'float') && (type_b == 'int' || type_b == 'float'))
-        return 'boolean'
+        if(type_a != type_b)
+          raise "Cant apply #{operator} to #{type_a} and #{type_b}"
+        else
+          return 'boolean'
+        end
       else
         raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       end
@@ -134,8 +142,8 @@ options { language = Ruby; }
     end
   end
   
-  def fill(dir,cont)
-    puts "Si que si!"
+  def fill(dir,value)
+    @fourfold[dir][3] = value
   end
   
   def generate(oper,a,b,c)
@@ -145,6 +153,7 @@ options { language = Ruby; }
   
   def print_fourfold
 		@fourfold.size.times do |i|
+		  \$stdout.print "#{i}) "
 		  @fourfold[i].size.times do |j|
 		    \$stdout.print "#{@fourfold[i][j]}, "
 		  end
@@ -184,7 +193,7 @@ methodmain
 	  'void' 
 	  'main' 
 	  { 
-	    @current_class.instance_methods['main'] = MethodSymbol.new('main')
+	    @current_class.instance_methods['main'] = MethodSymbol.new('main', 'void', @current_class)
 	    @current_method = @current_class.instance_methods['main']
 	  }
 	  '(' ')' '{' vardeclaration* statement* '}'
@@ -212,10 +221,10 @@ vardeclaration
 //Esta pendiente
 methoddeclaration 
 	: 	'method' 
-	    (primitivetype | classtype | 'void') 
+	    t = (primitivetype | classtype) 
 	    IDENTIFIER
 	    { 
-	      @current_class.instance_methods[$IDENTIFIER.text] = MethodSymbol.new($IDENTIFIER.text)
+	      @current_class.instance_methods[$IDENTIFIER.text] = MethodSymbol.new($IDENTIFIER.text, $t.type_a, @current_class)
 	      @current_method = @current_class.instance_methods[$IDENTIFIER.text]
 	    }
 	    '(' parameters? ')' 
@@ -230,17 +239,18 @@ parameters
 
 primitivetype
 	returns [type_a]:	
-	t = ('int' | 'char' | 'float' | 'boolean') {$type_a = $t.text};
+	t = ('int' | 'char' | 'float' | 'boolean' | 'void') {$type_a = $t.text};
 	
 arraytype
 	:	primitivetype '[' INTEGER ']';
 	
 classtype
-	:	IDENTIFIER;
+  returns [type_a]:
+	t = IDENTIFIER {$type_a = $t.text};
 
 type 
 	returns [type_a]: 	
-	(t = primitivetype | arraytype | classtype) {$type_a = $t.type_a};
+	(t = primitivetype | arraytype | t = classtype) {$type_a = $t.type_a};
 
 statement
 	:	assignment  | conditional | invocation ';' | loop | print | returnstmt | ';';
@@ -296,10 +306,54 @@ returnstmt
 	:	'return' expression? ';';
 	
 conditional 
-	:	 'if' '(' expression ')' '{' statement* '}' ('elsif' '(' expression ')' '{' statement* '}' )* ('else' '{' statement* '}' )?;
+	:	 'if' '(' expression ')'
+	   {
+	     aux = @stack_types.pop
+	     if (aux != 'boolean') then
+	       raise "Expression inside if-statement is not boolean"
+	     else
+	       result = @stack_operands.pop
+	       generate('gtf', result, nil, '_')
+	       @stack_jumps.push(@cont - 1)
+	     end
+	   }
+	   '{' statement* '}' 
+	   ('else'
+	   {
+	     generate('gt', nil, nil, '_')
+	     false_result = @stack_jumps.pop
+	     fill(false_result, @cont)
+	     @stack_jumps.push(@cont - 1)
+	   }
+	   '{' statement* '}' )?
+	   {
+	     fin = @stack_jumps.pop
+	     fill(fin, @cont)
+	   };
 	
 loop 
-	: 	'while' '(' expression ')' '{' statement* '}';
+	: 	'while'
+	    {
+	      @stack_jumps.push(@cont)
+	    }
+	    '(' expression ')'
+	    {
+	      aux = @stack_types.pop
+	      if(aux != 'boolean') then
+	        raise "Expression inside while-statement is not boolean"
+	      else
+	        result = @stack_operands.pop
+	        generate('gtf', result, nil, '_')
+	        @stack_jumps.push(@cont - 1)
+	      end
+	    }
+	    '{' statement* '}'
+	    {
+	      false_result = @stack_jumps.pop
+	      return_result = @stack_jumps.pop
+	      generate('gt', nil, nil, return_result)
+	      fill(false_result, @cont)
+	    };
 	
 print 
 	: 	'print' '(' expression ')' ';';
@@ -393,7 +447,7 @@ factor
 			    else
 			      raise "Variable #{$IDENTIFIER.text} not declared"
 			    end
-			  end 
+			  end
 			}
 		| INTEGER 
 		  { #Regla 1 GC
@@ -401,7 +455,15 @@ factor
 				@stack_types.push('int')
 		  }
 		| FLOAT
+		  { #Regla 1 GC
+				@stack_operands.push($FLOAT.text)
+				@stack_types.push('float')
+		  }
 		| CHAR
+		  { #Regla 1 GC
+				@stack_operands.push($CHAR.text)
+				@stack_types.push('char')
+		  }
 		| read
 		| invocation
 		| arrayaccess			//arr[5]
