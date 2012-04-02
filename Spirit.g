@@ -36,6 +36,7 @@ options { language = Ruby; }
     end
   end
   
+  
   #Contiene nombre, tipo y direccion de una variable
   class VariableSymbol
     attr_accessor :name, :type, :address
@@ -67,18 +68,22 @@ options { language = Ruby; }
     def set_to_instance_variables(key, vs)
       vs.address = @next_address
       @next_address += 1
-      @instance_variables[key] = vs
+      if(@instance_variables[key].nil?)
+        @instance_variables[key] = vs
+      else
+        raise "Variable '#{key}' ya declarada"
+      end
     end
     
   end
   
   #Contiene tipo de retorno, lista de variables locales, lista de variables de parametro, 
   class MethodSymbol
-    attr_accessor :name, :return_type, :parameter_variables, :container_class
-    attr_reader :local_variables
+    attr_accessor :name, :return_type, :parameter_variables, :container_class, :local_variables, :starting_fourfold
     
-    START_ADDRESS = 1000
-    FINISH_ADDRESS = 1999
+    VARIABLE_START_ADDRESS = 1000
+    VARIABLE_FINISH_ADDRESS = 1999
+    
     
     def initialize(n, r = nil, c = nil)
       @name = n #String
@@ -86,13 +91,34 @@ options { language = Ruby; }
       @container_class = c #ClassSymbol
       @local_variables = Hash.new #VariableSymbol
       @parameter_variables = Hash.new #VariableSymbol
-      @next_address = START_ADDRESS
+      @next_variable_address = VARIABLE_START_ADDRESS
     end
     
     def set_to_local_variables(key, vs)
-      vs.address = @next_address
-      @next_address += 1
-      @local_variables[key] = vs
+      vs.address = @next_variable_address
+      @next_variable_address += 1
+      if(@local_variables[key].nil?)
+        @local_variables[key] = vs
+      else
+        raise "Variable '#{key}' ya declarada"
+      end
+    end
+    
+    def set_to_parameter_variables(key, vs)
+      if(@parameter_variables[key].nil?)
+        @parameter_variables[key] = vs
+        set_to_local_variables(key, vs)
+      else
+        raise "Parametro '#{key}' ya declarado"
+      end
+    end
+    
+    def parameters_count
+      parameter_variables.count
+    end
+    
+    def variables_count
+      local_variables.count
     end
     
   end
@@ -249,6 +275,7 @@ mainclass
 	  } 
 	  '{' 
 	  vardeclaration*
+	  assignment*
 	  methoddeclaration* 
 	  methodmain 
 	  '}'
@@ -263,6 +290,7 @@ methodmain
 	  { 
 	    @current_class.instance_methods['main'] = MethodSymbol.new('main', 'void', @current_class)
 	    @current_method = @current_class.instance_methods['main']
+	    @current_method.starting_fourfold = @cont
 	  }
 	  '(' ')' '{' vardeclaration* statement* '}'
 	  {
@@ -270,7 +298,7 @@ methodmain
 	  };
 	
 classdeclaration 
-	: 	'class' IDENTIFIER inherits?  '{' vardeclaration* methoddeclaration* '}';
+	: 	'class' IDENTIFIER inherits?  '{' vardeclaration* assignment* methoddeclaration* '}';
 	
 inherits
 	:	'extends' IDENTIFIER;
@@ -289,11 +317,12 @@ vardeclaration
 //Esta pendiente
 methoddeclaration 
 	: 	'method' 
-	    t = (primitivetype | classtype) 
+	    (t = primitivetype | t = classtype)
 	    IDENTIFIER
 	    { 
 	      @current_class.instance_methods[$IDENTIFIER.text] = MethodSymbol.new($IDENTIFIER.text, $t.type_a, @current_class)
 	      @current_method = @current_class.instance_methods[$IDENTIFIER.text]
+	      @current_method.starting_fourfold = @cont
 	    }
 	    '(' parameters? ')' 
 	    '{' vardeclaration* statement* '}'
@@ -302,12 +331,23 @@ methoddeclaration
 	    }
 	    ;
 	
+	
 parameters
-	:	type IDENTIFIER (',' type IDENTIFIER)*;
+	:  parameter (',' parameter)*;
+	
+parameter
+  :  t = type
+     IDENTIFIER
+     {
+       @current_method.set_to_parameter_variables($IDENTIFIER.text,VariableSymbol.new($IDENTIFIER.text, $t.type_a))
+     };
 
 primitivetype
 	returns [type_a]:	
-	t = ('int' | 'char' | 'float' | 'boolean' | 'void') {$type_a = $t.text};
+	t = ('int' | 'char' | 'float' | 'boolean' | 'void') 
+	{
+	  $type_a = $t.text
+	};
 	
 arraytype
 	:	primitivetype '[' INTEGER ']';
@@ -565,10 +605,50 @@ arrayaccess
 read	:	('readint' | 'readdouble' | 'readchar') '(' ')';
 
 invocation
-	:	 (IDENTIFIER | 'this') '.' IDENTIFIER '(' arguments? ')';
+	:	 (callingclass '.')?
+	   IDENTIFIER
+	   {
+	     if(@current_class.instance_methods[$IDENTIFIER.text].nil?)
+	       raise "El metodo invocado no existe"
+	     end
+	     @method_called = $IDENTIFIER.text
+	     generate("era", @method_called, nil, nil)
+	   }
+	   '(' 
+	   {
+	     @argument_counter = 1;
+	   }
+	   arguments? 
+	   ')'
+	;
+	
+callingclass
+  : IDENTIFIER | 'this'
+    {
+      @class_called = nil #Pending
+    };
+	
+	
 	
 arguments
-	:	expression (',' expression)*;
+	:	expression
+	  {
+	    argument = @stack_operands.pop 
+	    argument_type = @stack_types.pop
+	    parameter_type = @classes[@class_called].instance_methods[@method_called].parameter_variables[].type
+	    if(argument_type != parameter_type)
+	      raise "Parametro #{argument} no es del tipo #{parameter_type}"
+	    end 
+	  }
+	  (
+	     ',' 
+	     expression
+	     {
+	       
+	     }
+	  )*
+	;
+
 	
 /* Tokens */
 MULTIPLICATIONDIVISIONOPERATORS

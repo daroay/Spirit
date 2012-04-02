@@ -1,23 +1,24 @@
 class Main {
 
-  float z;
+  method int suma(a, int b){
+    a = 10;
+    if(a > 10){
+      a = 100;
+    }else{
+      b = 11;
+    }
+  }
+  
+  
+  method float divide(int a, int b){
+    b = 10;
+  }
 
   method void main() {
-    float b;
-    boolean a;
-    float c;
-    boolean x;
-    z = 7.7;
-    b = 0.0;
-    if(b == 0.0) {
-      while(a == x){
-        b = (5 + 7) * 9 + (4 - 1) / 7;
-        c = b / 2;
-      }
-    }else{
-      a = (b >= c);
-    }
-    x = a && (a || a);
+    int a;
+    int b;
+    int c;
+    suma(a ,b);
   }
   
 }
