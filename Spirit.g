@@ -80,9 +80,10 @@ options { language = Ruby; }
   #Contiene tipo de retorno, lista de variables locales, lista de variables de parametro, 
   class MethodSymbol
     attr_accessor :name, :return_type, :parameter_variables, :container_class, :local_variables, :starting_fourfold
+    attr_accessor :parameter_list
     
-    VARIABLE_START_ADDRESS = 1000
-    VARIABLE_FINISH_ADDRESS = 1999
+    START_ADDRESS = 1000
+    FINISH_ADDRESS = 1999
     
     
     def initialize(n, r = nil, c = nil)
@@ -91,7 +92,8 @@ options { language = Ruby; }
       @container_class = c #ClassSymbol
       @local_variables = Hash.new #VariableSymbol
       @parameter_variables = Hash.new #VariableSymbol
-      @next_variable_address = VARIABLE_START_ADDRESS
+      @parameter_list = Array.new #VariableSymbol
+      @next_variable_address = START_ADDRESS
     end
     
     def set_to_local_variables(key, vs)
@@ -107,17 +109,18 @@ options { language = Ruby; }
     def set_to_parameter_variables(key, vs)
       if(@parameter_variables[key].nil?)
         @parameter_variables[key] = vs
+        @parameter_list << vs
         set_to_local_variables(key, vs)
       else
         raise "Parametro '#{key}' ya declarado"
       end
     end
     
-    def parameters_count
+    def parameter_count
       parameter_variables.count
     end
     
-    def variables_count
+    def variable_count
       local_variables.count
     end
     
@@ -585,6 +588,14 @@ factor
 				@stack_operands.push(dir_const)
 				@stack_types.push('char')
 		  }
+		|
+		  BOOL
+		  {
+		    dir_const = get_avail_const
+		    generate('bct', $BOOL.text, nil, dir_const )
+				@stack_operands.push(dir_const)
+				@stack_types.push('boolean')
+		  }
 		| read
 		| invocation
 		| arrayaccess			//arr[5]
@@ -605,7 +616,7 @@ arrayaccess
 read	:	('readint' | 'readdouble' | 'readchar') '(' ')';
 
 invocation
-	:	 (callingclass '.')?
+	:	 callingclass
 	   IDENTIFIER
 	   {
 	     if(@current_class.instance_methods[$IDENTIFIER.text].nil?)
@@ -616,16 +627,20 @@ invocation
 	   }
 	   '(' 
 	   {
-	     @argument_counter = 1;
+	     @argument_counter = 0;
 	   }
 	   arguments? 
 	   ')'
 	;
 	
 callingclass
-  : IDENTIFIER | 'this'
+  : ((t = IDENTIFIER | t = 'this') '.')?
     {
-      @class_called = nil #Pending
+      if($t.nil? || $t.text == 'this')
+        @class_called = @current_class;
+      else
+        #PENDING
+      end
     };
 	
 	
@@ -635,18 +650,39 @@ arguments
 	  {
 	    argument = @stack_operands.pop 
 	    argument_type = @stack_types.pop
-	    parameter_type = @classes[@class_called].instance_methods[@method_called].parameter_variables[].type
+	    method = @class_called.instance_methods[@method_called]
+	    if(method.parameter_count <= @argument_counter)
+	      raise "Has introducido mas argumentos que parametros"
+	    end
+	    parameter_type = method.parameter_list[@argument_counter].type
+	    @argument_counter += 1
 	    if(argument_type != parameter_type)
-	      raise "Parametro #{argument} no es del tipo #{parameter_type}"
+	      raise "El argumento '#{@argument_counter}' del metodo '#{method.name}' no es del tipo '#{parameter_type}'"
 	    end 
 	  }
 	  (
 	     ',' 
 	     expression
-	     {
-	       
-	     }
+	    {
+	      argument = @stack_operands.pop 
+	      argument_type = @stack_types.pop
+	      method = @class_called.instance_methods[@method_called]
+  	    if(method.parameter_count <= @argument_counter)
+	        raise "Has introducido mas argumentos que parametros en #{method.name}"
+	      end
+	      parameter_type = method.parameter_list[@argument_counter].type
+	      @argument_counter += 1
+	      if(argument_type != parameter_type)
+	        raise "El argumento '#{@argument_counter}' del metodo '#{method.name}' no es del tipo '#{parameter_type}'"
+	      end 
+	    }
 	  )*
+	  {
+	    if(@class_called.instance_methods[@method_called].parameter_count != @argument_counter)
+	        raise "Has introducido menos argumentos que parametros en #{method.name}"
+	    end
+	    @argument_counter = 0
+	  }
 	;
 
 	
@@ -659,6 +695,9 @@ ADDITIONSUBSTRACTIONOPERATORS
 	
 COMPARITIONOPERATORS
 	:	'==' | '<' | '>' | '<=' | '>=' | '!=';
+	
+BOOL
+	:	'true' | 'false';
 	
 IDENTIFIER  
 	:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
