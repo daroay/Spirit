@@ -4,6 +4,12 @@ options { language = Ruby; }
 
 @header{
 
+  #TODO
+  #Validar que una variable declarada tenga su respectiva clase declarada
+  #Return retorna un tipo ya sea primitivo u objeto
+  #Arreglos
+  #En la VM la primera variable local de un metodo es igual al indicado en el gosub
+
   class Stack < Array
     def pop
       delete_at(self.size - 1)
@@ -51,8 +57,7 @@ options { language = Ruby; }
   
   #Contiene nombre, hash de variables de instancia, hash de metodos y super clase
   class ClassSymbol
-    attr_accessor :name, :instance_methods, :parent_class
-    attr_reader :instance_variables
+    attr_accessor :name, :instance_methods, :parent_class, :instance_variables
     
     START_ADDRESS = 2000
     FINISH_ADDRESS = 2999
@@ -139,6 +144,7 @@ options { language = Ruby; }
   @classes['boolean'] = ClassSymbol.new('boolean')
   @current_class = nil
   @current_method = nil
+  @current_instance = nil
 
   #Creamos direcciones temporales
   @avail = []
@@ -183,7 +189,7 @@ options { language = Ruby; }
   @stack_types = Stack.new
   @stack_jumps = Stack.new
   @fourfold = Stack.new
-  @cont = 0
+  @cont = 1
   
   def resulting_type(type_a, type_b, operator)
     
@@ -239,8 +245,9 @@ options { language = Ruby; }
   end
   
   
-  def fill(dir,value)
-    @fourfold[dir][3] = value
+  def fill(index,value)
+    #Es menos uno pues hay un corrimiento de tuplas cuando insertamos Starting Fourfold Main
+    @fourfold[index - 1][3] = value
   end
   
   def generate(oper,a,b,c)
@@ -266,6 +273,7 @@ goal
 	: 	classdeclaration* 
 	    mainclass 
 	    {
+	      @fourfold.insert(0, ['gto',nil,nil, @classes['Main'].instance_methods['main'].starting_fourfold])
 	      print_fourfold
 	    };
 
@@ -293,6 +301,11 @@ methodmain
 	  { 
 	    @current_class.instance_methods['main'] = MethodSymbol.new('main', 'void', @current_class)
 	    @current_method = @current_class.instance_methods['main']
+	    
+	    #Creamos una instancia de main para evitarnos los metodos estaticos
+	    @current_method.set_to_local_variables('_m',VariableSymbol.new('_m', 'Main'))
+	    @current_instance = @current_method.local_variables.values.first
+	    
 	    @current_method.starting_fourfold = @cont
 	  }
 	  '(' ')' '{' vardeclaration* statement* '}'
@@ -301,7 +314,22 @@ methodmain
 	  };
 	
 classdeclaration 
-	: 	'class' IDENTIFIER inherits?  '{' vardeclaration* assignment* methoddeclaration* '}';
+	: 	'class'
+	    IDENTIFIER
+	    {
+	      @classes[$IDENTIFIER.text] = ClassSymbol.new($IDENTIFIER.text)
+	      @current_class = @classes[$IDENTIFIER.text]
+	    }
+	    inherits?  
+	    '{'
+	    vardeclaration*
+	    assignment* 
+	    methoddeclaration*
+	    '}'
+	    {
+	      @current_class = nil
+	    }
+	    ;
 	
 inherits
 	:	'extends' IDENTIFIER;
@@ -317,7 +345,7 @@ vardeclaration
 	  }
 	  ';';
 
-//Esta pendiente
+
 methoddeclaration 
 	: 	'method' 
 	    (t = primitivetype | t = classtype)
@@ -325,11 +353,22 @@ methoddeclaration
 	    { 
 	      @current_class.instance_methods[$IDENTIFIER.text] = MethodSymbol.new($IDENTIFIER.text, $t.type_a, @current_class)
 	      @current_method = @current_class.instance_methods[$IDENTIFIER.text]
+	      
+	      #Creamos una instancia en el metodo para saber a que instancia pertenece
+	      @current_method.set_to_local_variables('_ci',VariableSymbol.new('_ci', $IDENTIFIER.text))
+	      @current_instance = @current_method.local_variables.values.first
+	      
 	      @current_method.starting_fourfold = @cont
 	    }
-	    '(' parameters? ')' 
-	    '{' vardeclaration* statement* '}'
+	    '('
+	    parameters?
+	    ')' 
+	    '{' 
+	    vardeclaration* 
+	    statement* 
+	    '}'
 	    {
+	      generate('ret', nil, nil, nil)
 	      @current_method = nil
 	    }
 	    ;
@@ -357,11 +396,19 @@ arraytype
 	
 classtype
   returns [type_a]:
-	t = IDENTIFIER {$type_a = $t.text};
+	t = IDENTIFIER 
+	{
+	  $type_a = $t.text
+	}
+	;
 
 type 
 	returns [type_a]: 	
-	(t = primitivetype | arraytype | t = classtype) {$type_a = $t.type_a};
+	(t = primitivetype | arraytype | t = classtype) 
+	{
+	  $type_a = $t.type_a
+	}
+	;
 
 statement
 	:	assignment  | conditional | invocation ';' | loop | print | returnstmt | ';';
@@ -411,7 +458,10 @@ rhsassignment
       free_avail(rh)
       free_avail_const(rh)
     }
-	  | 'new' IDENTIFIER '(' ')'
+	  | 
+	  'new' 
+	  IDENTIFIER
+	  '('')'
 	  ;
 	
 returnstmt
@@ -616,49 +666,57 @@ arrayaccess
 read	:	('readint' | 'readdouble' | 'readchar') '(' ')';
 
 invocation
-	:	 callingclass
+	:	 callingclassbyinstance
 	   IDENTIFIER
 	   {
-	     if(@current_class.instance_methods[$IDENTIFIER.text].nil?)
+	     if(@class_called.instance_methods[$IDENTIFIER.text].nil?)
 	       raise "El metodo invocado no existe"
 	     end
-	     @method_called = $IDENTIFIER.text
-	     generate("era", @method_called, nil, nil)
+	     @method_called = @class_called.instance_methods[$IDENTIFIER.text]
+	     generate('era', nil, @class_called.name, @method_called.name)
 	   }
-	   '(' 
-	   {
-	     @argument_counter = 0;
-	   }
-	   arguments? 
+	   '('
+	   arguments?
 	   ')'
+	   {
+	     generate('gosub', @instance_called.address, @class_called.name, @method_called.name)
+	     @instance_called = nil;
+	   }
 	;
 	
-callingclass
+callingclassbyinstance
   : ((t = IDENTIFIER | t = 'this') '.')?
     {
       if($t.nil? || $t.text == 'this')
-        @class_called = @current_class;
+        @class_called = @current_class
+        @instance_called = @current_instance
       else
-        #PENDING
+        @instance_called = @current_method.local_variables[$IDENTIFIER.text] || @current_class.instance_variables[$IDENTIFIER.text]
+        if(!@instance_called)
+          raise "Instancia '#{$IDENTIFIER.text}' a la que se llama no declarada"
+        end
+        @class_called = @classes[@instance_called.type] 
       end
-    };
+    }
+    ;
 	
 	
 	
 arguments
 	:	expression
 	  {
+	    @argument_counter = 0
 	    argument = @stack_operands.pop 
 	    argument_type = @stack_types.pop
-	    method = @class_called.instance_methods[@method_called]
-	    if(method.parameter_count <= @argument_counter)
+	    if(@method_called.parameter_count <= @argument_counter)
 	      raise "Has introducido mas argumentos que parametros"
 	    end
-	    parameter_type = method.parameter_list[@argument_counter].type
-	    @argument_counter += 1
+	    parameter_type = @method_called.parameter_list[@argument_counter].type
 	    if(argument_type != parameter_type)
-	      raise "El argumento '#{@argument_counter}' del metodo '#{method.name}' no es del tipo '#{parameter_type}'"
-	    end 
+	      raise "El argumento '#{@argument_counter}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}'"
+	    end
+	    generate('param', nil,argument, @argument_counter)
+	    @argument_counter += 1
 	  }
 	  (
 	     ',' 
@@ -666,22 +724,22 @@ arguments
 	    {
 	      argument = @stack_operands.pop 
 	      argument_type = @stack_types.pop
-	      method = @class_called.instance_methods[@method_called]
-  	    if(method.parameter_count <= @argument_counter)
-	        raise "Has introducido mas argumentos que parametros en #{method.name}"
+  	    if(@method_called.parameter_count <= @argument_counter)
+	        raise "Has introducido mas argumentos que parametros en #{@method_called.name}"
 	      end
-	      parameter_type = method.parameter_list[@argument_counter].type
-	      @argument_counter += 1
+	      parameter_type = @method_called.parameter_list[@argument_counter].type
 	      if(argument_type != parameter_type)
-	        raise "El argumento '#{@argument_counter}' del metodo '#{method.name}' no es del tipo '#{parameter_type}'"
-	      end 
+	        raise "El argumento '#{@argument_counter}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}'"
+	      end
+	      generate('param', nil,argument, @argument_counter)
+	      @argument_counter += 1
 	    }
 	  )*
 	  {
-	    if(@class_called.instance_methods[@method_called].parameter_count != @argument_counter)
-	        raise "Has introducido menos argumentos que parametros en #{method.name}"
+	    if(@method_called.parameter_count != @argument_counter)
+	        raise "Has introducido menos argumentos que parametros en #{@method_called.name}"
 	    end
-	    @argument_counter = 0
+	    @argument_counter = 0;
 	  }
 	;
 
