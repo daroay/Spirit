@@ -17,26 +17,25 @@ class Persona {
 class Main {
 
 
-  method int suma(int a, boolean b){
-    a = 10;
-    while(a > 10){
-      a = 100;
-    }
+  method int suma(int a, int b){
+    int c;
+    c = a + b;
   }
   
   
   method float divide(int a, int b){
-    b = 10;
-    suma(b, true);
+    float c;
+    c = a / b;
   }
 
   method void main() {
-    boolean a;
-    int b;
-    int c;
-    int d;
     Persona p;
-    suma(b,a);
+    int a;
+    int b;
+    a = 10;
+    b = 11;
+    c = 11;
+    suma(a,b);
     p.nombre();
   }
   

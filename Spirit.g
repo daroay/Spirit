@@ -7,8 +7,10 @@ options { language = Ruby; }
   #TODO
   #Validar que una variable declarada tenga su respectiva clase declarada
   #Return retorna un tipo ya sea primitivo u objeto
+  #Print y Read
+  #Serializar ClassSymbol, MethodSymbol y VariableSymbol
   #Arreglos
-  #En la VM la primera variable local de un metodo es igual al indicado en el gosub
+  #En la VM la primera variable local de un metodo es igual al indicado en el gsb
 
   class Stack < Array
     def pop
@@ -431,7 +433,7 @@ lhsassignment
 			      @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
 			      @stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
 			    else
-			      raise "Variable #{$IDENTIFIER.text} not declared in class #{@current_class.name} or method #{@current_method.name}"
+			      raise "Variable #{$IDENTIFIER.text} not declared neither in #{@current_class.name} or its method #{@current_method.name}"
 			    end
 			  else
 			  	if( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
@@ -452,7 +454,7 @@ rhsassignment
       lh = @stack_operands.pop
       lh_t = @stack_types.pop
       if(lh_t != rh_t)
-        raise "Tried to assign #{rh_t} to #{lh_t}"
+        raise "Tried to assign #{rh_t} to #{lh_t} in #{@current_class.name}::#{@current_method.name if @current_method}"
       end
       generate('=', rh, nil ,lh )
       free_avail(rh)
@@ -606,14 +608,14 @@ factor
 			      @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
 			      @stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
 			    else
-			      raise "Variable #{$IDENTIFIER.text} not declared"
+			      raise "Variable #{$IDENTIFIER.text} not declared in #{@current_class.name}::#{@current_method.name if @current_method}"
 			    end
 			  else
 			  	if( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
 			  	  @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
 			  	  @stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
 			    else
-			      raise "Variable #{$IDENTIFIER.text} not declared"
+			      raise "Variable #{$IDENTIFIER.text} not declared in #{@current_class.name}::#{@current_method.name if @current_method}"
 			    end
 			  end
 			}
@@ -709,14 +711,15 @@ arguments
 	    argument = @stack_operands.pop 
 	    argument_type = @stack_types.pop
 	    if(@method_called.parameter_count <= @argument_counter)
-	      raise "Has introducido mas argumentos que parametros"
+	      raise "Has introducido mas argumentos que parametros en #{@method_called.name} llamado desde #{@current_class.name}::#{@current_method.name}"
 	    end
 	    parameter_type = @method_called.parameter_list[@argument_counter].type
 	    if(argument_type != parameter_type)
-	      raise "El argumento '#{@argument_counter}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}'"
+	      raise "El argumento '#{@argument_counter + 1}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}' llamado desde #{@current_class.name}::#{@current_method.name}"
 	    end
-	    generate('prm', nil,argument, @argument_counter)
 	    @argument_counter += 1
+	    #Los prm empiezan en 1 pues el 0 le pertenece a self
+	    generate('prm', nil,argument, @argument_counter)
 	  }
 	  (
 	     ',' 
@@ -725,19 +728,20 @@ arguments
 	      argument = @stack_operands.pop 
 	      argument_type = @stack_types.pop
   	    if(@method_called.parameter_count <= @argument_counter)
-	        raise "Has introducido mas argumentos que parametros en #{@method_called.name}"
+	        raise "Has introducido mas argumentos que parametros en #{@method_called.name} llamado desde #{@current_class.name}::#{@current_method.name}"
 	      end
 	      parameter_type = @method_called.parameter_list[@argument_counter].type
 	      if(argument_type != parameter_type)
-	        raise "El argumento '#{@argument_counter}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}'"
+	        raise "El argumento '#{@argument_counter + 1}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}' llamado desde #{@current_class.name}::#{@current_method.name}"
 	      end
-	      generate('prm', nil,argument, @argument_counter)
 	      @argument_counter += 1
+	      #Los prm empiezan en 1 pues el 0 le pertenece a self
+	      generate('prm', nil,argument, @argument_counter)
 	    }
 	  )*
 	  {
 	    if(@method_called.parameter_count != @argument_counter)
-	        raise "Has introducido menos argumentos que parametros en #{@method_called.name}"
+	        raise "Has introducido menos argumentos que parametros en #{@method_called.name} llamado desde #{@current_class.name}::#{@current_method.name}"
 	    end
 	    @argument_counter = 0;
 	  }
