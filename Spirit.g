@@ -312,6 +312,7 @@ methodmain
 	  }
 	  '(' ')' '{' vardeclaration* statement* '}'
 	  {
+	    generate('htl',nil,nil,nil)
 	    @current_method = nil
 	  };
 	

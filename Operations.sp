@@ -34,7 +34,6 @@ class Main {
     int b;
     a = 10;
     b = 11;
-    c = 11;
     suma(a,b);
     p.nombre();
   }
