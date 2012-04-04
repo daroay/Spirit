@@ -482,7 +482,7 @@ conditional
 	   '{' statement* '}' 
 	   ('else'
 	   {
-	     generate('gt', nil, nil, '_')
+	     generate('gto', nil, nil, '_')
 	     false_result = @stack_jumps.pop
 	     fill(false_result, @cont)
 	     @stack_jumps.push(@cont - 1)
@@ -513,7 +513,7 @@ loop
 	    {
 	      false_result = @stack_jumps.pop
 	      return_result = @stack_jumps.pop
-	      generate('gt', nil, nil, return_result)
+	      generate('gto', nil, nil, return_result)
 	      fill(false_result, @cont)
 	    };
 	
@@ -679,7 +679,7 @@ invocation
 	   arguments?
 	   ')'
 	   {
-	     generate('gosub', @instance_called.address, @class_called.name, @method_called.name)
+	     generate('gsb', @instance_called.address, @class_called.name, @method_called.name)
 	     @instance_called = nil;
 	   }
 	;
@@ -715,7 +715,7 @@ arguments
 	    if(argument_type != parameter_type)
 	      raise "El argumento '#{@argument_counter}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}'"
 	    end
-	    generate('param', nil,argument, @argument_counter)
+	    generate('prm', nil,argument, @argument_counter)
 	    @argument_counter += 1
 	  }
 	  (
@@ -731,7 +731,7 @@ arguments
 	      if(argument_type != parameter_type)
 	        raise "El argumento '#{@argument_counter}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}'"
 	      end
-	      generate('param', nil,argument, @argument_counter)
+	      generate('prm', nil,argument, @argument_counter)
 	      @argument_counter += 1
 	    }
 	  )*
