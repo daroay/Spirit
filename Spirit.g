@@ -5,7 +5,6 @@ options { language = Ruby; }
 @header{
 
   #TODO
-  #Return retorna un tipo ya sea primitivo u objeto
   #Herencia
   #Llamar atributos de otros objetos
   #Serializar ClassSymbol, MethodSymbol y VariableSymbol
@@ -472,23 +471,31 @@ lhsassignment
 		;
 		
 rhsassignment
-	:	expression 
-    {
-      rh = @stack_operands.pop
-      rh_t = @stack_types.pop
-      lh = @stack_operands.pop
-      lh_t = @stack_types.pop
-      if(lh_t != rh_t)
-        raise "Tried to assign #{rh_t} to #{lh_t} in #{@current_class.name}::#{@current_method.name if @current_method}"
-      end
-      generate('=', rh, nil ,lh )
-      free_avail(rh)
-      free_avail_const(rh)
-    }
-	  | 
-	  'new' 
-	  IDENTIFIER
-	  '('')'
+	:	    expression 
+        {
+          rh = @stack_operands.pop
+          rh_t = @stack_types.pop
+          lh = @stack_operands.pop
+          lh_t = @stack_types.pop
+          if(lh_t != rh_t)
+            raise "Tried to assign #{rh_t} to #{lh_t} in #{@current_class.name}::#{@current_method.name if @current_method}"
+          end
+          generate('=', rh, nil ,lh )
+          free_avail(rh)
+          free_avail_const(rh)
+        }
+      | 'new'
+        IDENTIFIER
+        '('')'
+        {
+          rh_t = $IDENTIFIER.text
+          lh = @stack_operands.pop
+          lh_t = @stack_types.pop
+          if(lh_t != rh_t)
+            raise "Tried to assign #{rh_t} to #{lh_t} in #{@current_class.name}::#{@current_method.name if @current_method}"
+          end
+          generate('new', rh_t, nil ,lh )
+        }
 	  ;
 	
 returnstmt
@@ -502,7 +509,7 @@ returnsomething
     	rt = @stack_operands.pop
       rt_t = @stack_types.pop
       if(rt_t != @current_method.return_type)
-        raise "You are returning #{rt_t} in the #{@current_method.return_type} type method #{@current_class.name}::#{@current_method.name}"
+        raise "Invalid return type #{rt_t} in the #{@current_method.return_type} type method #{@current_class.name}::#{@current_method.name}"
       end
       generate('ret', nil, nil ,rt )
       @is_returning = true
@@ -568,9 +575,9 @@ print
 	  {
 	    pr = @stack_operands.pop
       pr_t = @stack_types.pop
-      generate('prt', nil, nil ,prh )
-      free_avail(prh)
-      free_avail_const(prh)
+      generate('prt', nil, nil ,pr )
+      free_avail(pr)
+      free_avail_const(pr)
 	  }	  
    ')' ';';
 
@@ -647,7 +654,21 @@ term
 	
 factor
 	:
-		IDENTIFIER '.' IDENTIFIER	//objeto.atributo
+		  o = IDENTIFIER '.' a = IDENTIFIER	//objeto.atributo
+		  {
+		     #PENDIENTE (Es posible evitarlas usando get y set)
+#		     instance_called = @current_method.local_variables[$o.text] || @current_class.instance_variables[$o.text]
+#        if(!instance_called)
+#          raise "Variable '#{$o.text}' not declared as instance of anything (inside #{@current_class.name}::#{@current_method.name if @current_method})"
+#        end
+#        class_called = @classes[instance_called.type] 
+#        attribute = class_called.instance_variables[$a.text]
+#        if(!attribute)
+#          raise "Attribute #{$a.text} non existent in class #{class_called.name}"
+#        end
+        
+
+	  	}
 		| 'this' '.' IDENTIFIER
 		  {
 		    if( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
@@ -710,7 +731,13 @@ factor
 				@stack_types.push('boolean')
 		  }
 		| read
-		| invocation
+		| t = invocation
+		  {
+		  	dir_const = get_avail_const
+		    generate('get', nil, nil, dir_const)
+				@stack_operands.push(dir_const)
+				@stack_types.push($t.type_a)
+		  }
 		| arrayaccess			//arr[5]
 		| '('
 		  { #Regla 6 GC
@@ -770,7 +797,8 @@ cread
   ;
 
 invocation
-	:	 calledclassbyinstance
+	returns [type_a]:
+  	 calledclassbyinstance
 	   IDENTIFIER
 	   {
 	     if(@class_called.instance_methods[$IDENTIFIER.text].nil?)
@@ -784,7 +812,10 @@ invocation
 	   ')'
 	   {
 	     generate('gsb', @instance_called.address, @class_called.name, @method_called.name)
+	     $type_a = @method_called.return_type
 	     @instance_called = nil;
+	     @method_called = nil;
+	     @class_called = nil;
 	   }
 	;
 	

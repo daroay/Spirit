@@ -15,10 +15,34 @@ class Persona {
 
 }
 
+class Nodo{
+
+  int content;
+  Nodo next;
+  
+  method void setNext(Nodo next){
+    this.next = next;
+  }
+  
+  method Nodo getNext(){
+    return this.next;
+  }
+  
+  method void setContent(int content){
+    this.content = content;
+  }
+  
+  method int getNext(){
+    return this.content;
+  }
+
+}
+
 class Main {
 
   float c;
   c = 30.0;
+  
 
   method Persona suma(int a, int b){
     int c;
@@ -35,11 +59,16 @@ class Main {
   }
 
   method void main() {
-    Persona p;
-    int a;
-    int b;
-    int c;
-    p.nombre();
+    Nodo n;
+    Nodo next;
+    int i;
+    i = 0;
+    while(i < 10){
+      n.setContent(i);
+      n.setNext(next);
+      n = next;
+      next = new Nodo();
+    }
   }
   
 }
