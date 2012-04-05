@@ -6,7 +6,7 @@ options { language = Ruby; }
 
   #TODO
   #Herencia
-  #Llamar atributos de otros objetos
+  #Llamar atributos de otros objetos (se puede saltar al poner gets y sets obligados)
   #Serializar ClassSymbol, MethodSymbol y VariableSymbol
   #Arreglos
   #En la VM la primera variable local de un metodo es igual al indicado en el gsb (self)

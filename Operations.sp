@@ -62,6 +62,8 @@ class Main {
     Nodo n;
     Nodo next;
     int i;
+    n = new Nodo();
+    next = new Nodo();
     i = 0;
     while(i < 10){
       n.setContent(i);
