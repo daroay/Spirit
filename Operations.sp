@@ -32,7 +32,7 @@ class Nodo{
     this.content = content;
   }
   
-  method int getNext(){
+  method int getContent(){
     return this.content;
   }
 
@@ -59,17 +59,18 @@ class Main {
   }
 
   method void main() {
+    Nodo head;
     Nodo n;
     Nodo next;
     int i;
-    n = new Nodo();
-    next = new Nodo();
+    head = new Nodo();
+    n = head;
     i = 0;
     while(i < 10){
+      next = new Nodo();
       n.setContent(i);
       n.setNext(next);
-      n = next;
-      next = new Nodo();
+      n = n.getNext();
     }
   }
   

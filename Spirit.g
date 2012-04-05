@@ -6,10 +6,10 @@ options { language = Ruby; }
 
   #TODO
   #Herencia
-  #Llamar atributos de otros objetos (se puede saltar al poner gets y sets obligados)
   #Serializar ClassSymbol, MethodSymbol y VariableSymbol
   #Arreglos
   #En la VM la primera variable local de un metodo es igual al indicado en el gsb (self)
+  #DUDAS: Valores iniciales de las instance variables
 
   class Stack < Array
     def pop
@@ -341,7 +341,10 @@ classdeclaration
 	    ;
 	
 inherits
-	:	'extends' IDENTIFIER;
+	:	'extends' IDENTIFIER
+	{
+	}
+	;
 
 vardeclaration
 	:	t = type IDENTIFIER
@@ -654,22 +657,7 @@ term
 	
 factor
 	:
-		  o = IDENTIFIER '.' a = IDENTIFIER	//objeto.atributo
-		  {
-		     #PENDIENTE (Es posible evitarlas usando get y set)
-#		     instance_called = @current_method.local_variables[$o.text] || @current_class.instance_variables[$o.text]
-#        if(!instance_called)
-#          raise "Variable '#{$o.text}' not declared as instance of anything (inside #{@current_class.name}::#{@current_method.name if @current_method})"
-#        end
-#        class_called = @classes[instance_called.type] 
-#        attribute = class_called.instance_variables[$a.text]
-#        if(!attribute)
-#          raise "Attribute #{$a.text} non existent in class #{class_called.name}"
-#        end
-        
-
-	  	}
-		| 'this' '.' IDENTIFIER
+		  'this' '.' IDENTIFIER
 		  {
 		    if( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
 			    @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
@@ -738,7 +726,10 @@ factor
 				@stack_operands.push(dir_const)
 				@stack_types.push($t.type_a)
 		  }
-		| arrayaccess			//arr[5]
+		| arrayaccess
+		{
+		  #Pending
+		}
 		| '('
 		  { #Regla 6 GC
 		    @stack_operators.push('(')
