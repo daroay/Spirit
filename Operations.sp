@@ -16,6 +16,8 @@ class Persona {
 
 class Main {
 
+  int c;
+  c = 30;
 
   method int suma(int a, int b){
     int c;
@@ -32,9 +34,13 @@ class Main {
     Persona p;
     int a;
     int b;
-    a = 10;
-    b = 11;
+    int c;
+    float d;
+    d = iread() + fread() + iread();
+    b = iread();
+    this.c = iread() + iread();
     suma(a,b);
+    print(5 + 7 - 2);
     p.nombre();
   }
   

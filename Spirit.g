@@ -7,7 +7,9 @@ options { language = Ruby; }
   #TODO
   #Validar que una variable declarada tenga su respectiva clase declarada
   #Return retorna un tipo ya sea primitivo u objeto
-  #Print y Read
+  #Print
+  #Herencia
+  #Llamar atributos de otros objetos
   #Serializar ClassSymbol, MethodSymbol y VariableSymbol
   #Arreglos
   #En la VM la primera variable local de un metodo es igual al indicado en el gsb
@@ -78,7 +80,7 @@ options { language = Ruby; }
       if(@instance_variables[key].nil?)
         @instance_variables[key] = vs
       else
-        raise "Variable '#{key}' ya declarada"
+        raise "Variable '#{key}' was previously declared"
       end
     end
     
@@ -109,7 +111,7 @@ options { language = Ruby; }
       if(@local_variables[key].nil?)
         @local_variables[key] = vs
       else
-        raise "Variable '#{key}' ya declarada"
+        raise "Variable '#{key}' was previously declared"
       end
     end
     
@@ -119,7 +121,7 @@ options { language = Ruby; }
         @parameter_list << vs
         set_to_local_variables(key, vs)
       else
-        raise "Parametro '#{key}' ya declarado"
+        raise "Parameter '#{key}' was previously declared"
       end
     end
     
@@ -422,7 +424,15 @@ assignment
 lhsassignment
 	: 	arrayaccess
 		| IDENTIFIER '.' IDENTIFIER	//objeto.atributo
-		| 'this' '.' IDENTIFIER		//this.atributo
+		| 'this' '.' IDENTIFIER
+		  {
+		    if( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
+			  	@stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
+			  	@stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
+			  else
+			    raise "Variable #{$IDENTIFIER.text} not declared as instance of #{@current_class.name}"
+			  end
+		  }
 		| IDENTIFIER 
 	    {
 	      # Verificar que exista en algun scope y meterlo en pila de operandos
@@ -441,7 +451,7 @@ lhsassignment
 			  	  @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
 			  	  @stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
 			    else
-			      raise "Variable #{$IDENTIFIER.text} not declared in class #{@current_class.name}"
+			      raise "Variable #{$IDENTIFIER.text} not declared as instance of #{@current_class.name}"
 			    end
 			  end
 	    }
@@ -521,7 +531,16 @@ loop
 	    };
 	
 print 
-	: 	'print' '(' expression ')' ';';
+	: 	
+	  'print' '(' expression
+	  {
+	    rh = @stack_operands.pop
+      rh_t = @stack_types.pop
+      generate('prt', nil, nil ,rh )
+      free_avail(rh)
+      free_avail_const(rh)
+	  }	  
+   ')' ';';
 
 expression 
 	: 	exp (COMPARITIONOPERATORS
@@ -597,7 +616,16 @@ term
 factor
 	:
 		IDENTIFIER '.' IDENTIFIER	//objeto.atributo
-		| 'this' '.' IDENTIFIER		//this.atributo
+		| 'this' '.' IDENTIFIER
+		  {
+		    if( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
+			    @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
+			    @stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
+			  else
+		      raise "Variable #{$IDENTIFIER.text} not declared as instance of #{@current_class.name}"
+		    end
+		
+		  }
 		| IDENTIFIER
 			{ #Regla 1 GC / Regla 1 VS
 			  # Verificar que exista en algun scope y meterlo en pila de operandos
@@ -609,14 +637,14 @@ factor
 			      @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
 			      @stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
 			    else
-			      raise "Variable #{$IDENTIFIER.text} not declared in #{@current_class.name}::#{@current_method.name if @current_method}"
+			      raise "Variable #{$IDENTIFIER.text} not declared neither in #{@current_class.name} or its method #{@current_method.name}"
 			    end
 			  else
 			  	if( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
 			  	  @stack_operands.push(@current_class.instance_variables[$IDENTIFIER.text].address)
 			  	  @stack_types.push(@current_class.instance_variables[$IDENTIFIER.text].type)
 			    else
-			      raise "Variable #{$IDENTIFIER.text} not declared in #{@current_class.name}::#{@current_method.name if @current_method}"
+			      raise "Variable #{$IDENTIFIER.text} not declared as instance of #{@current_class.name}"
 			    end
 			  end
 			}
@@ -666,14 +694,55 @@ factor
 arrayaccess
 	:	IDENTIFIER'[' expression ']';
 	
-read	:	('readint' | 'readdouble' | 'readchar') '(' ')';
+read  
+  :	
+    iread
+    | fread
+    | cread
+    ;
+      
+iread
+  :
+    'iread' 
+    '(' ')'
+    {
+      dir_const = get_avail_const
+      generate('ird',nil,nil,dir_const)
+		  @stack_operands.push(dir_const)
+			@stack_types.push('int')
+    }
+  ;
+  
+fread
+  :
+    'fread' 
+    '(' ')'
+    {
+      dir_const = get_avail_const
+      generate('frd',nil,nil,dir_const)
+		  @stack_operands.push(dir_const)
+			@stack_types.push('float')
+    }
+  ;
+  
+cread
+  :
+    'cread' 
+    '(' ')'
+    {
+      dir_const = get_avail_const
+      generate('crd',nil,nil,dir_const)
+		  @stack_operands.push(dir_const)
+			@stack_types.push('char')
+    }
+  ;
 
 invocation
-	:	 callingclassbyinstance
+	:	 calledclassbyinstance
 	   IDENTIFIER
 	   {
 	     if(@class_called.instance_methods[$IDENTIFIER.text].nil?)
-	       raise "El metodo invocado no existe"
+	       raise "Method #{$IDENTIFIER.text} dont exist for instances of class #{@class_called.name} (called by #{@current_class.name}::#{@current_method.name if @current_method})"
 	     end
 	     @method_called = @class_called.instance_methods[$IDENTIFIER.text]
 	     generate('era', nil, @class_called.name, @method_called.name)
@@ -687,7 +756,7 @@ invocation
 	   }
 	;
 	
-callingclassbyinstance
+calledclassbyinstance
   : ((t = IDENTIFIER | t = 'this') '.')?
     {
       if($t.nil? || $t.text == 'this')
@@ -696,7 +765,7 @@ callingclassbyinstance
       else
         @instance_called = @current_method.local_variables[$IDENTIFIER.text] || @current_class.instance_variables[$IDENTIFIER.text]
         if(!@instance_called)
-          raise "Instancia '#{$IDENTIFIER.text}' a la que se llama no declarada"
+          raise "Variable '#{$IDENTIFIER.text}' not declared as instance of anything (called by #{@current_class.name}::#{@current_method.name if @current_method})"
         end
         @class_called = @classes[@instance_called.type] 
       end
@@ -712,11 +781,11 @@ arguments
 	    argument = @stack_operands.pop 
 	    argument_type = @stack_types.pop
 	    if(@method_called.parameter_count <= @argument_counter)
-	      raise "Has introducido mas argumentos que parametros en #{@method_called.name} llamado desde #{@current_class.name}::#{@current_method.name}"
+	      raise "There are more arguments than parameters in #{@class_called.name}::#{@method_called.name} (called by #{@current_class.name}::#{@current_method.name})"
 	    end
 	    parameter_type = @method_called.parameter_list[@argument_counter].type
 	    if(argument_type != parameter_type)
-	      raise "El argumento '#{@argument_counter + 1}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}' llamado desde #{@current_class.name}::#{@current_method.name}"
+	      raise "Argument '#{@argument_counter + 1}' in method #{@class_called.name}::#{@method_called.name} is not '#{parameter_type}' (called by #{@current_class.name}::#{@current_method.name})"
 	    end
 	    @argument_counter += 1
 	    #Los prm empiezan en 1 pues el 0 le pertenece a self
@@ -729,11 +798,11 @@ arguments
 	      argument = @stack_operands.pop 
 	      argument_type = @stack_types.pop
   	    if(@method_called.parameter_count <= @argument_counter)
-	        raise "Has introducido mas argumentos que parametros en #{@method_called.name} llamado desde #{@current_class.name}::#{@current_method.name}"
+	        raise "There are more arguments than parameters in #{@class_called.name}::#{@method_called.name} (called by #{@current_class.name}::#{@current_method.name})"
 	      end
 	      parameter_type = @method_called.parameter_list[@argument_counter].type
 	      if(argument_type != parameter_type)
-	        raise "El argumento '#{@argument_counter + 1}' del metodo '#{@method_called.name}' no es del tipo '#{parameter_type}' llamado desde #{@current_class.name}::#{@current_method.name}"
+	        raise "Argument '#{@argument_counter + 1}' in method #{@class_called.name}::#{@method_called.name} is not '#{parameter_type}' (called by #{@current_class.name}::#{@current_method.name})"
 	      end
 	      @argument_counter += 1
 	      #Los prm empiezan en 1 pues el 0 le pertenece a self
@@ -742,7 +811,7 @@ arguments
 	  )*
 	  {
 	    if(@method_called.parameter_count != @argument_counter)
-	        raise "Has introducido menos argumentos que parametros en #{@method_called.name} llamado desde #{@current_class.name}::#{@current_method.name}"
+	        raise "There are less arguments than parameters in #{@class_called.name}::#{@method_called.name} (called by #{@current_class.name}::#{@current_method.name})"
 	    end
 	    @argument_counter = 0;
 	  }
