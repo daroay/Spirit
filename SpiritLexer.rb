@@ -5,7 +5,7 @@
 # Generated using ANTLR version: 3.2.1-SNAPSHOT Jul 31, 2010 19:34:52
 # Ruby runtime library version: 1.8.11
 # Input grammar file: Spirit.g
-# Generated at: 2012-04-04 19:25:21
+# Generated at: 2012-04-04 20:07:57
 # 
 
 # ~~~> start load path setup
@@ -858,7 +858,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 823:2: ( '*' | '/' | '&&' )
+      # at line 855:2: ( '*' | '/' | '&&' )
       alt_1 = 3
       case look_1 = @input.peek( 1 )
       when 0x2a then alt_1 = 1
@@ -869,15 +869,15 @@ module Spirit
       end
       case alt_1
       when 1
-        # at line 823:7: '*'
+        # at line 855:7: '*'
         match( 0x2a )
 
       when 2
-        # at line 823:13: '/'
+        # at line 855:13: '/'
         match( 0x2f )
 
       when 3
-        # at line 823:19: '&&'
+        # at line 855:19: '&&'
         match( "&&" )
 
       end
@@ -902,7 +902,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 826:2: ( '+' | '-' | '||' )
+      # at line 858:2: ( '+' | '-' | '||' )
       alt_2 = 3
       case look_2 = @input.peek( 1 )
       when 0x2b then alt_2 = 1
@@ -913,15 +913,15 @@ module Spirit
       end
       case alt_2
       when 1
-        # at line 826:7: '+'
+        # at line 858:7: '+'
         match( 0x2b )
 
       when 2
-        # at line 826:14: '-'
+        # at line 858:14: '-'
         match( 0x2d )
 
       when 3
-        # at line 826:20: '||'
+        # at line 858:20: '||'
         match( "||" )
 
       end
@@ -946,7 +946,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 829:2: ( '==' | '<' | '>' | '<=' | '>=' | '!=' )
+      # at line 861:2: ( '==' | '<' | '>' | '<=' | '>=' | '!=' )
       alt_3 = 6
       case look_3 = @input.peek( 1 )
       when 0x3d then alt_3 = 1
@@ -970,27 +970,27 @@ module Spirit
       end
       case alt_3
       when 1
-        # at line 829:4: '=='
+        # at line 861:4: '=='
         match( "==" )
 
       when 2
-        # at line 829:11: '<'
+        # at line 861:11: '<'
         match( 0x3c )
 
       when 3
-        # at line 829:17: '>'
+        # at line 861:17: '>'
         match( 0x3e )
 
       when 4
-        # at line 829:23: '<='
+        # at line 861:23: '<='
         match( "<=" )
 
       when 5
-        # at line 829:30: '>='
+        # at line 861:30: '>='
         match( ">=" )
 
       when 6
-        # at line 829:37: '!='
+        # at line 861:37: '!='
         match( "!=" )
 
       end
@@ -1015,7 +1015,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 832:2: ( 'true' | 'false' )
+      # at line 864:2: ( 'true' | 'false' )
       alt_4 = 2
       look_4_0 = @input.peek( 1 )
 
@@ -1028,11 +1028,11 @@ module Spirit
       end
       case alt_4
       when 1
-        # at line 832:4: 'true'
+        # at line 864:4: 'true'
         match( "true" )
 
       when 2
-        # at line 832:13: 'false'
+        # at line 864:13: 'false'
         match( "false" )
 
       end
@@ -1057,7 +1057,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 835:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+      # at line 867:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
       if @input.peek( 1 ).between?( 0x41, 0x5a ) || @input.peek(1) == 0x5f || @input.peek( 1 ).between?( 0x61, 0x7a )
         @input.consume
       else
@@ -1067,7 +1067,7 @@ module Spirit
       end
 
 
-      # at line 835:28: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+      # at line 867:28: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
       while true # decision 5
         alt_5 = 2
         look_5_0 = @input.peek( 1 )
@@ -1115,7 +1115,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 838:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* '[' ']'
+      # at line 870:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* '[' ']'
       if @input.peek( 1 ).between?( 0x41, 0x5a ) || @input.peek(1) == 0x5f || @input.peek( 1 ).between?( 0x61, 0x7a )
         @input.consume
       else
@@ -1125,7 +1125,7 @@ module Spirit
       end
 
 
-      # at line 838:28: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+      # at line 870:28: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
       while true # decision 6
         alt_6 = 2
         look_6_0 = @input.peek( 1 )
@@ -1175,8 +1175,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 841:4: ( '0' .. '9' )+
-      # at file 841:4: ( '0' .. '9' )+
+      # at line 873:4: ( '0' .. '9' )+
+      # at file 873:4: ( '0' .. '9' )+
       match_count_7 = 0
       while true
         alt_7 = 2
@@ -1188,7 +1188,7 @@ module Spirit
         end
         case alt_7
         when 1
-          # at line 841:4: '0' .. '9'
+          # at line 873:4: '0' .. '9'
           match_range( 0x30, 0x39 )
 
         else
@@ -1223,9 +1223,9 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 843:8: '\\'' ( ESC_SEQ | ~ ( '\\'' | '\\\\' ) ) '\\''
+      # at line 875:8: '\\'' ( ESC_SEQ | ~ ( '\\'' | '\\\\' ) ) '\\''
       match( 0x27 )
-      # at line 843:13: ( ESC_SEQ | ~ ( '\\'' | '\\\\' ) )
+      # at line 875:13: ( ESC_SEQ | ~ ( '\\'' | '\\\\' ) )
       alt_8 = 2
       look_8_0 = @input.peek( 1 )
 
@@ -1238,11 +1238,11 @@ module Spirit
       end
       case alt_8
       when 1
-        # at line 843:15: ESC_SEQ
+        # at line 875:15: ESC_SEQ
         esc_seq!
 
       when 2
-        # at line 843:25: ~ ( '\\'' | '\\\\' )
+        # at line 875:25: ~ ( '\\'' | '\\\\' )
         if @input.peek( 1 ).between?( 0x0, 0x26 ) || @input.peek( 1 ).between?( 0x28, 0x5b ) || @input.peek( 1 ).between?( 0x5d, 0xff )
           @input.consume
         else
@@ -1277,13 +1277,13 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 847:5: ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT )
+      # at line 879:5: ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT )
       alt_15 = 3
       alt_15 = @dfa15.predict( @input )
       case alt_15
       when 1
-        # at line 847:9: ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )?
-        # at file 847:9: ( '0' .. '9' )+
+        # at line 879:9: ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )?
+        # at file 879:9: ( '0' .. '9' )+
         match_count_9 = 0
         while true
           alt_9 = 2
@@ -1295,7 +1295,7 @@ module Spirit
           end
           case alt_9
           when 1
-            # at line 847:10: '0' .. '9'
+            # at line 879:10: '0' .. '9'
             match_range( 0x30, 0x39 )
 
           else
@@ -1309,7 +1309,7 @@ module Spirit
         end
 
         match( 0x2e )
-        # at line 847:25: ( '0' .. '9' )*
+        # at line 879:25: ( '0' .. '9' )*
         while true # decision 10
           alt_10 = 2
           look_10_0 = @input.peek( 1 )
@@ -1320,14 +1320,14 @@ module Spirit
           end
           case alt_10
           when 1
-            # at line 847:26: '0' .. '9'
+            # at line 879:26: '0' .. '9'
             match_range( 0x30, 0x39 )
 
           else
             break # out of loop for decision 10
           end
         end # loop for decision 10
-        # at line 847:37: ( EXPONENT )?
+        # at line 879:37: ( EXPONENT )?
         alt_11 = 2
         look_11_0 = @input.peek( 1 )
 
@@ -1336,15 +1336,15 @@ module Spirit
         end
         case alt_11
         when 1
-          # at line 847:37: EXPONENT
+          # at line 879:37: EXPONENT
           exponent!
 
         end
 
       when 2
-        # at line 848:9: '.' ( '0' .. '9' )+ ( EXPONENT )?
+        # at line 880:9: '.' ( '0' .. '9' )+ ( EXPONENT )?
         match( 0x2e )
-        # at file 848:13: ( '0' .. '9' )+
+        # at file 880:13: ( '0' .. '9' )+
         match_count_12 = 0
         while true
           alt_12 = 2
@@ -1356,7 +1356,7 @@ module Spirit
           end
           case alt_12
           when 1
-            # at line 848:14: '0' .. '9'
+            # at line 880:14: '0' .. '9'
             match_range( 0x30, 0x39 )
 
           else
@@ -1369,7 +1369,7 @@ module Spirit
           match_count_12 += 1
         end
 
-        # at line 848:25: ( EXPONENT )?
+        # at line 880:25: ( EXPONENT )?
         alt_13 = 2
         look_13_0 = @input.peek( 1 )
 
@@ -1378,14 +1378,14 @@ module Spirit
         end
         case alt_13
         when 1
-          # at line 848:25: EXPONENT
+          # at line 880:25: EXPONENT
           exponent!
 
         end
 
       when 3
-        # at line 849:9: ( '0' .. '9' )+ EXPONENT
-        # at file 849:9: ( '0' .. '9' )+
+        # at line 881:9: ( '0' .. '9' )+ EXPONENT
+        # at file 881:9: ( '0' .. '9' )+
         match_count_14 = 0
         while true
           alt_14 = 2
@@ -1397,7 +1397,7 @@ module Spirit
           end
           case alt_14
           when 1
-            # at line 849:10: '0' .. '9'
+            # at line 881:10: '0' .. '9'
             match_range( 0x30, 0x39 )
 
           else
@@ -1434,7 +1434,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 852:9: ( ' ' | '\\t' | '\\r' | '\\n' )
+      # at line 884:9: ( ' ' | '\\t' | '\\r' | '\\n' )
       if @input.peek( 1 ).between?( 0x9, 0xa ) || @input.peek(1) == 0xd || @input.peek(1) == 0x20
         @input.consume
       else
@@ -1469,9 +1469,9 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 860:8: '\"' ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )* '\"'
+      # at line 892:8: '\"' ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )* '\"'
       match( 0x22 )
-      # at line 860:12: ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )*
+      # at line 892:12: ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )*
       while true # decision 16
         alt_16 = 3
         look_16_0 = @input.peek( 1 )
@@ -1484,11 +1484,11 @@ module Spirit
         end
         case alt_16
         when 1
-          # at line 860:14: ESC_SEQ
+          # at line 892:14: ESC_SEQ
           esc_seq!
 
         when 2
-          # at line 860:24: ~ ( '\\\\' | '\"' )
+          # at line 892:24: ~ ( '\\\\' | '\"' )
           if @input.peek( 1 ).between?( 0x0, 0x21 ) || @input.peek( 1 ).between?( 0x23, 0x5b ) || @input.peek( 1 ).between?( 0x5d, 0xff )
             @input.consume
           else
@@ -1523,7 +1523,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 864:12: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
+      # at line 896:12: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
       if @input.peek(1) == 0x45 || @input.peek(1) == 0x65
         @input.consume
       else
@@ -1533,7 +1533,7 @@ module Spirit
       end
 
 
-      # at line 864:22: ( '+' | '-' )?
+      # at line 896:22: ( '+' | '-' )?
       alt_17 = 2
       look_17_0 = @input.peek( 1 )
 
@@ -1554,7 +1554,7 @@ module Spirit
 
 
       end
-      # at file 864:33: ( '0' .. '9' )+
+      # at file 896:33: ( '0' .. '9' )+
       match_count_18 = 0
       while true
         alt_18 = 2
@@ -1566,7 +1566,7 @@ module Spirit
         end
         case alt_18
         when 1
-          # at line 864:34: '0' .. '9'
+          # at line 896:34: '0' .. '9'
           match_range( 0x30, 0x39 )
 
         else
@@ -1594,7 +1594,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 867:13: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
+      # at line 899:13: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
       if @input.peek( 1 ).between?( 0x30, 0x39 ) || @input.peek( 1 ).between?( 0x41, 0x46 ) || @input.peek( 1 ).between?( 0x61, 0x66 )
         @input.consume
       else
@@ -1619,7 +1619,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 871:5: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | OCTAL_ESC )
+      # at line 903:5: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | OCTAL_ESC )
       alt_19 = 3
       look_19_0 = @input.peek( 1 )
 
@@ -1636,7 +1636,7 @@ module Spirit
       end
       case alt_19
       when 1
-        # at line 871:9: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
+        # at line 903:9: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
         match( 0x5c )
         if @input.peek(1) == 0x22 || @input.peek(1) == 0x27 || @input.peek(1) == 0x5c || @input.peek(1) == 0x62 || @input.peek(1) == 0x66 || @input.peek(1) == 0x6e || @input.peek(1) == 0x72 || @input.peek(1) == 0x74
           @input.consume
@@ -1649,11 +1649,11 @@ module Spirit
 
 
       when 2
-        # at line 872:9: UNICODE_ESC
+        # at line 904:9: UNICODE_ESC
         unicode_esc!
 
       when 3
-        # at line 873:9: OCTAL_ESC
+        # at line 905:9: OCTAL_ESC
         octal_esc!
 
       end
@@ -1671,7 +1671,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 878:5: ( '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) )
+      # at line 910:5: ( '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) )
       alt_20 = 3
       look_20_0 = @input.peek( 1 )
 
@@ -1708,38 +1708,38 @@ module Spirit
       end
       case alt_20
       when 1
-        # at line 878:9: '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
+        # at line 910:9: '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
         match( 0x5c )
-        # at line 878:14: ( '0' .. '3' )
-        # at line 878:15: '0' .. '3'
+        # at line 910:14: ( '0' .. '3' )
+        # at line 910:15: '0' .. '3'
         match_range( 0x30, 0x33 )
 
-        # at line 878:25: ( '0' .. '7' )
-        # at line 878:26: '0' .. '7'
+        # at line 910:25: ( '0' .. '7' )
+        # at line 910:26: '0' .. '7'
         match_range( 0x30, 0x37 )
 
-        # at line 878:36: ( '0' .. '7' )
-        # at line 878:37: '0' .. '7'
+        # at line 910:36: ( '0' .. '7' )
+        # at line 910:37: '0' .. '7'
         match_range( 0x30, 0x37 )
 
 
       when 2
-        # at line 879:9: '\\\\' ( '0' .. '7' ) ( '0' .. '7' )
+        # at line 911:9: '\\\\' ( '0' .. '7' ) ( '0' .. '7' )
         match( 0x5c )
-        # at line 879:14: ( '0' .. '7' )
-        # at line 879:15: '0' .. '7'
+        # at line 911:14: ( '0' .. '7' )
+        # at line 911:15: '0' .. '7'
         match_range( 0x30, 0x37 )
 
-        # at line 879:25: ( '0' .. '7' )
-        # at line 879:26: '0' .. '7'
+        # at line 911:25: ( '0' .. '7' )
+        # at line 911:26: '0' .. '7'
         match_range( 0x30, 0x37 )
 
 
       when 3
-        # at line 880:9: '\\\\' ( '0' .. '7' )
+        # at line 912:9: '\\\\' ( '0' .. '7' )
         match( 0x5c )
-        # at line 880:14: ( '0' .. '7' )
-        # at line 880:15: '0' .. '7'
+        # at line 912:14: ( '0' .. '7' )
+        # at line 912:15: '0' .. '7'
         match_range( 0x30, 0x37 )
 
 
@@ -1758,7 +1758,7 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 885:9: '\\\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+      # at line 917:9: '\\\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
       match( 0x5c )
       match( 0x75 )
       hex_digit!
@@ -1979,7 +1979,7 @@ module Spirit
 
       def description
         <<-'__dfa_description__'.strip!
-          846:1: FLOAT : ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT );
+          878:1: FLOAT : ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT );
         __dfa_description__
       end
     end

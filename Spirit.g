@@ -5,14 +5,12 @@ options { language = Ruby; }
 @header{
 
   #TODO
-  #Validar que una variable declarada tenga su respectiva clase declarada
   #Return retorna un tipo ya sea primitivo u objeto
-  #Print
   #Herencia
   #Llamar atributos de otros objetos
   #Serializar ClassSymbol, MethodSymbol y VariableSymbol
   #Arreglos
-  #En la VM la primera variable local de un metodo es igual al indicado en el gsb
+  #En la VM la primera variable local de un metodo es igual al indicado en el gsb (self)
 
   class Stack < Array
     def pop
@@ -146,9 +144,16 @@ options { language = Ruby; }
   @classes['char'] = ClassSymbol.new('char')
   @classes['float'] = ClassSymbol.new('float')
   @classes['boolean'] = ClassSymbol.new('boolean')
+  @classes['void'] = ClassSymbol.new('void')
   @current_class = nil
   @current_method = nil
   @current_instance = nil
+  
+  def validate_existing_class(cl)
+    if(@classes[cl].nil?)
+      raise "Class #{cl} is non existent (inside #{@current_class.name}::#{@current_method.name if @current_method})"
+	  end
+  end
 
   #Creamos direcciones temporales
   @avail = []
@@ -314,7 +319,7 @@ methodmain
 	  }
 	  '(' ')' '{' vardeclaration* statement* '}'
 	  {
-	    generate('htl',nil,nil,nil)
+	    generate('hlt',nil,nil,nil)
 	    @current_method = nil
 	  };
 	
@@ -342,6 +347,7 @@ inherits
 vardeclaration
 	:	t = type IDENTIFIER
 	  {
+	    validate_existing_class($t.type_a)
 	    if(not @current_method.nil?)
 	      @current_method.set_to_local_variables($IDENTIFIER.text,VariableSymbol.new($IDENTIFIER.text, $t.type_a))
 	    else
@@ -356,6 +362,7 @@ methoddeclaration
 	    (t = primitivetype | t = classtype)
 	    IDENTIFIER
 	    { 
+	      validate_existing_class($t.type_a)
 	      @current_class.instance_methods[$IDENTIFIER.text] = MethodSymbol.new($IDENTIFIER.text, $t.type_a, @current_class)
 	      @current_method = @current_class.instance_methods[$IDENTIFIER.text]
 	      
@@ -373,7 +380,14 @@ methoddeclaration
 	    statement* 
 	    '}'
 	    {
-	      generate('ret', nil, nil, nil)
+	      if(@current_method.return_type == 'void')
+	        generate('ret', nil, nil, nil)
+	        @is_returning = true
+	      end
+	      unless(@is_returning)
+	        raise "Method #{@current_class.name}::#{@current_method.name} should return #{@current_method.return_type}"
+	      end
+	      @is_returning = nil
 	      @current_method = nil
 	    }
 	    ;
@@ -478,7 +492,25 @@ rhsassignment
 	  ;
 	
 returnstmt
-	:	'return' expression? ';';
+	:	'return' returnsomething? ';';
+	   
+	   
+returnsomething
+  :
+    expression
+    {
+    	rt = @stack_operands.pop
+      rt_t = @stack_types.pop
+      if(rt_t != @current_method.return_type)
+        raise "You are returning #{rt_t} in the #{@current_method.return_type} type method #{@current_class.name}::#{@current_method.name}"
+      end
+      generate('ret', nil, nil ,rt )
+      @is_returning = true
+      free_avail(rt)
+      free_avail_const(rt)
+      
+    }
+  ;
 	
 conditional 
 	:	 'if' '(' expression ')'
@@ -534,11 +566,11 @@ print
 	: 	
 	  'print' '(' expression
 	  {
-	    rh = @stack_operands.pop
-      rh_t = @stack_types.pop
-      generate('prt', nil, nil ,rh )
-      free_avail(rh)
-      free_avail_const(rh)
+	    pr = @stack_operands.pop
+      pr_t = @stack_types.pop
+      generate('prt', nil, nil ,prh )
+      free_avail(prh)
+      free_avail_const(prh)
 	  }	  
    ')' ';';
 
@@ -742,7 +774,7 @@ invocation
 	   IDENTIFIER
 	   {
 	     if(@class_called.instance_methods[$IDENTIFIER.text].nil?)
-	       raise "Method #{$IDENTIFIER.text} dont exist for instances of class #{@class_called.name} (called by #{@current_class.name}::#{@current_method.name if @current_method})"
+	       raise "Method #{$IDENTIFIER.text} dont exist for instances of class #{@class_called.name} (inside #{@current_class.name}::#{@current_method.name if @current_method})"
 	     end
 	     @method_called = @class_called.instance_methods[$IDENTIFIER.text]
 	     generate('era', nil, @class_called.name, @method_called.name)
@@ -765,7 +797,7 @@ calledclassbyinstance
       else
         @instance_called = @current_method.local_variables[$IDENTIFIER.text] || @current_class.instance_variables[$IDENTIFIER.text]
         if(!@instance_called)
-          raise "Variable '#{$IDENTIFIER.text}' not declared as instance of anything (called by #{@current_class.name}::#{@current_method.name if @current_method})"
+          raise "Variable '#{$IDENTIFIER.text}' not declared as instance of anything (inside #{@current_class.name}::#{@current_method.name if @current_method})"
         end
         @class_called = @classes[@instance_called.type] 
       end
@@ -781,11 +813,11 @@ arguments
 	    argument = @stack_operands.pop 
 	    argument_type = @stack_types.pop
 	    if(@method_called.parameter_count <= @argument_counter)
-	      raise "There are more arguments than parameters in #{@class_called.name}::#{@method_called.name} (called by #{@current_class.name}::#{@current_method.name})"
+	      raise "There are more arguments than parameters in #{@class_called.name}::#{@method_called.name} (inside #{@current_class.name}::#{@current_method.name})"
 	    end
 	    parameter_type = @method_called.parameter_list[@argument_counter].type
 	    if(argument_type != parameter_type)
-	      raise "Argument '#{@argument_counter + 1}' in method #{@class_called.name}::#{@method_called.name} is not '#{parameter_type}' (called by #{@current_class.name}::#{@current_method.name})"
+	      raise "Argument '#{@argument_counter + 1}' in method #{@class_called.name}::#{@method_called.name} is not '#{parameter_type}' (inside #{@current_class.name}::#{@current_method.name})"
 	    end
 	    @argument_counter += 1
 	    #Los prm empiezan en 1 pues el 0 le pertenece a self
@@ -798,11 +830,11 @@ arguments
 	      argument = @stack_operands.pop 
 	      argument_type = @stack_types.pop
   	    if(@method_called.parameter_count <= @argument_counter)
-	        raise "There are more arguments than parameters in #{@class_called.name}::#{@method_called.name} (called by #{@current_class.name}::#{@current_method.name})"
+	        raise "There are more arguments than parameters in #{@class_called.name}::#{@method_called.name} (inside #{@current_class.name}::#{@current_method.name})"
 	      end
 	      parameter_type = @method_called.parameter_list[@argument_counter].type
 	      if(argument_type != parameter_type)
-	        raise "Argument '#{@argument_counter + 1}' in method #{@class_called.name}::#{@method_called.name} is not '#{parameter_type}' (called by #{@current_class.name}::#{@current_method.name})"
+	        raise "Argument '#{@argument_counter + 1}' in method #{@class_called.name}::#{@method_called.name} is not '#{parameter_type}' (inside #{@current_class.name}::#{@current_method.name})"
 	      end
 	      @argument_counter += 1
 	      #Los prm empiezan en 1 pues el 0 le pertenece a self
@@ -811,7 +843,7 @@ arguments
 	  )*
 	  {
 	    if(@method_called.parameter_count != @argument_counter)
-	        raise "There are less arguments than parameters in #{@class_called.name}::#{@method_called.name} (called by #{@current_class.name}::#{@current_method.name})"
+	        raise "There are less arguments than parameters in #{@class_called.name}::#{@method_called.name} (inside #{@current_class.name}::#{@current_method.name})"
 	    end
 	    @argument_counter = 0;
 	  }

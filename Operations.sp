@@ -4,6 +4,7 @@ class Persona {
 
   method void edad(){
     in_var = 10;
+    return;
   }
 
   method void nombre(){
@@ -16,18 +17,21 @@ class Persona {
 
 class Main {
 
-  int c;
-  c = 30;
+  float c;
+  c = 30.0;
 
-  method int suma(int a, int b){
+  method Persona suma(int a, int b){
     int c;
+    Persona p;
     c = a + b;
+    return p;
   }
   
   
   method float divide(int a, int b){
-    float c;
-    c = a / b;
+    int c;
+    this.c = a / b;
+    return this.c;
   }
 
   method void main() {
@@ -35,12 +39,6 @@ class Main {
     int a;
     int b;
     int c;
-    float d;
-    d = iread() + fread() + iread();
-    b = iread();
-    this.c = iread() + iread();
-    suma(a,b);
-    print(5 + 7 - 2);
     p.nombre();
   }
   
