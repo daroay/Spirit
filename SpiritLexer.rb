@@ -5,7 +5,7 @@
 # Generated using ANTLR version: 3.2.1-SNAPSHOT Jul 31, 2010 19:34:52
 # Ruby runtime library version: 1.8.11
 # Input grammar file: Spirit.g
-# Generated at: 2012-04-10 23:45:55
+# Generated at: 2012-04-23 00:26:56
 # 
 
 # ~~~> start load path setup
@@ -71,13 +71,13 @@ module Spirit
                    :T__22 => 22, :T__21 => 21, :T__20 => 20, :OCTAL_ESC => 19, 
                    :CHAR => 10, :FLOAT => 9, :EOF => -1, :ADDITIONSUBSTRACTIONOPERATORS => 7, 
                    :ESC_SEQ => 13, :IDENTIFIER => 4, :MULTIPLICATIONDIVISIONOPERATORS => 8, 
-                   :T__42 => 42, :INTEGER => 5, :T__43 => 43, :T__40 => 40, 
-                   :T__41 => 41, :T__46 => 46, :T__47 => 47, :T__44 => 44, 
-                   :T__45 => 45, :T__48 => 48, :T__49 => 49, :UNICODE_ESC => 18, 
-                   :BOOL => 11, :HEX_DIGIT => 17, :T__30 => 30, :T__31 => 31, 
-                   :T__32 => 32, :WS => 15, :T__33 => 33, :T__34 => 34, 
-                   :T__35 => 35, :T__36 => 36, :T__37 => 37, :T__38 => 38, 
-                   :T__39 => 39, :ARRAYIDENTIFIER => 12, :COMPARITIONOPERATORS => 6, 
+                   :T__50 => 50, :T__42 => 42, :INTEGER => 5, :T__43 => 43, 
+                   :T__40 => 40, :T__41 => 41, :T__46 => 46, :T__47 => 47, 
+                   :T__44 => 44, :T__45 => 45, :T__48 => 48, :T__49 => 49, 
+                   :UNICODE_ESC => 18, :BOOL => 11, :HEX_DIGIT => 17, :T__30 => 30, 
+                   :T__31 => 31, :T__32 => 32, :WS => 15, :T__33 => 33, 
+                   :T__34 => 34, :T__35 => 35, :T__36 => 36, :T__37 => 37, 
+                   :T__38 => 38, :T__39 => 39, :ARRAYIDENTIFIER => 12, :COMPARITIONOPERATORS => 6, 
                    :STRING => 16 )
     
   end
@@ -99,7 +99,7 @@ module Spirit
                      "T__32", "T__33", "T__34", "T__35", "T__36", "T__37", 
                      "T__38", "T__39", "T__40", "T__41", "T__42", "T__43", 
                      "T__44", "T__45", "T__46", "T__47", "T__48", "T__49", 
-                     "MULTIPLICATIONDIVISIONOPERATORS", "ADDITIONSUBSTRACTIONOPERATORS", 
+                     "T__50", "MULTIPLICATIONDIVISIONOPERATORS", "ADDITIONSUBSTRACTIONOPERATORS", 
                      "COMPARITIONOPERATORS", "BOOL", "IDENTIFIER", "ARRAYIDENTIFIER", 
                      "INTEGER", "CHAR", "FLOAT", "WS", "STRING", "EXPONENT", 
                      "HEX_DIGIT", "ESC_SEQ", "OCTAL_ESC", "UNICODE_ESC" ].freeze
@@ -108,7 +108,7 @@ module Spirit
                      :t__32!, :t__33!, :t__34!, :t__35!, :t__36!, :t__37!, 
                      :t__38!, :t__39!, :t__40!, :t__41!, :t__42!, :t__43!, 
                      :t__44!, :t__45!, :t__46!, :t__47!, :t__48!, :t__49!, 
-                     :multiplicationdivisionoperators!, :additionsubstractionoperators!, 
+                     :t__50!, :multiplicationdivisionoperators!, :additionsubstractionoperators!, 
                      :comparitionoperators!, :bool!, :identifier!, :arrayidentifier!, 
                      :integer!, :char!, :float!, :ws!, :string!, :exponent!, 
                      :hex_digit!, :esc_seq!, :octal_esc!, :unicode_esc! ].freeze
@@ -402,8 +402,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 21:9: ','
-      match( 0x2c )
+      # at line 21:9: '['
+      match( 0x5b )
 
       
       @state.type = type
@@ -426,8 +426,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 22:9: 'int'
-      match( "int" )
+      # at line 22:9: ']'
+      match( 0x5d )
 
       
       @state.type = type
@@ -450,8 +450,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 23:9: 'char'
-      match( "char" )
+      # at line 23:9: ','
+      match( 0x2c )
 
       
       @state.type = type
@@ -474,8 +474,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 24:9: 'float'
-      match( "float" )
+      # at line 24:9: 'int'
+      match( "int" )
 
       
       @state.type = type
@@ -498,8 +498,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 25:9: 'boolean'
-      match( "boolean" )
+      # at line 25:9: 'char'
+      match( "char" )
 
       
       @state.type = type
@@ -522,8 +522,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 26:9: '['
-      match( 0x5b )
+      # at line 26:9: 'float'
+      match( "float" )
 
       
       @state.type = type
@@ -546,8 +546,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 27:9: ']'
-      match( 0x5d )
+      # at line 27:9: 'boolean'
+      match( "boolean" )
 
       
       @state.type = type
@@ -786,8 +786,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 37:9: 'iread'
-      match( "iread" )
+      # at line 37:9: 'println'
+      match( "println" )
 
       
       @state.type = type
@@ -810,8 +810,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 38:9: 'fread'
-      match( "fread" )
+      # at line 38:9: 'iread'
+      match( "iread" )
 
       
       @state.type = type
@@ -834,8 +834,8 @@ module Spirit
 
       
       # - - - - main rule block - - - -
-      # at line 39:9: 'cread'
-      match( "cread" )
+      # at line 39:9: 'fread'
+      match( "fread" )
 
       
       @state.type = type
@@ -847,40 +847,20 @@ module Spirit
 
     end
 
-    # lexer rule multiplicationdivisionoperators! (MULTIPLICATIONDIVISIONOPERATORS)
+    # lexer rule t__50! (T__50)
     # (in Spirit.g)
-    def multiplicationdivisionoperators!
+    def t__50!
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 31 )
 
-      type = MULTIPLICATIONDIVISIONOPERATORS
+      type = T__50
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 877:2: ( '*' | '/' | '&&' )
-      alt_1 = 3
-      case look_1 = @input.peek( 1 )
-      when 0x2a then alt_1 = 1
-      when 0x2f then alt_1 = 2
-      when 0x26 then alt_1 = 3
-      else
-        raise NoViableAlternative( "", 1, 0 )
-      end
-      case alt_1
-      when 1
-        # at line 877:7: '*'
-        match( 0x2a )
+      # at line 40:9: 'cread'
+      match( "cread" )
 
-      when 2
-        # at line 877:13: '/'
-        match( 0x2f )
-
-      when 3
-        # at line 877:19: '&&'
-        match( "&&" )
-
-      end
       
       @state.type = type
       @state.channel = channel
@@ -891,38 +871,38 @@ module Spirit
 
     end
 
-    # lexer rule additionsubstractionoperators! (ADDITIONSUBSTRACTIONOPERATORS)
+    # lexer rule multiplicationdivisionoperators! (MULTIPLICATIONDIVISIONOPERATORS)
     # (in Spirit.g)
-    def additionsubstractionoperators!
+    def multiplicationdivisionoperators!
       # -> uncomment the next line to manually enable rule tracing
       # trace_in( __method__, 32 )
 
-      type = ADDITIONSUBSTRACTIONOPERATORS
+      type = MULTIPLICATIONDIVISIONOPERATORS
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 880:2: ( '+' | '-' | '||' )
-      alt_2 = 3
-      case look_2 = @input.peek( 1 )
-      when 0x2b then alt_2 = 1
-      when 0x2d then alt_2 = 2
-      when 0x7c then alt_2 = 3
+      # at line 1021:2: ( '*' | '/' | '&&' )
+      alt_1 = 3
+      case look_1 = @input.peek( 1 )
+      when 0x2a then alt_1 = 1
+      when 0x2f then alt_1 = 2
+      when 0x26 then alt_1 = 3
       else
-        raise NoViableAlternative( "", 2, 0 )
+        raise NoViableAlternative( "", 1, 0 )
       end
-      case alt_2
+      case alt_1
       when 1
-        # at line 880:7: '+'
-        match( 0x2b )
+        # at line 1021:7: '*'
+        match( 0x2a )
 
       when 2
-        # at line 880:14: '-'
-        match( 0x2d )
+        # at line 1021:13: '/'
+        match( 0x2f )
 
       when 3
-        # at line 880:20: '||'
-        match( "||" )
+        # at line 1021:19: '&&'
+        match( "&&" )
 
       end
       
@@ -935,18 +915,62 @@ module Spirit
 
     end
 
+    # lexer rule additionsubstractionoperators! (ADDITIONSUBSTRACTIONOPERATORS)
+    # (in Spirit.g)
+    def additionsubstractionoperators!
+      # -> uncomment the next line to manually enable rule tracing
+      # trace_in( __method__, 33 )
+
+      type = ADDITIONSUBSTRACTIONOPERATORS
+      channel = ANTLR3::DEFAULT_CHANNEL
+
+      
+      # - - - - main rule block - - - -
+      # at line 1024:2: ( '+' | '-' | '||' )
+      alt_2 = 3
+      case look_2 = @input.peek( 1 )
+      when 0x2b then alt_2 = 1
+      when 0x2d then alt_2 = 2
+      when 0x7c then alt_2 = 3
+      else
+        raise NoViableAlternative( "", 2, 0 )
+      end
+      case alt_2
+      when 1
+        # at line 1024:7: '+'
+        match( 0x2b )
+
+      when 2
+        # at line 1024:14: '-'
+        match( 0x2d )
+
+      when 3
+        # at line 1024:20: '||'
+        match( "||" )
+
+      end
+      
+      @state.type = type
+      @state.channel = channel
+
+    ensure
+      # -> uncomment the next line to manually enable rule tracing
+      # trace_out( __method__, 33 )
+
+    end
+
     # lexer rule comparitionoperators! (COMPARITIONOPERATORS)
     # (in Spirit.g)
     def comparitionoperators!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 33 )
+      # trace_in( __method__, 34 )
 
       type = COMPARITIONOPERATORS
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 883:2: ( '==' | '<' | '>' | '<=' | '>=' | '!=' )
+      # at line 1027:2: ( '==' | '<' | '>' | '<=' | '>=' | '!=' )
       alt_3 = 6
       case look_3 = @input.peek( 1 )
       when 0x3d then alt_3 = 1
@@ -970,70 +994,28 @@ module Spirit
       end
       case alt_3
       when 1
-        # at line 883:4: '=='
+        # at line 1027:4: '=='
         match( "==" )
 
       when 2
-        # at line 883:11: '<'
+        # at line 1027:11: '<'
         match( 0x3c )
 
       when 3
-        # at line 883:17: '>'
+        # at line 1027:17: '>'
         match( 0x3e )
 
       when 4
-        # at line 883:23: '<='
+        # at line 1027:23: '<='
         match( "<=" )
 
       when 5
-        # at line 883:30: '>='
+        # at line 1027:30: '>='
         match( ">=" )
 
       when 6
-        # at line 883:37: '!='
+        # at line 1027:37: '!='
         match( "!=" )
-
-      end
-      
-      @state.type = type
-      @state.channel = channel
-
-    ensure
-      # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 33 )
-
-    end
-
-    # lexer rule bool! (BOOL)
-    # (in Spirit.g)
-    def bool!
-      # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 34 )
-
-      type = BOOL
-      channel = ANTLR3::DEFAULT_CHANNEL
-
-      
-      # - - - - main rule block - - - -
-      # at line 886:2: ( 'true' | 'false' )
-      alt_4 = 2
-      look_4_0 = @input.peek( 1 )
-
-      if ( look_4_0 == 0x74 )
-        alt_4 = 1
-      elsif ( look_4_0 == 0x66 )
-        alt_4 = 2
-      else
-        raise NoViableAlternative( "", 4, 0 )
-      end
-      case alt_4
-      when 1
-        # at line 886:4: 'true'
-        match( "true" )
-
-      when 2
-        # at line 886:13: 'false'
-        match( "false" )
 
       end
       
@@ -1046,18 +1028,60 @@ module Spirit
 
     end
 
+    # lexer rule bool! (BOOL)
+    # (in Spirit.g)
+    def bool!
+      # -> uncomment the next line to manually enable rule tracing
+      # trace_in( __method__, 35 )
+
+      type = BOOL
+      channel = ANTLR3::DEFAULT_CHANNEL
+
+      
+      # - - - - main rule block - - - -
+      # at line 1030:2: ( 'true' | 'false' )
+      alt_4 = 2
+      look_4_0 = @input.peek( 1 )
+
+      if ( look_4_0 == 0x74 )
+        alt_4 = 1
+      elsif ( look_4_0 == 0x66 )
+        alt_4 = 2
+      else
+        raise NoViableAlternative( "", 4, 0 )
+      end
+      case alt_4
+      when 1
+        # at line 1030:4: 'true'
+        match( "true" )
+
+      when 2
+        # at line 1030:13: 'false'
+        match( "false" )
+
+      end
+      
+      @state.type = type
+      @state.channel = channel
+
+    ensure
+      # -> uncomment the next line to manually enable rule tracing
+      # trace_out( __method__, 35 )
+
+    end
+
     # lexer rule identifier! (IDENTIFIER)
     # (in Spirit.g)
     def identifier!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 35 )
+      # trace_in( __method__, 36 )
 
       type = IDENTIFIER
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 889:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+      # at line 1033:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
       if @input.peek( 1 ).between?( 0x41, 0x5a ) || @input.peek(1) == 0x5f || @input.peek( 1 ).between?( 0x61, 0x7a )
         @input.consume
       else
@@ -1067,7 +1091,7 @@ module Spirit
       end
 
 
-      # at line 889:28: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+      # at line 1033:28: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
       while true # decision 5
         alt_5 = 2
         look_5_0 = @input.peek( 1 )
@@ -1100,7 +1124,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 35 )
+      # trace_out( __method__, 36 )
 
     end
 
@@ -1108,14 +1132,14 @@ module Spirit
     # (in Spirit.g)
     def arrayidentifier!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 36 )
+      # trace_in( __method__, 37 )
 
       type = ARRAYIDENTIFIER
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 892:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* '[' ']'
+      # at line 1036:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* '[' ']'
       if @input.peek( 1 ).between?( 0x41, 0x5a ) || @input.peek(1) == 0x5f || @input.peek( 1 ).between?( 0x61, 0x7a )
         @input.consume
       else
@@ -1125,7 +1149,7 @@ module Spirit
       end
 
 
-      # at line 892:28: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+      # at line 1036:28: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
       while true # decision 6
         alt_6 = 2
         look_6_0 = @input.peek( 1 )
@@ -1160,7 +1184,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 36 )
+      # trace_out( __method__, 37 )
 
     end
 
@@ -1168,15 +1192,15 @@ module Spirit
     # (in Spirit.g)
     def integer!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 37 )
+      # trace_in( __method__, 38 )
 
       type = INTEGER
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 895:4: ( '0' .. '9' )+
-      # at file 895:4: ( '0' .. '9' )+
+      # at line 1039:4: ( '0' .. '9' )+
+      # at file 1039:4: ( '0' .. '9' )+
       match_count_7 = 0
       while true
         alt_7 = 2
@@ -1188,7 +1212,7 @@ module Spirit
         end
         case alt_7
         when 1
-          # at line 895:4: '0' .. '9'
+          # at line 1039:4: '0' .. '9'
           match_range( 0x30, 0x39 )
 
         else
@@ -1208,7 +1232,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 37 )
+      # trace_out( __method__, 38 )
 
     end
 
@@ -1216,16 +1240,16 @@ module Spirit
     # (in Spirit.g)
     def char!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 38 )
+      # trace_in( __method__, 39 )
 
       type = CHAR
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 897:8: '\\'' ( ESC_SEQ | ~ ( '\\'' | '\\\\' ) ) '\\''
+      # at line 1041:8: '\\'' ( ESC_SEQ | ~ ( '\\'' | '\\\\' ) ) '\\''
       match( 0x27 )
-      # at line 897:13: ( ESC_SEQ | ~ ( '\\'' | '\\\\' ) )
+      # at line 1041:13: ( ESC_SEQ | ~ ( '\\'' | '\\\\' ) )
       alt_8 = 2
       look_8_0 = @input.peek( 1 )
 
@@ -1238,11 +1262,11 @@ module Spirit
       end
       case alt_8
       when 1
-        # at line 897:15: ESC_SEQ
+        # at line 1041:15: ESC_SEQ
         esc_seq!
 
       when 2
-        # at line 897:25: ~ ( '\\'' | '\\\\' )
+        # at line 1041:25: ~ ( '\\'' | '\\\\' )
         if @input.peek( 1 ).between?( 0x0, 0x26 ) || @input.peek( 1 ).between?( 0x28, 0x5b ) || @input.peek( 1 ).between?( 0x5d, 0xff )
           @input.consume
         else
@@ -1262,7 +1286,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 38 )
+      # trace_out( __method__, 39 )
 
     end
 
@@ -1270,20 +1294,20 @@ module Spirit
     # (in Spirit.g)
     def float!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 39 )
+      # trace_in( __method__, 40 )
 
       type = FLOAT
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 901:5: ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT )
+      # at line 1045:5: ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT )
       alt_15 = 3
       alt_15 = @dfa15.predict( @input )
       case alt_15
       when 1
-        # at line 901:9: ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )?
-        # at file 901:9: ( '0' .. '9' )+
+        # at line 1045:9: ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )?
+        # at file 1045:9: ( '0' .. '9' )+
         match_count_9 = 0
         while true
           alt_9 = 2
@@ -1295,7 +1319,7 @@ module Spirit
           end
           case alt_9
           when 1
-            # at line 901:10: '0' .. '9'
+            # at line 1045:10: '0' .. '9'
             match_range( 0x30, 0x39 )
 
           else
@@ -1309,7 +1333,7 @@ module Spirit
         end
 
         match( 0x2e )
-        # at line 901:25: ( '0' .. '9' )*
+        # at line 1045:25: ( '0' .. '9' )*
         while true # decision 10
           alt_10 = 2
           look_10_0 = @input.peek( 1 )
@@ -1320,14 +1344,14 @@ module Spirit
           end
           case alt_10
           when 1
-            # at line 901:26: '0' .. '9'
+            # at line 1045:26: '0' .. '9'
             match_range( 0x30, 0x39 )
 
           else
             break # out of loop for decision 10
           end
         end # loop for decision 10
-        # at line 901:37: ( EXPONENT )?
+        # at line 1045:37: ( EXPONENT )?
         alt_11 = 2
         look_11_0 = @input.peek( 1 )
 
@@ -1336,15 +1360,15 @@ module Spirit
         end
         case alt_11
         when 1
-          # at line 901:37: EXPONENT
+          # at line 1045:37: EXPONENT
           exponent!
 
         end
 
       when 2
-        # at line 902:9: '.' ( '0' .. '9' )+ ( EXPONENT )?
+        # at line 1046:9: '.' ( '0' .. '9' )+ ( EXPONENT )?
         match( 0x2e )
-        # at file 902:13: ( '0' .. '9' )+
+        # at file 1046:13: ( '0' .. '9' )+
         match_count_12 = 0
         while true
           alt_12 = 2
@@ -1356,7 +1380,7 @@ module Spirit
           end
           case alt_12
           when 1
-            # at line 902:14: '0' .. '9'
+            # at line 1046:14: '0' .. '9'
             match_range( 0x30, 0x39 )
 
           else
@@ -1369,7 +1393,7 @@ module Spirit
           match_count_12 += 1
         end
 
-        # at line 902:25: ( EXPONENT )?
+        # at line 1046:25: ( EXPONENT )?
         alt_13 = 2
         look_13_0 = @input.peek( 1 )
 
@@ -1378,14 +1402,14 @@ module Spirit
         end
         case alt_13
         when 1
-          # at line 902:25: EXPONENT
+          # at line 1046:25: EXPONENT
           exponent!
 
         end
 
       when 3
-        # at line 903:9: ( '0' .. '9' )+ EXPONENT
-        # at file 903:9: ( '0' .. '9' )+
+        # at line 1047:9: ( '0' .. '9' )+ EXPONENT
+        # at file 1047:9: ( '0' .. '9' )+
         match_count_14 = 0
         while true
           alt_14 = 2
@@ -1397,7 +1421,7 @@ module Spirit
           end
           case alt_14
           when 1
-            # at line 903:10: '0' .. '9'
+            # at line 1047:10: '0' .. '9'
             match_range( 0x30, 0x39 )
 
           else
@@ -1419,7 +1443,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 39 )
+      # trace_out( __method__, 40 )
 
     end
 
@@ -1427,14 +1451,14 @@ module Spirit
     # (in Spirit.g)
     def ws!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 40 )
+      # trace_in( __method__, 41 )
 
       type = WS
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 906:9: ( ' ' | '\\t' | '\\r' | '\\n' )
+      # at line 1050:9: ( ' ' | '\\t' | '\\r' | '\\n' )
       if @input.peek( 1 ).between?( 0x9, 0xa ) || @input.peek(1) == 0xd || @input.peek(1) == 0x20
         @input.consume
       else
@@ -1454,7 +1478,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 40 )
+      # trace_out( __method__, 41 )
 
     end
 
@@ -1462,16 +1486,16 @@ module Spirit
     # (in Spirit.g)
     def string!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 41 )
+      # trace_in( __method__, 42 )
 
       type = STRING
       channel = ANTLR3::DEFAULT_CHANNEL
 
       
       # - - - - main rule block - - - -
-      # at line 914:8: '\"' ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )* '\"'
+      # at line 1058:8: '\"' ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )* '\"'
       match( 0x22 )
-      # at line 914:12: ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )*
+      # at line 1058:12: ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )*
       while true # decision 16
         alt_16 = 3
         look_16_0 = @input.peek( 1 )
@@ -1484,11 +1508,11 @@ module Spirit
         end
         case alt_16
         when 1
-          # at line 914:14: ESC_SEQ
+          # at line 1058:14: ESC_SEQ
           esc_seq!
 
         when 2
-          # at line 914:24: ~ ( '\\\\' | '\"' )
+          # at line 1058:24: ~ ( '\\\\' | '\"' )
           if @input.peek( 1 ).between?( 0x0, 0x21 ) || @input.peek( 1 ).between?( 0x23, 0x5b ) || @input.peek( 1 ).between?( 0x5d, 0xff )
             @input.consume
           else
@@ -1511,7 +1535,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 41 )
+      # trace_out( __method__, 42 )
 
     end
 
@@ -1519,11 +1543,11 @@ module Spirit
     # (in Spirit.g)
     def exponent!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 42 )
+      # trace_in( __method__, 43 )
 
       
       # - - - - main rule block - - - -
-      # at line 918:12: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
+      # at line 1062:12: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
       if @input.peek(1) == 0x45 || @input.peek(1) == 0x65
         @input.consume
       else
@@ -1533,7 +1557,7 @@ module Spirit
       end
 
 
-      # at line 918:22: ( '+' | '-' )?
+      # at line 1062:22: ( '+' | '-' )?
       alt_17 = 2
       look_17_0 = @input.peek( 1 )
 
@@ -1554,7 +1578,7 @@ module Spirit
 
 
       end
-      # at file 918:33: ( '0' .. '9' )+
+      # at file 1062:33: ( '0' .. '9' )+
       match_count_18 = 0
       while true
         alt_18 = 2
@@ -1566,7 +1590,7 @@ module Spirit
         end
         case alt_18
         when 1
-          # at line 918:34: '0' .. '9'
+          # at line 1062:34: '0' .. '9'
           match_range( 0x30, 0x39 )
 
         else
@@ -1582,7 +1606,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 42 )
+      # trace_out( __method__, 43 )
 
     end
 
@@ -1590,11 +1614,11 @@ module Spirit
     # (in Spirit.g)
     def hex_digit!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 43 )
+      # trace_in( __method__, 44 )
 
       
       # - - - - main rule block - - - -
-      # at line 921:13: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
+      # at line 1065:13: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )
       if @input.peek( 1 ).between?( 0x30, 0x39 ) || @input.peek( 1 ).between?( 0x41, 0x46 ) || @input.peek( 1 ).between?( 0x61, 0x66 )
         @input.consume
       else
@@ -1607,7 +1631,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 43 )
+      # trace_out( __method__, 44 )
 
     end
 
@@ -1615,11 +1639,11 @@ module Spirit
     # (in Spirit.g)
     def esc_seq!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 44 )
+      # trace_in( __method__, 45 )
 
       
       # - - - - main rule block - - - -
-      # at line 925:5: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | OCTAL_ESC )
+      # at line 1069:5: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | OCTAL_ESC )
       alt_19 = 3
       look_19_0 = @input.peek( 1 )
 
@@ -1636,7 +1660,7 @@ module Spirit
       end
       case alt_19
       when 1
-        # at line 925:9: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
+        # at line 1069:9: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
         match( 0x5c )
         if @input.peek(1) == 0x22 || @input.peek(1) == 0x27 || @input.peek(1) == 0x5c || @input.peek(1) == 0x62 || @input.peek(1) == 0x66 || @input.peek(1) == 0x6e || @input.peek(1) == 0x72 || @input.peek(1) == 0x74
           @input.consume
@@ -1649,17 +1673,17 @@ module Spirit
 
 
       when 2
-        # at line 926:9: UNICODE_ESC
+        # at line 1070:9: UNICODE_ESC
         unicode_esc!
 
       when 3
-        # at line 927:9: OCTAL_ESC
+        # at line 1071:9: OCTAL_ESC
         octal_esc!
 
       end
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 44 )
+      # trace_out( __method__, 45 )
 
     end
 
@@ -1667,11 +1691,11 @@ module Spirit
     # (in Spirit.g)
     def octal_esc!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 45 )
+      # trace_in( __method__, 46 )
 
       
       # - - - - main rule block - - - -
-      # at line 932:5: ( '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) )
+      # at line 1076:5: ( '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) )
       alt_20 = 3
       look_20_0 = @input.peek( 1 )
 
@@ -1708,45 +1732,45 @@ module Spirit
       end
       case alt_20
       when 1
-        # at line 932:9: '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
+        # at line 1076:9: '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
         match( 0x5c )
-        # at line 932:14: ( '0' .. '3' )
-        # at line 932:15: '0' .. '3'
+        # at line 1076:14: ( '0' .. '3' )
+        # at line 1076:15: '0' .. '3'
         match_range( 0x30, 0x33 )
 
-        # at line 932:25: ( '0' .. '7' )
-        # at line 932:26: '0' .. '7'
+        # at line 1076:25: ( '0' .. '7' )
+        # at line 1076:26: '0' .. '7'
         match_range( 0x30, 0x37 )
 
-        # at line 932:36: ( '0' .. '7' )
-        # at line 932:37: '0' .. '7'
+        # at line 1076:36: ( '0' .. '7' )
+        # at line 1076:37: '0' .. '7'
         match_range( 0x30, 0x37 )
 
 
       when 2
-        # at line 933:9: '\\\\' ( '0' .. '7' ) ( '0' .. '7' )
+        # at line 1077:9: '\\\\' ( '0' .. '7' ) ( '0' .. '7' )
         match( 0x5c )
-        # at line 933:14: ( '0' .. '7' )
-        # at line 933:15: '0' .. '7'
+        # at line 1077:14: ( '0' .. '7' )
+        # at line 1077:15: '0' .. '7'
         match_range( 0x30, 0x37 )
 
-        # at line 933:25: ( '0' .. '7' )
-        # at line 933:26: '0' .. '7'
+        # at line 1077:25: ( '0' .. '7' )
+        # at line 1077:26: '0' .. '7'
         match_range( 0x30, 0x37 )
 
 
       when 3
-        # at line 934:9: '\\\\' ( '0' .. '7' )
+        # at line 1078:9: '\\\\' ( '0' .. '7' )
         match( 0x5c )
-        # at line 934:14: ( '0' .. '7' )
-        # at line 934:15: '0' .. '7'
+        # at line 1078:14: ( '0' .. '7' )
+        # at line 1078:15: '0' .. '7'
         match_range( 0x30, 0x37 )
 
 
       end
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 45 )
+      # trace_out( __method__, 46 )
 
     end
 
@@ -1754,11 +1778,11 @@ module Spirit
     # (in Spirit.g)
     def unicode_esc!
       # -> uncomment the next line to manually enable rule tracing
-      # trace_in( __method__, 46 )
+      # trace_in( __method__, 47 )
 
       
       # - - - - main rule block - - - -
-      # at line 939:9: '\\\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+      # at line 1083:9: '\\\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
       match( 0x5c )
       match( 0x75 )
       hex_digit!
@@ -1768,7 +1792,7 @@ module Spirit
 
     ensure
       # -> uncomment the next line to manually enable rule tracing
-      # trace_out( __method__, 46 )
+      # trace_out( __method__, 47 )
 
     end
 
@@ -1780,8 +1804,8 @@ module Spirit
     # but instead use the next_token method, which will
     # build and emit the actual next token
     def token!
-      # at line 1:8: ( T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | MULTIPLICATIONDIVISIONOPERATORS | ADDITIONSUBSTRACTIONOPERATORS | COMPARITIONOPERATORS | BOOL | IDENTIFIER | ARRAYIDENTIFIER | INTEGER | CHAR | FLOAT | WS | STRING )
-      alt_21 = 41
+      # at line 1:8: ( T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | MULTIPLICATIONDIVISIONOPERATORS | ADDITIONSUBSTRACTIONOPERATORS | COMPARITIONOPERATORS | BOOL | IDENTIFIER | ARRAYIDENTIFIER | INTEGER | CHAR | FLOAT | WS | STRING )
+      alt_21 = 42
       alt_21 = @dfa21.predict( @input )
       case alt_21
       when 1
@@ -1905,47 +1929,51 @@ module Spirit
         t__49!
 
       when 31
-        # at line 1:190: MULTIPLICATIONDIVISIONOPERATORS
-        multiplicationdivisionoperators!
+        # at line 1:190: T__50
+        t__50!
 
       when 32
-        # at line 1:222: ADDITIONSUBSTRACTIONOPERATORS
-        additionsubstractionoperators!
+        # at line 1:196: MULTIPLICATIONDIVISIONOPERATORS
+        multiplicationdivisionoperators!
 
       when 33
-        # at line 1:252: COMPARITIONOPERATORS
-        comparitionoperators!
+        # at line 1:228: ADDITIONSUBSTRACTIONOPERATORS
+        additionsubstractionoperators!
 
       when 34
-        # at line 1:273: BOOL
-        bool!
+        # at line 1:258: COMPARITIONOPERATORS
+        comparitionoperators!
 
       when 35
-        # at line 1:278: IDENTIFIER
-        identifier!
+        # at line 1:279: BOOL
+        bool!
 
       when 36
-        # at line 1:289: ARRAYIDENTIFIER
-        arrayidentifier!
+        # at line 1:284: IDENTIFIER
+        identifier!
 
       when 37
-        # at line 1:305: INTEGER
-        integer!
+        # at line 1:295: ARRAYIDENTIFIER
+        arrayidentifier!
 
       when 38
-        # at line 1:313: CHAR
-        char!
+        # at line 1:311: INTEGER
+        integer!
 
       when 39
-        # at line 1:318: FLOAT
-        float!
+        # at line 1:319: CHAR
+        char!
 
       when 40
-        # at line 1:324: WS
-        ws!
+        # at line 1:324: FLOAT
+        float!
 
       when 41
-        # at line 1:327: STRING
+        # at line 1:330: WS
+        ws!
+
+      when 42
+        # at line 1:333: STRING
         string!
 
       end
@@ -1979,52 +2007,54 @@ module Spirit
 
       def description
         <<-'__dfa_description__'.strip!
-          900:1: FLOAT : ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT );
+          1044:1: FLOAT : ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT );
         __dfa_description__
       end
     end
     class DFA21 < ANTLR3::DFA
-      EOT = unpack( 1, -1, 2, 36, 2, -1, 2, 36, 2, -1, 1, 36, 2, -1, 3, 
-                    36, 2, -1, 1, 51, 1, 52, 5, 36, 3, -1, 1, 36, 1, 60, 
-                    3, -1, 4, 36, 2, -1, 7, 36, 1, 71, 5, 36, 3, -1, 6, 
-                    36, 1, -1, 9, 36, 1, 92, 1, -1, 7, 36, 1, 100, 4, 36, 
-                    1, 105, 1, 36, 1, 107, 1, 36, 1, 109, 1, 110, 1, 36, 
-                    1, 112, 1, -1, 5, 36, 1, 118, 1, 119, 1, -1, 3, 36, 
-                    1, 123, 1, -1, 1, 124, 1, -1, 1, 36, 2, -1, 1, 36, 1, 
-                    -1, 1, 127, 1, 128, 1, 129, 1, 119, 1, 36, 2, -1, 1, 
-                    36, 1, 132, 1, 133, 2, -1, 1, 134, 1, 36, 3, -1, 1, 
-                    36, 1, 137, 3, -1, 1, 138, 1, 139, 3, -1 )
-      EOF = unpack( 140, -1 )
-      MIN = unpack( 1, 9, 2, 48, 2, -1, 2, 48, 2, -1, 1, 48, 2, -1, 3, 48, 
-                    2, -1, 1, 61, 6, 48, 3, -1, 1, 48, 1, 46, 3, -1, 4, 
-                    48, 2, -1, 13, 48, 3, -1, 6, 48, 1, -1, 10, 48, 1, -1, 
-                    20, 48, 1, -1, 7, 48, 1, -1, 4, 48, 1, -1, 1, 48, 1, 
-                    -1, 1, 48, 2, -1, 1, 48, 1, -1, 5, 48, 2, -1, 3, 48, 
-                    2, -1, 2, 48, 3, -1, 2, 48, 3, -1, 2, 48, 3, -1 )
-      MAX = unpack( 1, 125, 2, 122, 2, -1, 2, 122, 2, -1, 1, 122, 2, -1, 
-                    3, 122, 2, -1, 1, 61, 1, 57, 5, 122, 3, -1, 1, 122, 
-                    1, 101, 3, -1, 4, 122, 2, -1, 13, 122, 3, -1, 6, 122, 
-                    1, -1, 10, 122, 1, -1, 20, 122, 1, -1, 7, 122, 1, -1, 
-                    4, 122, 1, -1, 1, 122, 1, -1, 1, 122, 2, -1, 1, 122, 
-                    1, -1, 5, 122, 2, -1, 3, 122, 2, -1, 2, 122, 3, -1, 
-                    2, 122, 3, -1, 2, 122, 3, -1 )
+      EOT = unpack( 1, -1, 2, 36, 2, -1, 2, 36, 2, -1, 1, 36, 4, -1, 3, 
+                    36, 1, 51, 1, 52, 5, 36, 3, -1, 1, 36, 1, 60, 3, -1, 
+                    4, 36, 2, -1, 7, 36, 1, 71, 5, 36, 3, -1, 6, 36, 1, 
+                    -1, 9, 36, 1, 92, 1, -1, 7, 36, 1, 100, 4, 36, 1, 105, 
+                    1, 36, 1, 107, 1, 36, 1, 109, 1, 110, 1, 36, 1, 112, 
+                    1, -1, 5, 36, 1, 118, 1, 119, 1, -1, 3, 36, 1, 123, 
+                    1, -1, 1, 124, 1, -1, 1, 36, 2, -1, 1, 36, 1, -1, 1, 
+                    127, 1, 128, 1, 129, 1, 119, 1, 36, 2, -1, 1, 36, 1, 
+                    132, 1, 134, 2, -1, 1, 135, 1, 36, 3, -1, 1, 36, 1, 
+                    138, 1, -1, 1, 36, 2, -1, 1, 140, 1, 141, 1, -1, 1, 
+                    142, 3, -1 )
+      EOF = unpack( 143, -1 )
+      MIN = unpack( 1, 9, 2, 48, 2, -1, 2, 48, 2, -1, 1, 48, 4, -1, 3, 48, 
+                    1, 61, 6, 48, 3, -1, 1, 48, 1, 46, 3, -1, 4, 48, 2, 
+                    -1, 13, 48, 3, -1, 6, 48, 1, -1, 10, 48, 1, -1, 20, 
+                    48, 1, -1, 7, 48, 1, -1, 4, 48, 1, -1, 1, 48, 1, -1, 
+                    1, 48, 2, -1, 1, 48, 1, -1, 5, 48, 2, -1, 3, 48, 2, 
+                    -1, 2, 48, 3, -1, 2, 48, 1, -1, 1, 48, 2, -1, 2, 48, 
+                    1, -1, 1, 48, 3, -1 )
+      MAX = unpack( 1, 125, 2, 122, 2, -1, 2, 122, 2, -1, 1, 122, 4, -1, 
+                    3, 122, 1, 61, 1, 57, 5, 122, 3, -1, 1, 122, 1, 101, 
+                    3, -1, 4, 122, 2, -1, 13, 122, 3, -1, 6, 122, 1, -1, 
+                    10, 122, 1, -1, 20, 122, 1, -1, 7, 122, 1, -1, 4, 122, 
+                    1, -1, 1, 122, 1, -1, 1, 122, 2, -1, 1, 122, 1, -1, 
+                    5, 122, 2, -1, 3, 122, 2, -1, 2, 122, 3, -1, 2, 122, 
+                    1, -1, 1, 122, 2, -1, 2, 122, 1, -1, 1, 122, 3, -1 )
       ACCEPT = unpack( 3, -1, 1, 3, 1, 4, 2, -1, 1, 8, 1, 9, 1, -1, 1, 11, 
-                       1, 12, 3, -1, 1, 17, 1, 18, 7, -1, 1, 31, 1, 32, 
-                       1, 33, 2, -1, 1, 38, 1, 40, 1, 41, 4, -1, 1, 35, 
-                       1, 36, 13, -1, 1, 19, 1, 20, 1, 39, 6, -1, 1, 37, 
-                       10, -1, 1, 24, 20, -1, 1, 13, 7, -1, 1, 22, 4, -1, 
-                       1, 14, 1, -1, 1, 2, 1, -1, 1, 7, 1, 6, 1, -1, 1, 
-                       25, 5, -1, 1, 21, 1, 34, 3, -1, 1, 1, 1, 30, 2, -1, 
-                       1, 28, 1, 15, 1, 29, 2, -1, 1, 26, 1, 27, 1, 5, 2, 
-                       -1, 1, 23, 1, 10, 1, 16 )
-      SPECIAL = unpack( 140, -1 )
+                       1, 12, 1, 13, 1, 14, 10, -1, 1, 32, 1, 33, 1, 34, 
+                       2, -1, 1, 39, 1, 41, 1, 42, 4, -1, 1, 36, 1, 37, 
+                       13, -1, 1, 19, 1, 20, 1, 40, 6, -1, 1, 38, 10, -1, 
+                       1, 24, 20, -1, 1, 15, 7, -1, 1, 22, 4, -1, 1, 16, 
+                       1, -1, 1, 2, 1, -1, 1, 7, 1, 6, 1, -1, 1, 25, 5, 
+                       -1, 1, 21, 1, 35, 3, -1, 1, 1, 1, 31, 2, -1, 1, 29, 
+                       1, 17, 1, 30, 2, -1, 1, 26, 1, -1, 1, 27, 1, 5, 2, 
+                       -1, 1, 23, 1, -1, 1, 10, 1, 18, 1, 28 )
+      SPECIAL = unpack( 143, -1 )
       TRANSITION = [
         unpack( 2, 30, 2, -1, 1, 30, 18, -1, 1, 30, 1, 26, 1, 31, 3, -1, 
-                1, 24, 1, 29, 1, 7, 1, 8, 1, 24, 1, 25, 1, 11, 1, 25, 1, 
+                1, 24, 1, 29, 1, 7, 1, 8, 1, 24, 1, 25, 1, 13, 1, 25, 1, 
                 18, 1, 24, 10, 28, 1, -1, 1, 10, 1, 26, 1, 17, 1, 26, 2, 
-                -1, 12, 27, 1, 2, 13, 27, 1, 15, 1, -1, 1, 16, 1, -1, 1, 
-                27, 1, -1, 1, 27, 1, 14, 1, 1, 1, 27, 1, 9, 1, 13, 2, 27, 
-                1, 12, 3, 27, 1, 5, 1, 20, 1, 27, 1, 23, 1, 27, 1, 21, 1, 
+                -1, 12, 27, 1, 2, 13, 27, 1, 11, 1, -1, 1, 12, 1, -1, 1, 
+                27, 1, -1, 1, 27, 1, 16, 1, 1, 1, 27, 1, 9, 1, 15, 2, 27, 
+                1, 14, 3, 27, 1, 5, 1, 20, 1, 27, 1, 23, 1, 27, 1, 21, 1, 
                 27, 1, 19, 1, 27, 1, 6, 1, 22, 3, 27, 1, 3, 1, 25, 1, 4 ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 7, 35, 
                  1, 33, 3, 35, 1, 32, 5, 35, 1, 34, 8, 35 ),
@@ -2042,14 +2072,14 @@ module Spirit
                  35, 1, 43, 11, 35, 1, 42, 2, 35 ),
         unpack(  ),
         unpack(  ),
+        unpack(  ),
+        unpack(  ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 5, 35, 
                  1, 45, 7, 35, 1, 44, 3, 35, 1, 46, 8, 35 ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 1, 49, 
                  10, 35, 1, 47, 5, 35, 1, 48, 8, 35 ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 14, 
                  35, 1, 50, 11, 35 ),
-        unpack(  ),
-        unpack(  ),
         unpack( 1, 26 ),
         unpack( 10, 53 ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 7, 35, 
@@ -2235,26 +2265,31 @@ module Spirit
                  35, 1, 131, 12, 35 ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 26, 
                  35 ),
-        unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 26, 
-                 35 ),
+        unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 11, 
+                 35, 1, 133, 14, 35 ),
         unpack(  ),
         unpack(  ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 26, 
                  35 ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 18, 
-                 35, 1, 135, 7, 35 ),
+                 35, 1, 136, 7, 35 ),
         unpack(  ),
         unpack(  ),
         unpack(  ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 13, 
-                 35, 1, 136, 12, 35 ),
+                 35, 1, 137, 12, 35 ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 26, 
                  35 ),
         unpack(  ),
+        unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 13, 
+                 35, 1, 139, 12, 35 ),
         unpack(  ),
         unpack(  ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 26, 
                  35 ),
+        unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 26, 
+                 35 ),
+        unpack(  ),
         unpack( 10, 35, 7, -1, 26, 35, 1, 37, 3, -1, 1, 35, 1, -1, 26, 
                  35 ),
         unpack(  ),
@@ -2273,7 +2308,7 @@ module Spirit
 
       def description
         <<-'__dfa_description__'.strip!
-          1:1: Tokens : ( T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | MULTIPLICATIONDIVISIONOPERATORS | ADDITIONSUBSTRACTIONOPERATORS | COMPARITIONOPERATORS | BOOL | IDENTIFIER | ARRAYIDENTIFIER | INTEGER | CHAR | FLOAT | WS | STRING );
+          1:1: Tokens : ( T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | MULTIPLICATIONDIVISIONOPERATORS | ADDITIONSUBSTRACTIONOPERATORS | COMPARITIONOPERATORS | BOOL | IDENTIFIER | ARRAYIDENTIFIER | INTEGER | CHAR | FLOAT | WS | STRING );
         __dfa_description__
       end
     end

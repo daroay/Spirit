@@ -7,9 +7,32 @@ options { language = Ruby; }
   #TODO
   #Herencia
   #Serializar ClassSymbol, MethodSymbol y VariableSymbol
-  #Arreglos
+  
+  #NOTAS
   #En la VM la primera variable local de un metodo es igual al indicado en el gsb (self)
-  #DUDAS: Valores iniciales de las instance variables
+
+  require 'json'
+    
+    
+  class Hash
+    def as_json
+      v = {}
+      self.each do |key, value|
+        v[key] = value.as_json
+      end
+      return v
+    end
+  end
+  
+  def Array
+    def as_json
+      v = []
+      self.each do |value|
+        v << value.as_json
+      end
+      return v
+    end
+  end
 
   class Stack < Array
     def pop
@@ -19,14 +42,14 @@ options { language = Ruby; }
   
   class Integer
     def temporal?
-      if(self >= 4000 and self <= 4999) then
+      if(self >= 400 and self <= 499) then
         return true
       end
       return false
     end
     
      def constant?
-      if(self >= 3000 and self <= 3999) then
+      if(self >= 300 and self <= 399) then
         return true
       end
       return false
@@ -46,40 +69,60 @@ options { language = Ruby; }
   
   #Contiene nombre, tipo y direccion de una variable
   class VariableSymbol
-    attr_accessor :name, :type, :address
+    attr_accessor :name, :type, :address, :dim
     
-    def initialize(n, t)
+    def as_json
+      {
+        :name => name,
+        :type => type,
+        :address => address,
+        :dim => dim
+      }
+    end
+    
+    def initialize(n, t, d = 1)
       @name = n
       @type = t
       @address = nil
+      @dim = d
     end
     
   end
   
   #Contiene nombre, hash de variables de instancia, hash de metodos y super clase
   class ClassSymbol
-    attr_accessor :name, :instance_methods, :parent_class, :instance_variables
+    attr_accessor :name, :instance_methods, :instance_variables
     
-    START_ADDRESS = 2000
-    FINISH_ADDRESS = 2999
+    def as_json
+      {
+        :name => name,
+        :instance_variables => instance_variables.as_json,
+        :instance_methods => instance_methods.as_json,
+      }
+    end
+    
+    
+    START_ADDRESS = 200
+    FINISH_ADDRESS = 299
     
     def initialize(n, p = nil)
       @name = n #String
-      @parent_class = p #ClassSymbol
       @instance_variables = Hash.new #VariableSymbol
       @instance_methods = Hash.new #MethodSymbol
       @next_address = START_ADDRESS
     end
     
+    
     def set_to_instance_variables(key, vs)
       vs.address = @next_address
-      @next_address += 1
+      @next_address += vs.dim
       if(@instance_variables[key].nil?)
         @instance_variables[key] = vs
       else
         raise "Variable '#{key}' was previously declared"
       end
     end
+    
     
   end
   
@@ -88,8 +131,18 @@ options { language = Ruby; }
     attr_accessor :name, :return_type, :parameter_variables, :container_class, :local_variables, :starting_fourfold
     attr_accessor :parameter_list
     
-    START_ADDRESS = 1000
-    FINISH_ADDRESS = 1999
+    
+    def as_json
+      {
+        :name => name,
+        :return_type => return_type,
+        :starting_fourfould => starting_fourfold,
+        :local_variables => local_variables.as_json
+      }
+    end
+    
+    START_ADDRESS = 100
+    FINISH_ADDRESS = 199
     
     
     def initialize(n, r = nil, c = nil)
@@ -102,15 +155,18 @@ options { language = Ruby; }
       @next_variable_address = START_ADDRESS
     end
     
+            
+    
     def set_to_local_variables(key, vs)
       vs.address = @next_variable_address
-      @next_variable_address += 1
+      @next_variable_address += vs.dim
       if(@local_variables[key].nil?)
         @local_variables[key] = vs
       else
         raise "Variable '#{key}' was previously declared"
       end
     end
+    
     
     def set_to_parameter_variables(key, vs)
       if(@parameter_variables[key].nil?)
@@ -144,6 +200,11 @@ options { language = Ruby; }
   @classes['float'] = ClassSymbol.new('float')
   @classes['boolean'] = ClassSymbol.new('boolean')
   @classes['void'] = ClassSymbol.new('void')
+  @classes['intarray'] = ClassSymbol.new('intarray')
+  @classes['chararray'] = ClassSymbol.new('chararray')
+  @classes['floatarray'] = ClassSymbol.new('floatarray')
+  @classes['booleanarray'] = ClassSymbol.new('booleanarray')
+  @classes['voidarray'] = ClassSymbol.new('voidarray')
   @current_class = nil
   @current_method = nil
   @current_instance = nil
@@ -157,8 +218,8 @@ options { language = Ruby; }
   #Creamos direcciones temporales
   @avail = []
   create_avail = Proc.new {
-    1000.times do |i|
-      @avail << "#{i + 4000}"
+    100.times do |i|
+      @avail << "#{i + 400}"
     end
   }
   create_avail.call()
@@ -168,6 +229,7 @@ options { language = Ruby; }
   end
   
   def free_avail(a)
+    a = a.to_s.sub(/^\(/, '').sub(/\)$/, '')
     if(a.temporal?) then
       @avail.insert(0,a)
     end
@@ -176,8 +238,8 @@ options { language = Ruby; }
   #Creamos direcciones de constantes
   @avail_const = []
   create_avail_const = Proc.new {
-    1000.times do |i|
-      @avail_const << "#{i + 3000}"
+    100.times do |i|
+      @avail_const << "#{i + 300}"
     end
   }
   create_avail_const.call()
@@ -196,6 +258,7 @@ options { language = Ruby; }
   @stack_operands = Stack.new
   @stack_types = Stack.new
   @stack_jumps = Stack.new
+  @stack_dimensioned = Stack.new
   @fourfold = Stack.new
   @cont = 1
   
@@ -264,13 +327,31 @@ options { language = Ruby; }
   end
   
   def print_fourfold
+    str = ""
 		@fourfold.size.times do |i|
-		  \$stdout.print "#{i}) "
+		  # \$stdout.print "#{i}) "
 		  @fourfold[i].size.times do |j|
-		    \$stdout.print "#{@fourfold[i][j]}, "
+		    str += "#{@fourfold[i][j]},"
 		  end
-		  \$stdout.print "\n"
+		  str += "\n"
 		end
+		return str
+  end
+  
+  def print_classes
+    @classes.each do |key, value|
+      puts value.as_json
+    end
+  end
+  
+  
+  def show_output
+    File.open("myobj", 'w') {|f| f.write(print_fourfold) }
+    #CLASSES
+      #INSTANCE_VARIABLES
+      #INSTANCE_METHODS
+        #LOCAL_VARIABLES
+    #print_classes
   end
 }
 
@@ -282,7 +363,7 @@ goal
 	    mainclass 
 	    {
 	      @fourfold.insert(0, ['gto',nil,nil, @classes['Main'].instance_methods['main'].starting_fourfold])
-	      print_fourfold
+	      show_output
 	    };
 
 mainclass 
@@ -347,7 +428,8 @@ inherits
 	;
 
 vardeclaration
-	:	t = type IDENTIFIER
+	:	
+	  t = type IDENTIFIER
 	  {
 	    validate_existing_class($t.type_a)
 	    if(not @current_method.nil?)
@@ -356,7 +438,20 @@ vardeclaration
 	      @current_class.set_to_instance_variables($IDENTIFIER.text, VariableSymbol.new($IDENTIFIER.text, $t.type_a))
 	    end
 	  }
-	  ';';
+	  ';'
+	|
+	  t = primitivetype '[' INTEGER ']' IDENTIFIER
+    {
+      variable = VariableSymbol.new($IDENTIFIER.text, $t.type_a, $INTEGER.text.to_i)  
+      if(not @current_method.nil?)
+        @current_method.set_to_local_variables($IDENTIFIER.text, variable)
+      else
+        @current_class.set_to_instance_variables($IDENTIFIER.text, variable)
+      end
+      generate('ary', variable.type, variable.dim , variable.address )
+    }  
+	  ';'
+	;
 
 
 methoddeclaration 
@@ -369,7 +464,7 @@ methoddeclaration
 	      @current_method = @current_class.instance_methods[$IDENTIFIER.text]
 	      
 	      #Creamos una instancia en el metodo para saber a que instancia pertenece
-	      @current_method.set_to_local_variables('_ci',VariableSymbol.new('_ci', $IDENTIFIER.text))
+	      @current_method.set_to_local_variables('_ci',VariableSymbol.new('_ci', @current_class.name))
 	      @current_instance = @current_method.local_variables.values.first
 	      
 	      @current_method.starting_fourfold = @cont
@@ -412,8 +507,7 @@ primitivetype
 	  $type_a = $t.text
 	};
 	
-arraytype
-	:	primitivetype '[' INTEGER ']';
+
 	
 classtype
   returns [type_a]:
@@ -425,14 +519,14 @@ classtype
 
 type 
 	returns [type_a]: 	
-	(t = primitivetype | arraytype | t = classtype) 
+	(t = primitivetype | t = classtype) 
 	{
 	  $type_a = $t.type_a
 	}
 	;
 
 statement
-	:	assignment  | conditional | invocation ';' | loop | print | returnstmt | ';';
+	:	assignment  | conditional | invocation ';' | loop | print | println | returnstmt | ';';
 	
 assignment 
 	:	lhsassignment '=' rhsassignment ';';
@@ -486,6 +580,8 @@ rhsassignment
           generate('=', rh, nil ,lh )
           free_avail(rh)
           free_avail_const(rh)
+          free_avail(lh)
+          free_avail_const(lh)
         }
       | 'new'
         IDENTIFIER
@@ -582,7 +678,21 @@ print
       free_avail(pr)
       free_avail_const(pr)
 	  }	  
-   ')' ';';
+   ')' ';'
+  ;
+   
+println
+	: 	
+	  'println' '(' expression
+	  {
+	    pr = @stack_operands.pop
+      pr_t = @stack_types.pop
+      generate('prl', nil, nil ,pr )
+      free_avail(pr)
+      free_avail_const(pr)
+	  }	  
+   ')' ';'
+  ;
 
 expression 
 	: 	exp (COMPARITIONOPERATORS
@@ -653,7 +763,8 @@ term
 		             @stack_types.push(resulting_type(@stack_types.pop, @stack_types.pop, operator))
 		           end
 		         }
-	           )*;
+	           )*
+  ;
 	
 factor
 	:
@@ -665,9 +776,8 @@ factor
 			  else
 		      raise "Variable #{$IDENTIFIER.text} not declared as instance of #{@current_class.name}"
 		    end
-		
 		  }
-		| IDENTIFIER
+		|  IDENTIFIER
 			{ #Regla 1 GC / Regla 1 VS
 			  # Verificar que exista en algun scope y meterlo en pila de operandos
 			  if(not @current_method.nil?)
@@ -727,10 +837,8 @@ factor
 				@stack_types.push($t.type_a)
 		  }
 		| arrayaccess
-		{
-		  #Pending
-		}
-		| '('
+		| 
+		  '('
 		  { #Regla 6 GC
 		    @stack_operators.push('(')
 		  }
@@ -738,11 +846,47 @@ factor
 		  ')'
 		  { #Regla 7 GC
 		    @stack_operators.pop
+
 		  }
 	;
 
 arrayaccess
-	:	IDENTIFIER'[' expression ']';
+  :
+	  IDENTIFIER
+	  '['
+	  expression
+	  {
+	    var = nil
+	    if(not @current_method.nil?)
+		    if(not @current_method.local_variables[$IDENTIFIER.text].nil?)
+		      var = @current_method.local_variables[$IDENTIFIER.text]
+		    elsif( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
+		      var = @current_class.instance_variables[$IDENTIFIER.text]
+		    else
+		      raise "Variable #{$IDENTIFIER.text} not declared neither in #{@current_class.name} or its method #{@current_method.name}"
+		    end
+			else
+		  	if( not @current_class.instance_variables[$IDENTIFIER.text].nil?)
+		  	  var = @current_class.instance_variables[$IDENTIFIER.text]
+		    else
+		      raise "Variable #{$IDENTIFIER.text} not declared as instance of #{@current_class.name}"
+		    end
+			end
+			aux = @stack_operands.pop
+			type = @stack_types.pop
+			if(type != 'int')
+			  raise "You can only access an address of an array with an integer expression "
+			end
+	    generate('ver', aux, nil, var.dim)
+	    base = var.address
+	    temp = get_avail
+	    generate('+', base, aux, temp)
+	    free_avail(aux)
+	    @stack_operands.push("(#{temp})")
+		  @stack_types.push(var.type)
+	  }
+	  ']'
+	;
 	
 read  
   :	
@@ -796,13 +940,13 @@ invocation
 	       raise "Method #{$IDENTIFIER.text} dont exist for instances of class #{@class_called.name} (inside #{@current_class.name}::#{@current_method.name if @current_method})"
 	     end
 	     @method_called = @class_called.instance_methods[$IDENTIFIER.text]
-	     generate('era', nil, @class_called.name, @method_called.name)
+	     generate('era', nil, @class_called.name, @method_called.starting_fourfold)
 	   }
 	   '('
 	   arguments?
 	   ')'
 	   {
-	     generate('gsb', @instance_called.address, @class_called.name, @method_called.name)
+	     generate('gsb', @instance_called.address, @class_called.name, @method_called.starting_fourfold)
 	     $type_a = @method_called.return_type
 	     @instance_called = nil;
 	     @method_called = nil;
