@@ -19,6 +19,24 @@ class Node{
   }
 }
 
+class List{
+
+  Node head;
+  
+  method void insert(Node n){
+    Node aux;
+    Node auxP;
+    aux = head;
+    while(aux != null){
+      auxP = aux;
+      aux = aux.getNext();
+    }
+    auxP.setNext(n);
+  }
+
+}
+
+
 class Main{
 
   method int fibo(int a){

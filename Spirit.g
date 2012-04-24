@@ -195,6 +195,7 @@ options { language = Ruby; }
   @classes = {} #ClassSymbol
   
   # Creamos clases ficticias de los primitivos
+  @classes['null'] = ClassSymbol.new('null')
   @classes['int'] = ClassSymbol.new('int')
   @classes['char'] = ClassSymbol.new('char')
   @classes['float'] = ClassSymbol.new('float')
@@ -291,13 +292,19 @@ options { language = Ruby; }
         raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       end
     when operator == '&&' || operator == '||'
-      if(type_a == 'boolean' && type_b == 'boolean')
-        return 'boolean'
+      if(type_a == 'boolean')
+        if(type_b == 'boolean' || type_b == 'null' )
+          return 'boolean'
+        end
+      elsif(type_b == 'boolean')
+        if(type_a == 'boolean' || type_a == 'null' )
+          return 'boolean'
+        end
       else
         raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       end
     when (operator == '==' ||  operator == '!=')
-      if(type_a != type_b)
+      if(type_a != type_b && type_a != 'null' && type_b != 'null')
         raise "Cant apply #{operator} to #{type_a} and #{type_b}"
       else
         return 'boolean'
@@ -574,7 +581,7 @@ rhsassignment
           rh_t = @stack_types.pop
           lh = @stack_operands.pop
           lh_t = @stack_types.pop
-          if(lh_t != rh_t)
+          if(lh_t != rh_t && rh_t != 'null')
             raise "Tried to assign #{rh_t} to #{lh_t} in #{@current_class.name}::#{@current_method.name if @current_method}"
           end
           generate('=', rh, nil ,lh )
@@ -590,7 +597,7 @@ rhsassignment
           rh_t = $IDENTIFIER.text
           lh = @stack_operands.pop
           lh_t = @stack_types.pop
-          if(lh_t != rh_t)
+          if(lh_t != rh_t && rh_t != 'null')
             raise "Tried to assign #{rh_t} to #{lh_t} in #{@current_class.name}::#{@current_method.name if @current_method}"
           end
           generate('new', rh_t, nil ,lh )
@@ -828,6 +835,15 @@ factor
 				@stack_operands.push(dir_const)
 				@stack_types.push('boolean')
 		  }
+		  
+		|
+		  NULL
+		  {
+		    dir_const = get_avail_const
+		    generate('nct', nil, nil, dir_const )
+				@stack_operands.push(dir_const)
+				@stack_types.push('null')
+		  }
 		| read
 		| t = invocation
 		  {
@@ -1028,6 +1044,9 @@ COMPARITIONOPERATORS
 	
 BOOL
 	:	'true' | 'false';
+	
+NULL
+  : 'null';
 	
 IDENTIFIER  
 	:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
