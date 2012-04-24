@@ -5,7 +5,7 @@
 # Generated using ANTLR version: 3.2.1-SNAPSHOT Jul 31, 2010 19:34:52
 # Ruby runtime library version: 1.8.11
 # Input grammar file: Spirit.g
-# Generated at: 2012-04-23 00:26:55
+# Generated at: 2012-04-24 13:47:42
 # 
 
 # ~~~> start load path setup
@@ -2493,7 +2493,7 @@ module Spirit
         	    generate('ver', aux, nil, var.dim)
         	    base = var.address
         	    temp = get_avail
-        	    generate('+', base, aux, temp)
+        	    generate('jmp', base, aux, temp)
         	    free_avail(aux)
         	    @stack_operands.push("(#{temp})")
         		  @stack_types.push(var.type)

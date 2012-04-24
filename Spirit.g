@@ -880,7 +880,7 @@ arrayaccess
 	    generate('ver', aux, nil, var.dim)
 	    base = var.address
 	    temp = get_avail
-	    generate('+', base, aux, temp)
+	    generate('jmp', base, aux, temp)
 	    free_avail(aux)
 	    @stack_operands.push("(#{temp})")
 		  @stack_types.push(var.type)
