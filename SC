@@ -1,0 +1,16 @@
+$:.unshift( File.dirname( __FILE__ ) )
+require 'SpiritLexer'
+require 'SpiritParser'
+
+if(ARGV.size < 1 or ARGV[0][-3..-1] != '.sp')
+  puts "WRONG, Usage is: SC input.sp"
+  exit
+end
+
+input = ANTLR3::FileStream.new(File.open(ARGV[0]))
+lexer = Spirit::Lexer.new( input )
+source = ANTLR3::CommonTokenStream.new( lexer )
+parser = Spirit::Parser.new( source )
+parser.goal
+
+File.rename('myobj', ARGV[0].gsub(/.sp/, ''))
