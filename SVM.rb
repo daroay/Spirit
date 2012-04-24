@@ -24,15 +24,43 @@ class String
 
 end
 
+class Register < Array
+  
+  def initializer
+    super
+    self[100] = ObjCarrier.new(100)
+  end
+  
+  def []=(idx, obj)
+    if(idx >= 200 && idx < 300)
+      self[100][idx - 200] = obj
+    else
+      super(idx, obj)
+    end
+  end
+  
+  def [](idx)
+    if(idx >= 200 && idx < 300)
+      return self[100][idx - 200]
+    else
+      return super(idx)
+    end
+  end
+  
+end
+
 class Frame
-  attr_accessor :register, :returning_four_fold
+  attr_accessor :register, :returning_four_fold, :returning_object
   
 
   def initialize(returning_four_fold = -1)
-    @register = Array.new(500)
+    @register = Register.new(500)
     @returning_four_fold = returning_four_fold
   end
   
+end
+
+class ObjCarrier < Array
 end
 
 class CallStack < Array
@@ -138,25 +166,33 @@ class SVM
       elsif(cff.op_code == 'era')
         @call_stack.push(Frame.new())
       elsif(cff.op_code == 'prm')
-        @call_stack.last.register[100 + cff[3].to_i] = cr[cff[2]]
+        @call_stack.last.register[100 + cff[3]] = cr[cff[2]]
       elsif(cff.op_code == 'gsb')
         @call_stack.last.register[100] = cr[cff[1]]
+        @call_stack.last.returning_object = cff[1]
         @call_stack.last.returning_four_fold = @ip
         cr = @call_stack.last.register
         @ip = cff[3]
       elsif(cff.op_code == 'ret')
-        prev_reg = cr
         ret = cff[3]
+        prev_reg = cr
+        prev_obj_address = @call_stack.last.returning_object
         @ip = @call_stack.last.returning_four_fold
         @call_stack.pop
         cr = @call_stack.last.register
+        cr[prev_obj_address] = prev_reg[100]
+        #Solo vale la pena apuntar al registro anterior si hay variable a quien retornar valor
+        if(not cff[3])
+          ret = nil
+          prev_reg = nil
+        end
       elsif(cff.op_code == 'get')
         cr[cff[3]] = prev_reg[ret]
         prev_reg = nil
         ret = nil
         
       elsif(cff.op_code == 'new')
-        
+        cr[cff[3]] = ObjCarrier.new(100)
       end
       
       cff = @four_folds[@ip]

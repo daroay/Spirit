@@ -12,11 +12,9 @@ class Node{
   
   method void setContent(int c){
     content = c;
-    println(content);
   }
   
   method int getContent(){
-    println(this.content);
     return content;
   }
 }
@@ -31,11 +29,25 @@ class Main{
   }
 
   method void main(){
-    int b;
     Node n;
-    b = fibo(20);
-    n = new Node();
-    println(b);
+    int i;
+    Node aux;
+    Node head;
+    head = new Node();
+    n = head;
+    i = 0;
+    while(i < 10){
+      n.setContent(i);
+      aux = new Node();
+      n.setNext(aux);
+      n = aux;
+    }
+    i = 0;
+    n = head;
+    while(i < 10){
+      println(n.getContent());
+      n = n.getNext();
+    }
   }
 
 }
