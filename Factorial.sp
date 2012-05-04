@@ -36,10 +36,13 @@ class Main{
 
   method void main(){
     Factorial f;
+    int prueba;
+    print('n');print('u');print('m');print('e');print('r');print('o');println(':');
+    prueba = iread();
     f = new Factorial();
-    println(dynamicFactorial(4));
-    println(recursiveFactorial(4));
-    println(f.classFactorial(4));
+    println(dynamicFactorial(prueba));
+    println(recursiveFactorial(prueba));
+    println(f.classFactorial(prueba));
   }
 
 }
